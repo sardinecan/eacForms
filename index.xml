@@ -17,57 +17,57 @@
     <title>eac-cpf Xforms</title>
     <meta charset="utf-8" />
     <link href="files/css/eacForms.css" rel="stylesheet" />
-    <xf:model id="prosopo">
+    <xf:model id="entity">
       <!-- xprProsopo -->
       <xf:action ev:event="xforms-ready">
         <xf:action 
-          while="instance('xprProsopo')//eac:date[not(@standardDate)]
-          | instance('xprProsopo')//eac:fromDate[not(@standardDate)]
-          | instance('xprProsopo')//eac:toDate[not(@standardDate)]">
+          while="instance('eacInstance')//eac:date[not(@standardDate)]
+          | instance('eacInstance')//eac:fromDate[not(@standardDate)]
+          | instance('eacInstance')//eac:toDate[not(@standardDate)]">
           <xf:insert 
-            context="instance('xprProsopo')//eac:date[not(@standardDate)]
-            | instance('xprProsopo')//eac:fromDate[not(@standardDate)]
-            | instance('xprProsopo')//eac:toDate[not(@standardDate)]" 
-            origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:fromDate/@standardDate"/>
+            context="instance('eacInstance')//eac:date[not(@standardDate)]
+            | instance('eacInstance')//eac:fromDate[not(@standardDate)]
+            | instance('eacInstance')//eac:toDate[not(@standardDate)]" 
+            origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:fromDate/@standardDate"/>
         </xf:action>
         
         <xf:action 
-          while="instance('xprProsopo')//eac:date[not(@notAfter)]
-          | instance('xprProsopo')//eac:fromDate[not(@notAfter)]
-          | instance('xprProsopo')//eac:toDate[not(@notAfter)]">
+          while="instance('eacInstance')//eac:date[not(@notAfter)]
+          | instance('eacInstance')//eac:fromDate[not(@notAfter)]
+          | instance('eacInstance')//eac:toDate[not(@notAfter)]">
           <xf:insert 
-            context="instance('xprProsopo')//eac:date[not(@notAfter)]
-            | instance('xprProsopo')//eac:fromDate[not(@notAfter)]
-            | instance('xprProsopo')//eac:toDate[not(@notAfter)]"
-            origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:fromDate/@notAfter"/>
+            context="instance('eacInstance')//eac:date[not(@notAfter)]
+            | instance('eacInstance')//eac:fromDate[not(@notAfter)]
+            | instance('eacInstance')//eac:toDate[not(@notAfter)]"
+            origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:fromDate/@notAfter"/>
         </xf:action>
         
         <xf:action 
-          while="instance('xprProsopo')//eac:date[not(@notBefore)]
-          | instance('xprProsopo')//eac:fromDate[not(@notBefore)]
-          | instance('xprProsopo')//eac:toDate[not(@notBefore)]">
+          while="instance('eacInstance')//eac:date[not(@notBefore)]
+          | instance('eacInstance')//eac:fromDate[not(@notBefore)]
+          | instance('eacInstance')//eac:toDate[not(@notBefore)]">
           <xf:insert 
-            context="instance('xprProsopo')//eac:date[not(@notBefore)]
-            | instance('xprProsopo')//eac:fromDate[not(@notBefore)]
-            | instance('xprProsopo')//eac:toDate[not(@notBefore)]"
-            origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:fromDate/@notBefore"/>
+            context="instance('eacInstance')//eac:date[not(@notBefore)]
+            | instance('eacInstance')//eac:fromDate[not(@notBefore)]
+            | instance('eacInstance')//eac:toDate[not(@notBefore)]"
+            origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:fromDate/@notBefore"/>
         </xf:action>
         
         <xf:delete 
-          if="instance('xprProsopo')//eac:identity[eac:entityType = '']/eac:nameEntry[eac:alternativeForm]" 
-          ref="instance('xprProsopo')//eac:identity[eac:entityType = '']//eac:nameEntry[eac:alternativeForm]"/>
+          if="instance('eacInstance')//eac:identity[eac:entityType = '']/eac:nameEntry[eac:alternativeForm]" 
+          ref="instance('eacInstance')//eac:identity[eac:entityType = '']//eac:nameEntry[eac:alternativeForm]"/>
         
         <!--add maintenanceEvent for revision-->
         <xf:insert 
           if="/eac:eac-cpf/@xml:id"
-          context="instance('xprProsopo')"
-          origin="instance('xprProsopoCopy')/eac:control/eac:maintenanceHistory/eac:maintenanceEvent"
+          context="instance('eacInstance')"
+          origin="instance('eacInstanceCopy')/eac:control/eac:maintenanceHistory/eac:maintenanceEvent"
           nodeset="eac:control/eac:maintenanceHistory/eac:maintenanceEvent"
           at="1"
           position="before"/>
       </xf:action>
       <!-- xprProsopo main instance-->
-      <xf:instance id="xprProsopo">
+      <xf:instance id="eacInstance">
         <eac-cpf xmlns="eac" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xpr="xpr" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:rico="rico">
           <!--xmlns="urn:isbn:1-931666-33-4"-->
           <control>
@@ -155,7 +155,6 @@
                     <placeEntry/>
                     <event/>
                     <rico:participant xlink:href=""/>
-                    <rico:involve xlink:href=""/>
                     <xpr:source xlink:href=""/>
                   </chronItem>
                 </chronList>
@@ -174,26 +173,26 @@
           <bibl/>
         </eac-cpf>
       </xf:instance>
-      <xf:bind id="identity" nodeset="instance('xprProsopo')/eac:cpfDescription/eac:identity/@localType" required="true()"/>
-      <xf:bind id="entityType" nodeset="instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:entityType" required="true()"/>
-      <xf:bind id="vedette" nodeset="instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:nameEntry[./eac:authorizedForm]/eac:part"/>
-      <xf:bind id="nameEntry" nodeset="instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:nameEntry[./eac:alternativeForm]"/>
-      <xf:bind id="chronItem" nodeset="instance('xprProsopo')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem"/>
-      <xf:bind id="chronItemType" nodeset="instance('xprProsopo')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem/@localType"/>
-      <xf:bind id="chronItemDate" nodeset="instance('xprProsopo')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem/eac:date"/>
-      <xf:bind id="chronItemPlace" nodeset="instance('xprProsopo')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem/eac:placeEntry"/>
-      <xf:bind id="chronItemEvent" nodeset="instance('xprProsopo')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem/eac:event"/>
-      <xf:bind id="relationRef" nodeset="instance('xprProsopo')/eac:cpfDescription/eac:relations/eac:cpfRelation/@xlink:href" relevant="parent::eac:cpfRelation[not(@localType = 'new')]"/>
-      <xf:bind id="chronItemInvolve" nodeset="instance('xprProsopo')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem/rico:involve"/>
-      <xf:bind id="chronItemSource" nodeset="instance('xprProsopo')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem/xpr:source"/>
-      <xf:bind id="controlSource" nodeset="instance('xprProsopo')/eac:control/eac:sources/eac:source/@xlink:href[not(. = '')][. = instance('xprProsopo')/eac:cpfDescription//xpr:source/@xlink:href or . = instance('xprSources')/xpr:source[@xml:id = instance('xprProsopo')/eac:cpfDescription//xpr:source/@xlink:href]]" readonly="true()"/>
-      <xf:bind id="sourceLocalId" nodeset="instance('xprProsopo')//xpr:source/@localId" relevant="parent::xpr:source[@localType = 'new']"/>
+      <xf:bind id="identity" nodeset="instance('eacInstance')/eac:cpfDescription/eac:identity/@localType" required="true()"/>
+      <xf:bind id="entityType" nodeset="instance('eacInstance')/eac:cpfDescription/eac:identity/eac:entityType" required="true()"/>
+      <xf:bind id="vedette" nodeset="instance('eacInstance')/eac:cpfDescription/eac:identity/eac:nameEntry[./eac:authorizedForm]/eac:part"/>
+      <xf:bind id="nameEntry" nodeset="instance('eacInstance')/eac:cpfDescription/eac:identity/eac:nameEntry[./eac:alternativeForm]"/>
+      <xf:bind id="chronItem" nodeset="instance('eacInstance')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem"/>
+      <xf:bind id="chronItemType" nodeset="instance('eacInstance')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem/@localType"/>
+      <xf:bind id="chronItemDate" nodeset="instance('eacInstance')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem/eac:date"/>
+      <xf:bind id="chronItemPlace" nodeset="instance('eacInstance')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem/eac:placeEntry"/>
+      <xf:bind id="chronItemEvent" nodeset="instance('eacInstance')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem/eac:event"/>
+      <xf:bind id="relationRef" nodeset="instance('eacInstance')/eac:cpfDescription/eac:relations/eac:cpfRelation/@xlink:href" relevant="parent::eac:cpfRelation[not(@localType = 'new')]"/>
+      <xf:bind id="chronItemInvolve" nodeset="instance('eacInstance')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem/rico:involve"/>
+      <xf:bind id="chronItemSource" nodeset="instance('eacInstance')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem/xpr:source"/>
+      <xf:bind id="controlSource" nodeset="instance('eacInstance')/eac:control/eac:sources/eac:source/@xlink:href[not(. = '')][. = instance('eacInstance')/eac:cpfDescription//xpr:source/@xlink:href or . = instance('xprSources')/xpr:source[@xml:id = instance('eacInstance')/eac:cpfDescription//xpr:source/@xlink:href]]" readonly="true()"/>
+      <xf:bind id="sourceLocalId" nodeset="instance('eacInstance')//xpr:source/@localId" relevant="parent::xpr:source[@localType = 'new']"/>
       
-      <xf:bind nodeset="instance('xprProsopo')//@standardDate" relevant="parent::*[@notAfter = ''][@notBefore='']"/>
-      <xf:bind nodeset="instance('xprProsopo')//@notBefore" relevant="parent::*[@notAfter = ''][@standardDate='']"/>
-      <xf:bind nodeset="instance('xprProsopo')//@notAfter" relevant="parent::*[@notBefore = ''][@standardDate='']"/>
+      <xf:bind nodeset="instance('eacInstance')//@standardDate" relevant="parent::*[@notAfter = ''][@notBefore='']"/>
+      <xf:bind nodeset="instance('eacInstance')//@notBefore" relevant="parent::*[@notAfter = ''][@standardDate='']"/>
+      <xf:bind nodeset="instance('eacInstance')//@notAfter" relevant="parent::*[@notBefore = ''][@standardDate='']"/>
       <!-- xprProsopoCopy for repeated sections in the main form (avoid setvalue when repeating a section)-->
-      <xf:instance id="xprProsopoCopy">
+      <xf:instance id="eacInstanceCopy">
         <eac-cpf xmlns="eac" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xpr="xpr" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:rico="rico">
           <!--xmlns="urn:isbn:1-931666-33-4"-->
           <control>
@@ -462,24 +461,12 @@
         </event>
       </xf:instance>
       
-      
-      <xf:action ev:event="submission">
-        <!--
-        /!\ send order note /!\
-        An event is defined and three submissions are to be sent synchronously, one after one, according to a condition which should be true for one only.
-        The first one (and the second one) will send again the same event producing a submission loop effect.
-        But the first one (and the second one) is also altering the loop condition and it appears that, at the end, the 2 or 3 submissions are sent for the same event just before the latest event being caught.
-        The easiest way to control this is to invert the order of the submissions: the one to be activated at the end is to be tested before the others to be activated repeatedly.
-        -->
-        <xf:send submission="submitBio"/>
-        
-      </xf:action>
-      <xf:submission mode="synchronous" id="submitBio" resource="/xpr/biographies/put" method="put" replace="none">
+      <xf:submission ref="instance('eacInstance')" id="submitBio" method="put" resource="file:" mediatype="text/xml" value="form-source()">
         <xf:action ev:event="xforms-submit">
-          <xf:delete nodeset="instance('xprProsopo')//@standardDate[. = '']"/>
-          <xf:delete nodeset="instance('xprProsopo')//@notBefore[. = '']"/>
-          <xf:delete nodeset="instance('xprProsopo')//@notAfter[. = '']"/>
-          <xf:delete ref="instance('xprProsopo')//*[@localType = 'new']/@localType"/>
+          <xf:delete nodeset="instance('eacInstance')//@standardDate[. = '']"/>
+          <xf:delete nodeset="instance('eacInstance')//@notBefore[. = '']"/>
+          <xf:delete nodeset="instance('eacInstance')//@notAfter[. = '']"/>
+          <xf:delete ref="instance('eacInstance')//*[@localType = 'new']/@localType"/>
         </xf:action>
         
         <xf:action ev:event="xforms-submit-done">
@@ -488,42 +475,58 @@
         <xf:action ev:event="xforms-submit-error">
           <xf:message level="modal">Une erreur est apparue</xf:message>
           <xf:action 
-            while="instance('xprProsopo')//eac:date[not(@standardDate)]
-            | instance('xprProsopo')//eac:fromDate[not(@standardDate)]
-            | instance('xprProsopo')//eac:toDate[not(@standardDate)]">
+            while="instance('eacInstance')//eac:date[not(@standardDate)]
+            | instance('eacInstance')//eac:fromDate[not(@standardDate)]
+            | instance('eacInstance')//eac:toDate[not(@standardDate)]">
             <xf:insert 
-              context="instance('xprProsopo')//eac:date[not(@standardDate)]
-              | instance('xprProsopo')//eac:fromDate[not(@standardDate)]
-              | instance('xprProsopo')//eac:toDate[not(@standardDate)]"
-              origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:fromDate/@standardDate"/>
+              context="instance('eacInstance')//eac:date[not(@standardDate)]
+              | instance('eacInstance')//eac:fromDate[not(@standardDate)]
+              | instance('eacInstance')//eac:toDate[not(@standardDate)]"
+              origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:fromDate/@standardDate"/>
           </xf:action>
-          <xf:action while="instance('xprProsopo')//eac:date[not(@notAfter)]
-            | instance('xprProsopo')//eac:fromDate[not(@notAfter)]
-            | instance('xprProsopo')//eac:toDate[not(@notAfter)]">
-            <xf:insert context="instance('xprProsopo')//eac:date[not(@notAfter)]
-              | instance('xprProsopo')//eac:fromDate[not(@notAfter)]
-              | instance('xprProsopo')//eac:toDate[not(@notAfter)]"
-              origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:fromDate/@notAfter"/>
+          <xf:action while="instance('eacInstance')//eac:date[not(@notAfter)]
+            | instance('eacInstance')//eac:fromDate[not(@notAfter)]
+            | instance('eacInstance')//eac:toDate[not(@notAfter)]">
+            <xf:insert context="instance('eacInstance')//eac:date[not(@notAfter)]
+              | instance('eacInstance')//eac:fromDate[not(@notAfter)]
+              | instance('eacInstance')//eac:toDate[not(@notAfter)]"
+              origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:fromDate/@notAfter"/>
           </xf:action>
           <xf:action
-            while="instance('xprProsopo')//eac:date[not(@notBefore)]
-            | instance('xprProsopo')//eac:fromDate[not(@notBefore)]
-            | instance('xprProsopo')//eac:toDate[not(@notBefore)]">
-            <xf:insert context="instance('xprProsopo')//eac:date[not(@notBefore)]
-              | instance('xprProsopo')//eac:fromDate[not(@notBefore)]
-              | instance('xprProsopo')//eac:toDate[not(@notBefore)]"
-              origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:fromDate/@notBefore"/>
+            while="instance('eacInstance')//eac:date[not(@notBefore)]
+            | instance('eacInstance')//eac:fromDate[not(@notBefore)]
+            | instance('eacInstance')//eac:toDate[not(@notBefore)]">
+            <xf:insert context="instance('eacInstance')//eac:date[not(@notBefore)]
+              | instance('eacInstance')//eac:fromDate[not(@notBefore)]
+              | instance('eacInstance')//eac:toDate[not(@notBefore)]"
+              origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:fromDate/@notBefore"/>
           </xf:action>
         </xf:action>
       </xf:submission>
+      
+      <xf:submission id="submitForm" method="put" resource="file:" mediatype="text/html" value="form-source()"/>
+      
     </xf:model>
   </head>
   <body>
+    <h1>EAC-CPF - Xforms - Ric-O</h1>
     <form>
-    <xf:switch>
-        <xf:case id="prosopoPanel" selected="true">
+      <xf:trigger>
+        <xf:label>Présentation</xf:label>
+        <xf:toggle case="presentationPanel" ev:event="DOMActivate" />
+      </xf:trigger>
+      <xf:trigger>
+        <xf:label>Formulaire EAC-CPF</xf:label>
+        <xf:toggle case="eacPanel" ev:event="DOMActivate" />
+      </xf:trigger>
+      <xf:switch>
+        <xf:case id="presentationPanel" selected="true">
+          <h2>Présentation</h2>
+          <p>blabla</p>
+        </xf:case>
+        <xf:case id="eacPanel" selected="false">
             <!-- identity -->
-          <xf:group ref="instance('xprProsopo')/eac:cpfDescription/eac:identity">
+          <xf:group ref="instance('eacInstance')/eac:cpfDescription/eac:identity">
             <xf:label>Identité</xf:label>
             <xf:select1 bind="entityType" appearance="full">
               <xf:label>Type d'entité</xf:label>
@@ -532,12 +535,12 @@
                 <xf:value>person</xf:value>
                 <xf:action ev:event="xforms-select">
                   <xf:setvalue 
-                    ref="instance('xprProsopo')/eac:cpfDescription/eac:identity/@localType"
+                    ref="instance('eacInstance')/eac:cpfDescription/eac:identity/@localType"
                     value="''"/>
-                  <xf:delete ref="instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:nameEntry[child::eac:alternativeForm]"/>
+                  <xf:delete ref="instance('eacInstance')/eac:cpfDescription/eac:identity/eac:nameEntry[child::eac:alternativeForm]"/>
                   <xf:insert 
-                    context="instance('xprProsopo')/eac:cpfDescription/eac:identity"
-                    origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:identity/eac:nameEntry[eac:alternativeForm]"
+                    context="instance('eacInstance')/eac:cpfDescription/eac:identity"
+                    origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:identity/eac:nameEntry[eac:alternativeForm]"
                     nodeset="eac:nameEntry[eac:authorizedForm]"
                     position="after"/>
                 </xf:action>
@@ -547,12 +550,12 @@
                 <xf:value>corporateBody</xf:value>
                 <xf:action ev:event="xforms-select">
                   <xf:setvalue 
-                    ref="instance('xprProsopo')/eac:cpfDescription/eac:identity/@localType"
+                    ref="instance('eacInstance')/eac:cpfDescription/eac:identity/@localType"
                     value="''"/>
-                  <xf:delete ref="instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:nameEntry[child::eac:alternativeForm]"/>
+                  <xf:delete ref="instance('eacInstance')/eac:cpfDescription/eac:identity/eac:nameEntry[child::eac:alternativeForm]"/>
                   <xf:insert
-                    context="instance('xprProsopo')/eac:cpfDescription/eac:identity"
-                    origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:identity/eac:nameEntry[eac:alternativeForm]"
+                    context="instance('eacInstance')/eac:cpfDescription/eac:identity"
+                    origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:identity/eac:nameEntry[eac:alternativeForm]"
                     nodeset="eac:nameEntry[eac:authorizedForm]" position="after"/>
                 </xf:action>
               </xf:item>
@@ -561,12 +564,12 @@
                 <xf:value>family</xf:value>
                 <xf:action ev:event="xforms-select">
                   <xf:setvalue
-                    ref="instance('xprProsopo')/eac:cpfDescription/eac:identity/@localType"
+                    ref="instance('eacInstance')/eac:cpfDescription/eac:identity/@localType"
                     value="'family'"/>
-                  <xf:delete ref="instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:nameEntry[child::eac:alternativeForm]"/>
+                  <xf:delete ref="instance('eacInstance')/eac:cpfDescription/eac:identity/eac:nameEntry[child::eac:alternativeForm]"/>
                   <xf:insert
-                    context="instance('xprProsopo')/eac:cpfDescription/eac:identity"
-                    origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:identity/eac:nameEntry[eac:alternativeForm]"
+                    context="instance('eacInstance')/eac:cpfDescription/eac:identity"
+                    origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:identity/eac:nameEntry[eac:alternativeForm]"
                     nodeset="eac:nameEntry[eac:authorizedForm]"
                     at="last()"
                     position="after"/>
@@ -637,8 +640,8 @@
                   <xf:label>Insérer une nouvelle composante du nom</xf:label>
                   <xf:insert
                     ev:event="DOMActivate"
-                    origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:identity/eac:nameEntry[child::eac:alternativeForm]/eac:part"
-                    context="instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:nameEntry[child::eac:alternativeForm][index('repeatName')]"
+                    origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:identity/eac:nameEntry[child::eac:alternativeForm]/eac:part"
+                    context="instance('eacInstance')/eac:cpfDescription/eac:identity/eac:nameEntry[child::eac:alternativeForm][index('repeatName')]"
                     nodeset="eac:part"
                     at="index('namePart')"
                     position="after"/>
@@ -666,7 +669,7 @@
                     <xf:action ev:event="DOMActivate">
                       <xf:insert
                         context="."
-                        origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:identity/eac:nameEntry[eac:alternativeForm]/xpr:source"
+                        origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:identity/eac:nameEntry[eac:alternativeForm]/xpr:source"
                         nodeset="xpr:source[last()]"
                         position="after"
                         ev:event="DOMActivate"/>
@@ -677,7 +680,7 @@
                 <xf:trigger ref=".[eac:alternativeForm]">
                   <xf:label>Supprimer une forme du nom</xf:label>
                   <xf:delete
-                    if="count(instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:nameEntry[child::eac:alternativeForm]) &gt; 1"
+                    if="count(instance('eacInstance')/eac:cpfDescription/eac:identity/eac:nameEntry[child::eac:alternativeForm]) &gt; 1"
                     nodeset="."
                     at="1"
                     ev:event="DOMActivate"/>
@@ -689,19 +692,19 @@
                 <xf:action ev:event="DOMActivate">
                   <xf:insert
                     context="."
-                    origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:identity/eac:nameEntry[eac:alternativeForm]"
+                    origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:identity/eac:nameEntry[eac:alternativeForm]"
                     nodeset="eac:nameEntry[eac:alternativeForm][last()]"
                     position="after"
                     ev:event="DOMActivate"/>
                   <xf:delete
                     if="eac:entityType = 'person'"
-                    ref="instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:nameEntry[child::eac:alternativeForm]//eac:part[@localType='officeName']"/>
+                    ref="instance('eacInstance')/eac:cpfDescription/eac:identity/eac:nameEntry[child::eac:alternativeForm]//eac:part[@localType='officeName']"/>
                   <xf:delete
                     if="eac:entityType = 'corporateBody'"
-                    ref="instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:nameEntry[child::eac:alternativeForm]//eac:part[not(@localType='officeName')]"/>
+                    ref="instance('eacInstance')/eac:cpfDescription/eac:identity/eac:nameEntry[child::eac:alternativeForm]//eac:part[not(@localType='officeName')]"/>
                   <xf:delete
                     if="eac:entityType = 'family'"
-                    ref="instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:nameEntry[child::eac:alternativeForm]//eac:part[not(@localType='surname')]"/>
+                    ref="instance('eacInstance')/eac:cpfDescription/eac:identity/eac:nameEntry[child::eac:alternativeForm]//eac:part[not(@localType='surname')]"/>
                 </xf:action>
                 <xf:help>Ajouter une forme attestée du nom</xf:help>
               </xf:trigger>
@@ -715,13 +718,13 @@
                   <xf:label/>
                   <xf:value/>
                 </xf:item>
-                <xf:itemset model="prosopo" nodeset="instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:nameEntry[child::eac:alternativeForm]">
+                <xf:itemset model="prosopo" nodeset="instance('eacInstance')/eac:cpfDescription/eac:identity/eac:nameEntry[child::eac:alternativeForm]">
                   <xf:label
                     value="
                     concat(
-                    if(instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:entityType[. = 'person'], concat(eac:part[@localType='surname'], ', ', eac:part[@localType='forename'], ' (', if(instance('xprProsopo')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:fromDate/@*[not(. = '')], substring(instance('xprProsopo')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:fromDate/@*[not(. = '')], 1, 4), '?'), ' - ', if(instance('xprProsopo')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:toDate/@*[not(. = '')], substring(instance('xprProsopo')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:toDate/@*[not(. = '')], 1, 4), '?'), ')'), ''),
-                    if(instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:entityType[. = 'corporateBody'], concat(eac:part[@localType='officeName'], ''), ''),
-                    if(instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:entityType[. = 'family'], concat(eac:part[@localType='surname'], ''), '')
+                    if(instance('eacInstance')/eac:cpfDescription/eac:identity/eac:entityType[. = 'person'], concat(eac:part[@localType='surname'], ', ', eac:part[@localType='forename'], ' (', if(instance('eacInstance')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:fromDate/@*[not(. = '')], substring(instance('eacInstance')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:fromDate/@*[not(. = '')], 1, 4), '?'), ' - ', if(instance('eacInstance')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:toDate/@*[not(. = '')], substring(instance('eacInstance')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:toDate/@*[not(. = '')], 1, 4), '?'), ')'), ''),
+                    if(instance('eacInstance')/eac:cpfDescription/eac:identity/eac:entityType[. = 'corporateBody'], concat(eac:part[@localType='officeName'], ''), ''),
+                    if(instance('eacInstance')/eac:cpfDescription/eac:identity/eac:entityType[. = 'family'], concat(eac:part[@localType='surname'], ''), '')
                     )"/>
                   <xf:copy ref="."/>
                 </xf:itemset>
@@ -733,19 +736,19 @@
                     avec une itération (faire une instance('xprIterator') pour boucler
                     sur eac:part qui ne sont pas vides et trouver leur position-\->
                   <xf:setvalue
-                    ref="instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:nameEntry[child::eac:authorizedForm]/eac:part"
+                    ref="instance('eacInstance')/eac:cpfDescription/eac:identity/eac:nameEntry[child::eac:authorizedForm]/eac:part"
                     value="
                     concat(
-                    if(instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:entityType[. = 'person'], concat(instance('xprIdentities')/eac:identity/*:nameEntry/*:part[@localType='surname'], ', ', instance('xprIdentities')/eac:identity/*:nameEntry/*:part[@localType='forename'], ' (', if(instance('xprProsopo')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:fromDate/@*[not(. = '')], substring(instance('xprProsopo')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:fromDate/@*[not(. = '')], 1, 4), '?'), ' - ', if(instance('xprProsopo')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:toDate/@*[not(. = '')], substring(instance('xprProsopo')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:toDate/@*[not(. = '')], 1, 4), '?'), ')'), ''),
-                    if(instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:entityType[. = 'corporateBody'], concat(instance('xprIdentities')/eac:identity/*:nameEntry/*:part[@localType='officeName'], ''), ''),
-                    if(instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:entityType[. = 'family'], concat(instance('xprIdentities')/eac:identity/*:nameEntry/*:part[@localType='surname'], ''), '')
+                    if(instance('eacInstance')/eac:cpfDescription/eac:identity/eac:entityType[. = 'person'], concat(instance('xprIdentities')/eac:identity/*:nameEntry/*:part[@localType='surname'], ', ', instance('xprIdentities')/eac:identity/*:nameEntry/*:part[@localType='forename'], ' (', if(instance('eacInstance')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:fromDate/@*[not(. = '')], substring(instance('eacInstance')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:fromDate/@*[not(. = '')], 1, 4), '?'), ' - ', if(instance('eacInstance')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:toDate/@*[not(. = '')], substring(instance('eacInstance')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange/eac:toDate/@*[not(. = '')], 1, 4), '?'), ')'), ''),
+                    if(instance('eacInstance')/eac:cpfDescription/eac:identity/eac:entityType[. = 'corporateBody'], concat(instance('xprIdentities')/eac:identity/*:nameEntry/*:part[@localType='officeName'], ''), ''),
+                    if(instance('eacInstance')/eac:cpfDescription/eac:identity/eac:entityType[. = 'family'], concat(instance('xprIdentities')/eac:identity/*:nameEntry/*:part[@localType='surname'], ''), '')
                     )"/>
                   <xf:refresh/>
                 </xf:action>
               </xf:select1>-->
             </xf:group>
           </xf:group>
-          <xf:group ref="instance('xprProsopo')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange">
+          <xf:group ref="instance('eacInstance')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange">
             <xf:label>Existence</xf:label>
             <xf:group ref="eac:fromDate">
               <xf:label>Naissance</xf:label>
@@ -772,7 +775,7 @@
               </xf:input>
             </xf:group>
           </xf:group>
-          <xf:group ref="instance('xprProsopo')/eac:cpfDescription[eac:identity/eac:entityType = 'person']/eac:description/eac:localDescription[@localType='sex']">
+          <xf:group ref="instance('eacInstance')/eac:cpfDescription[eac:identity/eac:entityType = 'person']/eac:description/eac:localDescription[@localType='sex']">
             <xf:select1 ref="eac:term">
               <xf:label>Sexe</xf:label>
               <xf:item>
@@ -785,7 +788,7 @@
               </xf:item>
             </xf:select1>
           </xf:group>
-          <xf:group ref="instance('xprProsopo')/eac:cpfDescription/eac:description/eac:places">
+          <xf:group ref="instance('eacInstance')/eac:cpfDescription/eac:description/eac:places">
             <xf:label>Adresses</xf:label>
             <xf:repeat id="repeatPlace" nodeset="eac:place">
               <xf:label>Adresse</xf:label>
@@ -804,7 +807,7 @@
                       ev:event="DOMActivate">
                       <xf:insert
                         context="ancestor::eac:dateSet"
-                        origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange"
+                        origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange"
                         nodeset="*[index('repeatPlaceDate')]"
                         position="after"/>
                       <xf:setvalue
@@ -823,7 +826,7 @@
                       ev:event="DOMActivate">
                       <xf:insert
                         context="ancestor::eac:dateSet"
-                        origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:description/eac:places/eac:place/eac:dateSet/eac:date"
+                        origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:description/eac:places/eac:place/eac:dateSet/eac:date"
                         nodeset="*[index('repeatPlaceDate')]"
                         position="after"/>
                       <xf:setvalue
@@ -884,7 +887,7 @@
                   <xf:action ev:event="DOMActivate">
                     <xf:insert
                       context="."
-                      origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:description/eac:places/eac:place/eac:dateSet/eac:date"
+                      origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:description/eac:places/eac:place/eac:dateSet/eac:date"
                       nodeset="*[last()]"
                       position="after"
                       ev:event="DOMActivate"/>
@@ -898,7 +901,7 @@
               <xf:trigger class="delete">
                 <xf:label>Supprimer un lieu</xf:label>
                 <xf:delete
-                  if="count(instance('xprProsopo')/eac:cpfDescription/eac:description/eac:places/eac:place) > 1"
+                  if="count(instance('eacInstance')/eac:cpfDescription/eac:description/eac:places/eac:place) > 1"
                   nodeset="."
                   at="1"
                   ev:event="DOMActivate"/>
@@ -910,7 +913,7 @@
               <xf:action ev:event="DOMActivate">
                 <xf:insert
                   context="."
-                  origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:description/eac:places/eac:place"
+                  origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:description/eac:places/eac:place"
                   nodeset="eac:place[last()]"
                   position="after"
                   ev:event="DOMActivate"/>
@@ -918,7 +921,7 @@
               <xf:help>Ajouter un lieu</xf:help>
             </xf:trigger>
           </xf:group>
-          <xf:group ref="instance('xprProsopo')/eac:cpfDescription/eac:description/eac:occupations">
+          <xf:group ref="instance('eacInstance')/eac:cpfDescription/eac:description/eac:occupations">
             <xf:label>Occupations</xf:label>
             <xf:repeat id="repeatOccupation" nodeset="eac:occupation">
               <xf:input ref="eac:term">
@@ -931,7 +934,7 @@
                   <xf:action ev:event="DOMActivate" if="self::eac:date">
                     <xf:insert
                       context="ancestor::eac:occupation"
-                      origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange"
+                      origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange"
                       nodeset="eac:term"
                       position="after"/>
                     <xf:setvalue
@@ -963,7 +966,7 @@
                   <xf:action ev:event="DOMActivate" if="self::eac:dateRange">
                     <xf:insert
                       context="ancestor::eac:occupation"
-                      origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:description/eac:occupations/eac:occupation/eac:date"
+                      origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:description/eac:occupations/eac:occupation/eac:date"
                       nodeset="eac:term"
                       position="after"/>
                     <xf:setvalue
@@ -1009,7 +1012,7 @@
               <xf:trigger class="delete">
                 <xf:label>Supprimer une occupation</xf:label>
                 <xf:delete
-                  if="count(instance('xprProsopo')/eac:cpfDescription/eac:description/eac:occupations/eac:occupation) > 1"
+                  if="count(instance('eacInstance')/eac:cpfDescription/eac:description/eac:occupations/eac:occupation) > 1"
                   nodeset="."
                   at="1"
                   ev:event="DOMActivate"/>
@@ -1032,7 +1035,7 @@
               <xf:help>Ajouter une occupation</xf:help>
             </xf:trigger>
           </xf:group>
-          <xf:group ref="instance('xprProsopo')/eac:cpfDescription/eac:description/eac:functions">
+          <xf:group ref="instance('eacInstance')/eac:cpfDescription/eac:description/eac:functions">
             <xf:label>Fonctions</xf:label>
             <xf:repeat id="repeatFunction" nodeset="eac:function">
               <xf:input ref="eac:term">
@@ -1045,7 +1048,7 @@
                   <xf:action ev:event="DOMActivate" if="self::eac:date">
                     <xf:insert
                       context="ancestor::eac:function"
-                      origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange"
+                      origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange"
                       nodeset="eac:term"
                       position="after"/>
                     <xf:setvalue
@@ -1077,7 +1080,7 @@
                   <xf:action ev:event="DOMActivate" if="self::eac:dateRange">
                     <xf:insert
                       context="ancestor::eac:function"
-                      origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:description/eac:functions/eac:function/eac:date"
+                      origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:description/eac:functions/eac:function/eac:date"
                       nodeset="eac:term"
                       position="after"/>
                     <xf:setvalue
@@ -1123,7 +1126,7 @@
               <xf:trigger class="delete">
                 <xf:label>Supprimer une fonction</xf:label>
                 <xf:delete
-                  if="count(instance('xprProsopo')/eac:cpfDescription/eac:description/eac:functions/eac:function) > 1"
+                  if="count(instance('eacInstance')/eac:cpfDescription/eac:description/eac:functions/eac:function) > 1"
                   nodeset="."
                   at="1"
                   ev:event="DOMActivate"/>
@@ -1135,7 +1138,7 @@
               <xf:action ev:event="DOMActivate">
                 <xf:insert
                   context="."
-                  origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:description/eac:functions/eac:function"
+                  origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:description/eac:functions/eac:function"
                   nodeset="eac:function[last()]"
                   position="after"
                   ev:event="DOMActivate"/>
@@ -1143,7 +1146,7 @@
               <xf:help>Ajouter une fonction</xf:help>
             </xf:trigger>
           </xf:group>
-          <xf:group ref="instance('xprProsopo')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList">
+          <xf:group ref="instance('eacInstance')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList">
             <xf:label>Événements</xf:label>
             <xf:repeat id="repeatChronItem" bind="chronItem" appearance="full">
               <xf:label>Événement</xf:label>
@@ -1157,7 +1160,7 @@
                   <xf:action ev:event="DOMActivate" if="self::eac:date">
                     <xf:insert
                       context="ancestor::eac:chronItem"
-                      origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange"
+                      origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:description/eac:existDates/eac:dateRange"
                       nodeset="eac:date"
                       position="before"/>
                     <xf:setvalue
@@ -1191,7 +1194,7 @@
                     if="self::eac:dateRange">
                     <xf:insert
                       context="ancestor::eac:chronItem"
-                      origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem/eac:date"
+                      origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem/eac:date"
                       nodeset="eac:dateRange"
                       position="before"/>
                     <xf:setvalue
@@ -1258,14 +1261,14 @@
                 <xf:insert
                   if="rico:participant"
                   context="."
-                  origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem/rico:participant"
+                  origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem/rico:participant"
                   nodeset="rico:participant[last()]"
                   position="after"
                   ev:event="DOMActivate"/>
                 <xf:insert
                   if="not(rico:participant)"
                   context="."
-                  origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem/rico:participant"
+                  origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem/rico:participant"
                   nodeset="eac:event"
                   position="after"
                   ev:event="DOMActivate"/>
@@ -1297,7 +1300,7 @@
                   <xf:action ev:event="DOMActivate">
                     <xf:insert
                       context="."
-                      origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem/xpr:source"
+                      origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem/xpr:source"
                       nodeset="xpr:source[last()]"
                       position="after"
                       ev:event="DOMActivate"/>
@@ -1308,7 +1311,7 @@
               <xf:trigger class="delete">
                 <xf:label>Supprimer un événement</xf:label>
                 <xf:delete
-                  if="count(instance('xprProsopo')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem) > 1"
+                  if="count(instance('eacInstance')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem) > 1"
                   nodeset="."
                   at="1"
                   ev:event="DOMActivate"/>
@@ -1320,7 +1323,7 @@
               <xf:action ev:event="DOMActivate">
                 <xf:insert
                   context="."
-                  origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem"
+                  origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem"
                   nodeset="eac:chronItem[last()]"
                   position="after"
                   ev:event="DOMActivate"/>
@@ -1328,7 +1331,7 @@
               <xf:help>Ajouter un événement</xf:help>
             </xf:trigger>
           </xf:group>
-          <!--<xf:group ref="instance('xprProsopo')/eac:cpfDescription/eac:relations">
+          <!--<xf:group ref="instance('eacInstance')/eac:cpfDescription/eac:relations">
             <xf:label>Relations</xf:label>
             <xf:repeat id="repeatRelation" nodeset="eac:cpfRelation">
               <xf:var name="relation" value="."/>
@@ -1373,14 +1376,14 @@
                 <xf:trigger class="insert">
                   <xf:label>Nouvelle source</xf:label>
                   <xf:action ev:event="DOMActivate">
-                    <xf:insert context="." origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:relations/eac:cpfRelation/xpr:source" nodeset="xpr:source[last()]" position="after" ev:event="DOMActivate"/>
+                    <xf:insert context="." origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:relations/eac:cpfRelation/xpr:source" nodeset="xpr:source[last()]" position="after" ev:event="DOMActivate"/>
                   </xf:action>
                   <xf:help>Ajouter une source</xf:help>
                 </xf:trigger>
               </xf:group>
               <xf:trigger ref="." class="delete">
                 <xf:label>Supprimer une relation</xf:label>
-                <xf:delete nodeset="." at="1" if="count(instance('xprProsopo')/eac:cpfDescription/eac:relations/eac:cpfRelation) &gt; 1" ev:event="DOMActivate"/>
+                <xf:delete nodeset="." at="1" if="count(instance('eacInstance')/eac:cpfDescription/eac:relations/eac:cpfRelation) &gt; 1" ev:event="DOMActivate"/>
                 <xf:help>Supprimer une relation</xf:help>
               </xf:trigger>
             </xf:repeat>
@@ -1388,7 +1391,7 @@
               <xf:label>Nouvelle une relation</xf:label>
               <xf:action ev:event="DOMActivate">
                 <xf:insert context="."
-                  origin="instance('xprProsopoCopy')/eac:cpfDescription/eac:relations/eac:cpfRelation"
+                  origin="instance('eacInstanceCopy')/eac:cpfDescription/eac:relations/eac:cpfRelation"
                   nodeset="eac:cpfRelation"
                   at="last()"
                   position="after"
@@ -1397,55 +1400,18 @@
               <xf:help>Ajouter une relation</xf:help>
             </xf:trigger>
           </xf:group>-->
-            <!--<span class="save">
-                <xf:select1 ref="instance('xprProsopo')/eac:control/eac:localControl/eac:term" appearance="full" incremental="true">
-                    <xf:label>
-                        <span>Statut</span>
-                    </xf:label>
-                    <xf:item>
-                        <xf:label>En cours</xf:label>
-                        <xf:value>in progress</xf:value>
-                    </xf:item>
-                    <xf:item>
-                        <xf:label>À revoir</xf:label>
-                        <xf:value>to revise</xf:value>
-                    </xf:item>
-                    <xf:item>
-                        <xf:label>Terminée</xf:label>
-                        <xf:value>completed</xf:value>
-                    </xf:item>
-                </xf:select1>
-                <xf:dialog id="control">
-                    <xf:group ref="eac:control/eac:maintenanceHistory/eac:maintenanceEvent[1]">
-                        <xf:input ref="eac:eventDescription">
-                            <xf:label>Motif de la révision</xf:label>
-                        </xf:input>
-                    </xf:group>
-                    <xf:trigger>
-                        <xf:label>Annuler</xf:label>
-                        <xf:hide ev:event="DOMActivate" dialog="control"/>
-                    </xf:trigger>
-                    <xf:trigger>
-                        <xf:label>Enregistrer</xf:label>
-                        <xf:action ev:event="DOMActivate">
-                            <xf:dispatch name="submission" targetid="prosopo"/>
-                        </xf:action>
-                    </xf:trigger>
-                </xf:dialog>
-                <xf:trigger>
-                    <xf:label>Enregistrer</xf:label>
-                    <!-\-we are using xf:delete to distinguish which submission module we need (prosopo or inventory)-\->
-                    <xf:delete nodeset="instance('xprInventory')/*" ev:event="DOMActivate"/>
-                    <xf:action if="/eac:eac-cpf/@xml:id" ev:event="DOMActivate">
-                        <xf:show dialog="control"/>
-                    </xf:action>
-                    <xf:action if="not(/eac:eac-cpf/@xml:id)" ev:event="DOMActivate">
-                        <xf:dispatch name="submission" targetid="prosopo"/>
-                    </xf:action>
-                </xf:trigger>
-            </span>-->
+          <span class="save">
+            <xf:trigger>
+              <xf:label>Sauvegarder la fiche XML-EAC</xf:label>
+              <xf:send submission="submitBio" ev:event="DOMActivate"/>
+            </xf:trigger>
+            <xf:trigger>
+              <xf:label>Sauvegarder le formulaire</xf:label>
+              <xf:send submission="submitForm" ev:event="DOMActivate"/>
+            </xf:trigger>
+          </span>
         </xf:case>
-    </xf:switch>
+      </xf:switch>
     </form>
   </body>
 </html>
