@@ -66,7 +66,7 @@
           position="before"/>
       </xf:action>
       <!-- xprProsopo main instance-->
-      <xf:instance id="xprProsopo" src="_xprProsopoInstance.xml"/>
+      <xf:instance id="xprProsopo" src="eacInstance.xml"/>
       <xf:bind id="identity" nodeset="instance('xprProsopo')/eac:cpfDescription/eac:identity/@localType" required="true()"/>
       <xf:bind id="entityType" nodeset="instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:entityType" required="true()"/>
       <xf:bind id="vedette" nodeset="instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:nameEntry[./eac:authorizedForm]/eac:part"/>
@@ -82,7 +82,7 @@
       <xf:bind id="controlSource" nodeset="instance('xprProsopo')/eac:control/eac:sources/eac:source/@xlink:href[not(. = '')][. = instance('xprProsopo')/eac:cpfDescription//xpr:source/@xlink:href or . = instance('xprSources')/xpr:source[@xml:id = instance('xprProsopo')/eac:cpfDescription//xpr:source/@xlink:href]]" readonly="true()"/>
       <xf:bind id="sourceLocalId" nodeset="instance('xprProsopo')//xpr:source/@localId" relevant="parent::xpr:source[@localType = 'new']"/>
       <!-- xprProsopoCopy for repeated sections in the main form (avoid setvalue when repeating a section)-->
-      <xf:instance id="xprProsopoCopy" src="_xprProsopoInstance.xml"/>
+      <xf:instance id="xprProsopoCopy" src="eacInstance.xml"/>
       <xf:instance id="xprRelationsSubtype">
         <relations xmlns="eac" xmlns:xpr="xpr">
           <cpfRelation xpr:representative=""/>
