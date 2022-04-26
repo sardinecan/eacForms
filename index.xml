@@ -1,4 +1,4 @@
-<?xml-stylesheet href="xsltforms/xsltforms.xsl" type="text/xsl"?>
+<?xml-stylesheet href="files/xsltforms/xsltforms.xsl" type="text/xsl"?>
 <html 
   xmlns="http://www.w3.org/1999/xhtml"
   lang="fr"
@@ -16,6 +16,7 @@
   <head>
     <title>eac-cpf Xforms</title>
     <meta charset="utf-8" />
+    <link href="files/css/eacForms.css" rel="stylesheet" />
     <xf:model id="prosopo">
       <!-- xprProsopo -->
       <xf:action ev:event="xforms-ready">
@@ -66,7 +67,113 @@
           position="before"/>
       </xf:action>
       <!-- xprProsopo main instance-->
-      <xf:instance id="xprProsopo" src="eacInstance.xml"/>
+      <xf:instance id="xprProsopo">
+        <eac-cpf xmlns="eac" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xpr="xpr" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:rico="rico">
+          <!--xmlns="urn:isbn:1-931666-33-4"-->
+          <control>
+            <maintenanceStatus/>
+            <publicationStatus/>
+            <localControl localType="detailLevel">
+              <term/>
+            </localControl>
+            <maintenanceHistory>
+              <maintenanceEvent>
+                <eventType/>
+                <eventDateTime standardDateTime=""/>
+                <agentType>human</agentType>
+                <agent/>
+                <eventDescription/>
+              </maintenanceEvent>
+            </maintenanceHistory>
+            <sources>
+              <source xlink:href="">
+                <sourceEntry/>
+                <descriptiveNote>
+                  <p/>
+                </descriptiveNote>
+              </source>
+            </sources>
+          </control>
+          <cpfDescription>
+            <identity localType="">
+              <entityId/>
+              <entityType/>
+              <nameEntry>
+                <part/>
+                <authorizedForm/>
+              </nameEntry>
+              <nameEntry>
+                <part localType=""/>
+                <alternativeForm/>
+                <xpr:source xmlns:xpr="xpr" xlink:href=""/>
+              </nameEntry>
+            </identity>
+            <description>
+              <existDates>
+                <dateRange>
+                  <fromDate standardDate="" notBefore="" notAfter=""/>
+                  <toDate standardDate="" notBefore="" notAfter=""/>
+                </dateRange>
+              </existDates>
+              <localDescription localType="sex">
+                <term/>
+              </localDescription>
+              <places>
+                <place>
+                  <placeRole>Adresse</placeRole>
+                  <placeEntry/>
+                  <dateSet>
+                    <date standardDate="" notBefore="" notAfter=""/>
+                  </dateSet>
+                  <descriptiveNote>
+                    <p/>
+                  </descriptiveNote>
+                </place>
+              </places>
+              <occupations>
+                <occupation>
+                  <term/>
+                  <date standardDate="" notBefore="" notAfter=""/>
+                  <descriptiveNote>
+                    <p/>
+                  </descriptiveNote>
+                </occupation>
+              </occupations>
+              <functions>
+                <function>
+                  <term/>
+                  <date standardDate="" notBefore="" notAfter=""/>
+                  <descriptiveNote>
+                    <p/>
+                  </descriptiveNote>
+                </function>
+              </functions>
+              <biogHist>
+                <chronList>
+                  <chronItem localType="">
+                    <date standardDate="" notBefore="" notAfter=""/>
+                    <placeEntry/>
+                    <event/>
+                    <rico:participant xlink:href=""/>
+                    <rico:involve xlink:href=""/>
+                    <xpr:source xlink:href=""/>
+                  </chronItem>
+                </chronList>
+              </biogHist>
+            </description>
+            <relations>
+              <cpfRelation xlink:href="" xlink:arcrole="">
+                <relationEntry/>
+                <descriptiveNote>
+                  <p/>
+                </descriptiveNote>
+                <xpr:source xlink:href=""/>
+              </cpfRelation>
+            </relations>
+          </cpfDescription>
+          <bibl/>
+        </eac-cpf>
+      </xf:instance>
       <xf:bind id="identity" nodeset="instance('xprProsopo')/eac:cpfDescription/eac:identity/@localType" required="true()"/>
       <xf:bind id="entityType" nodeset="instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:entityType" required="true()"/>
       <xf:bind id="vedette" nodeset="instance('xprProsopo')/eac:cpfDescription/eac:identity/eac:nameEntry[./eac:authorizedForm]/eac:part"/>
@@ -81,8 +188,118 @@
       <xf:bind id="chronItemSource" nodeset="instance('xprProsopo')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem/xpr:source"/>
       <xf:bind id="controlSource" nodeset="instance('xprProsopo')/eac:control/eac:sources/eac:source/@xlink:href[not(. = '')][. = instance('xprProsopo')/eac:cpfDescription//xpr:source/@xlink:href or . = instance('xprSources')/xpr:source[@xml:id = instance('xprProsopo')/eac:cpfDescription//xpr:source/@xlink:href]]" readonly="true()"/>
       <xf:bind id="sourceLocalId" nodeset="instance('xprProsopo')//xpr:source/@localId" relevant="parent::xpr:source[@localType = 'new']"/>
+      
+      <xf:bind nodeset="instance('xprProsopo')//@standardDate" relevant="parent::*[@notAfter = ''][@notBefore='']"/>
+      <xf:bind nodeset="instance('xprProsopo')//@notBefore" relevant="parent::*[@notAfter = ''][@standardDate='']"/>
+      <xf:bind nodeset="instance('xprProsopo')//@notAfter" relevant="parent::*[@notBefore = ''][@standardDate='']"/>
       <!-- xprProsopoCopy for repeated sections in the main form (avoid setvalue when repeating a section)-->
-      <xf:instance id="xprProsopoCopy" src="eacInstance.xml"/>
+      <xf:instance id="xprProsopoCopy">
+        <eac-cpf xmlns="eac" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xpr="xpr" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:rico="rico">
+          <!--xmlns="urn:isbn:1-931666-33-4"-->
+          <control>
+            <maintenanceStatus/>
+            <publicationStatus/>
+            <localControl localType="detailLevel">
+              <term/>
+            </localControl>
+            <maintenanceHistory>
+              <maintenanceEvent>
+                <eventType/>
+                <eventDateTime standardDateTime=""/>
+                <agentType>human</agentType>
+                <agent/>
+                <eventDescription/>
+              </maintenanceEvent>
+            </maintenanceHistory>
+            <sources>
+              <source xlink:href="">
+                <sourceEntry/>
+                <descriptiveNote>
+                  <p/>
+                </descriptiveNote>
+              </source>
+            </sources>
+          </control>
+          <cpfDescription>
+            <identity localType="">
+              <entityId/>
+              <entityType/>
+              <nameEntry>
+                <part/>
+                <authorizedForm/>
+              </nameEntry>
+              <nameEntry>
+                <part localType=""/>
+                <alternativeForm/>
+                <xpr:source xmlns:xpr="xpr" xlink:href=""/>
+              </nameEntry>
+            </identity>
+            <description>
+              <existDates>
+                <dateRange>
+                  <fromDate standardDate="" notBefore="" notAfter=""/>
+                  <toDate standardDate="" notBefore="" notAfter=""/>
+                </dateRange>
+              </existDates>
+              <localDescription localType="sex">
+                <term/>
+              </localDescription>
+              <places>
+                <place>
+                  <placeRole>Adresse</placeRole>
+                  <placeEntry/>
+                  <dateSet>
+                    <date standardDate="" notBefore="" notAfter=""/>
+                  </dateSet>
+                  <descriptiveNote>
+                    <p/>
+                  </descriptiveNote>
+                </place>
+              </places>
+              <occupations>
+                <occupation>
+                  <term/>
+                  <date standardDate="" notBefore="" notAfter=""/>
+                  <descriptiveNote>
+                    <p/>
+                  </descriptiveNote>
+                </occupation>
+              </occupations>
+              <functions>
+                <function>
+                  <term/>
+                  <date standardDate="" notBefore="" notAfter=""/>
+                  <descriptiveNote>
+                    <p/>
+                  </descriptiveNote>
+                </function>
+              </functions>
+              <biogHist>
+                <chronList>
+                  <chronItem localType="">
+                    <date standardDate="" notBefore="" notAfter=""/>
+                    <placeEntry/>
+                    <event/>
+                    <rico:participant xlink:href=""/>
+                    <rico:involve xlink:href=""/>
+                    <xpr:source xlink:href=""/>
+                  </chronItem>
+                </chronList>
+              </biogHist>
+            </description>
+            <relations>
+              <cpfRelation xlink:href="" xlink:arcrole="">
+                <relationEntry/>
+                <descriptiveNote>
+                  <p/>
+                </descriptiveNote>
+                <xpr:source xlink:href=""/>
+              </cpfRelation>
+            </relations>
+          </cpfDescription>
+          <bibl/>
+        </eac-cpf>
+      </xf:instance>
       <xf:instance id="xprRelationsSubtype">
         <relations xmlns="eac" xmlns:xpr="xpr">
           <cpfRelation xpr:representative=""/>
@@ -532,25 +749,25 @@
             <xf:label>Existence</xf:label>
             <xf:group ref="eac:fromDate">
               <xf:label>Naissance</xf:label>
-              <xf:input ref="@standardDate">
+              <xf:input ref="@standardDate" incremental="true">
                 <xf:label>Certaine</xf:label>
               </xf:input>
-              <xf:input ref="@notAfter">
+              <xf:input ref="@notAfter" incremental="true">
                 <xf:label>Avant le</xf:label>
               </xf:input>
-              <xf:input ref="@notBefore">
+              <xf:input ref="@notBefore" incremental="true">
                 <xf:label>Après le</xf:label>
               </xf:input>
             </xf:group>
             <xf:group ref="eac:toDate">
               <xf:label>Décès</xf:label>
-              <xf:input ref="@standardDate">
+              <xf:input ref="@standardDate" incremental="true">
                 <xf:label>Certaine</xf:label>
               </xf:input>
-              <xf:input ref="@notAfter">
+              <xf:input ref="@notAfter" incremental="true">
                 <xf:label>Avant le</xf:label>
               </xf:input>
-              <xf:input ref="@notBefore">
+              <xf:input ref="@notBefore" incremental="true">
                 <xf:label>Après le</xf:label>
               </xf:input>
             </xf:group>
@@ -624,32 +841,35 @@
                   <xf:group>
                     <xf:input
                       ref="@standardDate
-                      | eac:fromDate/@standardDate">
+                      | eac:fromDate/@standardDate"
+                      incremental="true">
                       <xf:label>Certaine</xf:label>
                     </xf:input>
                     <xf:input
                       ref="@notAfter
-                      | eac:fromDate/@notAfter">
+                      | eac:fromDate/@notAfter"
+                      incremental="true">
                       <xf:label>Avant le</xf:label>
                     </xf:input>
                     <xf:input
                       ref="@notBefore
-                      | eac:fromDate/@notBefore">
+                      | eac:fromDate/@notBefore"
+                      incremental="true">
                       <xf:label>Après le</xf:label>
                     </xf:input>
                   </xf:group>
                   <xf:group ref="eac:toDate">
-                    <xf:input ref="@standardDate">
+                    <xf:input ref="@standardDate" incremental="true">
                       <xf:label>Certaine</xf:label>
                     </xf:input>
-                    <xf:input ref="@notAfter">
+                    <xf:input ref="@notAfter" incremental="true">
                       <xf:label>Avant le</xf:label>
                     </xf:input>
-                    <xf:input ref="@notBefore">
+                    <xf:input ref="@notBefore" incremental="true">
                       <xf:label>Après le</xf:label>
                     </xf:input>
                   </xf:group>
-                  <xf:trigger class="delete">
+                  <xf:trigger class="delete" incremental="true">
                     <xf:label>Supprimer une date</xf:label>
                     <xf:delete
                       if="count(ancestor::eac:dateSet/*) > 1"
@@ -726,13 +946,13 @@
                     <xf:delete nodeset="."/>
                   </xf:action>
                 </xf:trigger>
-                <xf:input ref="@standardDate">
+                <xf:input ref="@standardDate" incremental="true">
                   <xf:label>Certaine</xf:label>
                 </xf:input>
-                <xf:input ref="@notAfter">
+                <xf:input ref="@notAfter" incremental="true">
                   <xf:label>Avant le</xf:label>
                 </xf:input>
-                <xf:input ref="@notBefore">
+                <xf:input ref="@notBefore" incremental="true">
                   <xf:label>Après le</xf:label>
                 </xf:input>
               </xf:group>
@@ -760,25 +980,25 @@
                 </xf:trigger>
                 <xf:group ref="eac:fromDate">
                   <xf:label>Début</xf:label>
-                  <xf:input ref="@standardDate">
+                  <xf:input ref="@standardDate" incremental="true">
                     <xf:label>Certaine</xf:label>
                   </xf:input>
-                  <xf:input ref="@notAfter">
+                  <xf:input ref="@notAfter" incremental="true">
                     <xf:label>Avant le</xf:label>
                   </xf:input>
-                  <xf:input ref="@notBefore">
+                  <xf:input ref="@notBefore" incremental="true">
                     <xf:label>Après le</xf:label>
                   </xf:input>
                 </xf:group>
                 <xf:group ref="eac:toDate">
                   <xf:label>Fin</xf:label>
-                  <xf:input ref="@standardDate">
+                  <xf:input ref="@standardDate" incremental="true">
                     <xf:label>Certaine</xf:label>
                   </xf:input>
-                  <xf:input ref="@notAfter">
+                  <xf:input ref="@notAfter" incremental="true">
                     <xf:label>Avant le</xf:label>
                   </xf:input>
-                  <xf:input ref="@notBefore">
+                  <xf:input ref="@notBefore" incremental="true">
                     <xf:label>Après le</xf:label>
                   </xf:input>
                 </xf:group>
@@ -840,13 +1060,13 @@
                     <xf:delete nodeset="."/>
                   </xf:action>
                 </xf:trigger>
-                <xf:input ref="@standardDate">
+                <xf:input ref="@standardDate" incremental="true">
                   <xf:label>Certaine</xf:label>
                 </xf:input>
-                <xf:input ref="@notAfter">
+                <xf:input ref="@notAfter" incremental="true">
                   <xf:label>Avant le</xf:label>
                 </xf:input>
-                <xf:input ref="@notBefore">
+                <xf:input ref="@notBefore" incremental="true">
                   <xf:label>Après le</xf:label>
                 </xf:input>
               </xf:group>
@@ -874,25 +1094,25 @@
                 </xf:trigger>
                 <xf:group ref="eac:fromDate">
                   <xf:label>Début</xf:label>
-                  <xf:input ref="@standardDate">
+                  <xf:input ref="@standardDate" incremental="true">
                     <xf:label>Certaine</xf:label>
                   </xf:input>
-                  <xf:input ref="@notAfter">
+                  <xf:input ref="@notAfter" incremental="true">
                     <xf:label>Avant le</xf:label>
                   </xf:input>
-                  <xf:input ref="@notBefore">
+                  <xf:input ref="@notBefore" incremental="true">
                     <xf:label>Après le</xf:label>
                   </xf:input>
                 </xf:group>
                 <xf:group ref="eac:toDate">
                   <xf:label>Fin</xf:label>
-                  <xf:input ref="@standardDate">
+                  <xf:input ref="@standardDate" incremental="true">
                     <xf:label>Certaine</xf:label>
                   </xf:input>
-                  <xf:input ref="@notAfter">
+                  <xf:input ref="@notAfter" incremental="true">
                     <xf:label>Avant le</xf:label>
                   </xf:input>
-                  <xf:input ref="@notBefore">
+                  <xf:input ref="@notBefore" incremental="true">
                     <xf:label>Après le</xf:label>
                   </xf:input>
                 </xf:group>
@@ -952,13 +1172,13 @@
                     <xf:delete nodeset="."/>
                   </xf:action>
                 </xf:trigger>
-                <xf:input ref="@standardDate">
+                <xf:input ref="@standardDate" incremental="true">
                   <xf:label>Certaine</xf:label>
                 </xf:input>
-                <xf:input ref="@notAfter">
+                <xf:input ref="@notAfter" incremental="true">
                   <xf:label>Avant le</xf:label>
                 </xf:input>
-                <xf:input ref="@notBefore">
+                <xf:input ref="@notBefore" incremental="true">
                   <xf:label>Après le</xf:label>
                 </xf:input>
               </xf:group>
@@ -988,25 +1208,25 @@
                 </xf:trigger>
                 <xf:group ref="eac:fromDate">
                   <xf:label>Début</xf:label>
-                  <xf:input ref="@standardDate">
+                  <xf:input ref="@standardDate" incremental="true">
                     <xf:label>Certaine</xf:label>
                   </xf:input>
-                  <xf:input ref="@notAfter">
+                  <xf:input ref="@notAfter" incremental="true">
                     <xf:label>Avant le</xf:label>
                   </xf:input>
-                  <xf:input ref="@notBefore">
+                  <xf:input ref="@notBefore" incremental="true">
                     <xf:label>Après le</xf:label>
                   </xf:input>
                 </xf:group>
                 <xf:group ref="eac:toDate">
                   <xf:label>Fin</xf:label>
-                  <xf:input ref="@standardDate">
+                  <xf:input ref="@standardDate" incremental="true">
                     <xf:label>Certaine</xf:label>
                   </xf:input>
-                  <xf:input ref="@notAfter">
+                  <xf:input ref="@notAfter" incremental="true">
                     <xf:label>Avant le</xf:label>
                   </xf:input>
-                  <xf:input ref="@notBefore">
+                  <xf:input ref="@notBefore" incremental="true">
                     <xf:label>Après le</xf:label>
                   </xf:input>
                 </xf:group>
