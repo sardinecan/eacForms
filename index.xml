@@ -18,7 +18,14 @@
     <meta charset="utf-8" />
     <link href="files/css/eacForms.css" rel="stylesheet" />
     <xf:model id="entity">
-      <xf:instance ic="eacInstance" src="files/eacInstance.xml"/>
+      <xf:instance id="eacInstance" src="files/eacInstance.xml"/>
+      <xf:instance id="documentation" src="files/eacDoc-en.xml"/>
+      <xf:instance id="documentationLanguages">
+        <languages>
+          <language file="files/eacDoc-fr.xml">Français</language>
+          <language file="files/eacDoc-en.xml">English</language>
+        </languages>
+      </xf:instance>
     </xf:model>
   </head>
   <body>
@@ -35,9 +42,21 @@
       <xf:switch>
         <xf:case id="presentationPanel" selected="true">
           <h2>Présentation</h2>
-          <p>blabla</p>
+          <p>This is a EAC-CPF form…</p>
         </xf:case>
         <xf:case id="eacPanel" selected="false">
+          <xf:group ref="eac:control">
+            <xf:label>Contrôle</xf:label>
+            <xf:select1 ref="@maintenanceStatus">
+              <xf:label value="instance('documentation')/att-maintenanceStatus/label"/>
+              <xf:itemset nodeset="instance('documentation')/att-maintenanceStatus/choice/item">
+                <xf:label ref="label"/>
+                <xf:value ref="value"/>
+              </xf:itemset>
+            </xf:select1>
+          </xf:group>
+          <xf:group ref="eac:cpfDescription">
+          </xf:group>
           <xf:output value="serialize(.)"/>
         </xf:case>
       </xf:switch>

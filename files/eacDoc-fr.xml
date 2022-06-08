@@ -1,0 +1,42 @@
+<tagDoc>
+    <att-maintenanceStatus>
+        <node>maintenanceStatus</node>
+        <label>Statut de la maintenance</label>
+        <summary>L'état de rédaction actuel de l'instance EAC-CPF.</summary>
+        <description>L'état de maintenance doit se produire sur &lt;contrôle&gt;. Lorsqu'une instance EAC-CPF est modifiée ou que d'autres événements lui arrivent (comme enregistré dans l'élément &lt;maintenanceHistory&gt;), l'état de maintenance doit également être mis à jour pour refléter l'état de rédaction actuel. Lors de la première création, le statut serait "nouveau", qui lors de la révision peut être changé en "révisé". Parce qu'il est important d'être clair sur ce qu'il est advenu des documents, en particulier lors du partage et de la création de liens entre eux, un certain nombre de valeurs d'état sont disponibles pour les documents qui ne sont plus d'actualité. Un document qui est simplement supprimé d'un système peut avoir le statut "supprimé", mais dans les cas où un document est marqué comme non courant (obsolète ou rejeté) mais conservé pour référence, il doit avoir le statut "annulé". Si un document est supprimé parce qu'il a été remplacé par deux documents ou plus, son statut doit être "deletedSplit", alors que s'il a simplement été remplacé par un nouveau document, "deletedReplaced" est la valeur de statut appropriée. Si un enregistrement est supprimé parce qu'il a été fusionné avec un autre enregistrement, son état doit être indiqué par "deletedMerged". Une valeur d'état "derived" est disponible pour indiquer que l'enregistrement a été dérivé d'un autre enregistrement.</description>
+        <choice>
+            <item>
+                <label>Création</label>
+                <value>new</value>
+            </item>
+            <item>
+                <label>Révision</label>
+                <value>revised</value>
+            </item>
+            <item>
+                <label>Obsolète ou rejeté</label>
+                <value>cancelled</value>
+            </item>
+            <item>
+                <label>Dérivé</label>
+                <value>derived</value>
+            </item>
+            <item>
+                <label>Supprimée</label>
+                <value>deleted</value>
+            </item>
+            <item>
+                <label>Supprimé (fusionné)</label>
+                <value>deletedMerged</value>
+            </item>
+            <item>
+                <label>Supprimé (remplacé)</label>
+                <value>deletedReplaced</value>
+            </item>
+            <item>
+                <label>Supprimé (divisé)</label>
+                <value>deletedSplit</value>
+            </item>
+        </choice>
+    </att-maintenanceStatus>
+</tagDoc>
