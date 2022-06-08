@@ -49,9 +49,9 @@
             <xf:label>Contrôle</xf:label>
             <xf:select1 ref="@maintenanceStatus">
               <xf:label value="instance('documentation')/att-maintenanceStatus/label"/>
-              <xf:itemset nodeset="instance('documentation')/att-maintenanceStatus/choice">
-                <xf:label ref="item/label"/>
-                <xf:value ref="item/value"/>
+              <xf:itemset nodeset="instance('documentation')/att-maintenanceStatus/choice/item">
+                <xf:label ref="label"/>
+                <xf:value ref="value"/>
               </xf:itemset>
             </xf:select1>
           </xf:group>
