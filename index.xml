@@ -38,7 +38,7 @@
           <p>blabla</p>
         </xf:case>
         <xf:case id="eacPanel" selected="false">
-          
+          <xf:ouput value="serialize(.)"/>
         </xf:case>
       </xf:switch>
     </form>
