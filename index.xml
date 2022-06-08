@@ -1,4 +1,5 @@
 <?xml-stylesheet href="files/xsltforms/xsltforms.xsl" type="text/xsl"?>
+<!--@bug xsltforms => xf:alert|hint|help/@ref doesn't work-->
 <html 
   xmlns="http://www.w3.org/1999/xhtml"
   lang="fr"
@@ -19,6 +20,18 @@
     <link href="files/css/eacForms.css" rel="stylesheet" />
     <xf:model id="entity">
       <xf:instance id="eacInstance" src="files/eacInstance.xml"/>
+      <xf:bind nodeset="instance('eacInstance')/eac:control/eac:recordId" required="true()"/>
+
+      <xf:instance id="eacMaintenanceAgency">
+        <maintenanceAgency xmlns="https://archivists.org/ns/eac/v2">
+          <agencyCode/>
+          <agencyName/>
+          <otherAgencyCode/>
+          <descriptiveNote>
+            <p></p>
+          </descriptiveNote>
+        </maintenanceAgency>
+      </xf:instance>
       <xf:instance id="documentation" src="files/eacDoc-fr.xml"/>
       <xf:instance id="documentationLanguages">
         <languages xmlns="">
@@ -26,6 +39,15 @@
           <language file="files/eacDoc-en.xml">English</language>
         </languages>
       </xf:instance>
+      <xf:instance id="language">
+        <test xmlns="">
+          <language></language>
+        </test>
+      </xf:instance>
+
+      <xf:submission id="change-language" replace="instance" instance="documentation" method="get" serialization="none">
+        <xf:resource value="instance('language')/language"/>
+      </xf:submission>
     </xf:model>
   </head>
   <body>
@@ -43,17 +65,84 @@
         <xf:case id="presentationPanel" selected="true">
           <h2>Présentation</h2>
           <p>This is a EAC-CPF form…</p>
+          <xf:select1 ref="instance('language')/language">
+            <xf:label>Choisir une langue</xf:label>
+            <xf:itemset ref="instance('documentationLanguages')/language">
+              <xf:label ref="."/>
+              <xf:value ref="@file"/>
+            </xf:itemset>
+            <xf:action ev:event="xforms-value-changed">
+              <xf:send submission="change-language"/>
+            </xf:action>
+          </xf:select1>
         </xf:case>
         <xf:case id="eacPanel" selected="false">
           <xf:group ref="eac:control">
-            <xf:label>Contrôle</xf:label>
+            <xf:label ref="instance('documentation')/control/label"/>
+            <!--<xf:hint><xf:output ref="instance('documentation')/control/summary"/></xf:hint>
+            <xf:help><xf:output ref="instance('documentation')/control/description"/></xf:help>-->
             <xf:select1 ref="@maintenanceStatus">
-              <xf:label ref="instance('documentation')/att-maintenanceStatus/label"/>
-              <xf:itemset nodeset="instance('documentation')/att-maintenanceStatus/choice/item">
+              <xf:label ref="instance('documentation')/control/attributes/maintenanceStatus/label"/>
+              <xf:itemset nodeset="instance('documentation')/control/attributes/maintenanceStatus/choice/item">
                 <xf:label ref="label"/>
                 <xf:value ref="value"/>
               </xf:itemset>
+              <xf:hint><xf:output ref="instance('documentation')/control/attributes/maintenanceStatus/summary"/></xf:hint>
+              <xf:help><xf:output ref="instance('documentation')/control/attributes/maintenanceStatus/description"/></xf:help>
             </xf:select1>
+            <xf:input ref="eac:recordId">
+              <xf:label ref="instance('documentation')/control/elements/recordId/label"/>
+              <xf:hint><xf:output ref="instance('documentation')/control/elements/recordId/summary"/></xf:hint>
+              <xf:help><xf:output ref="instance('documentation')/control/elements/recordId/description"/></xf:help>
+              <xf:alert><xf:output ref="instance('documentation')/control/elements/recordId/availability"/></xf:alert>
+            </xf:input>
+            <xf:group ref="eac:maintenanceAgency">
+              <xf:label ref="instance('documentation')/control/elements/maintenanceAgency/label"/>
+              <xf:hint><xf:output ref="instance('documentation')/control/elements/maintenanceAgency/summary"/></xf:hint>
+              <xf:help><xf:output ref="instance('documentation')/control/elements/maintenanceAgency/description"/></xf:help>
+              <xf:alert><xf:output ref="instance('documentation')/control/elements/maintenanceAgency/availability"/></xf:alert>
+              <xf:repeat nodeset="eac:agencyCode">
+                <xf:input ref=".">
+                  <xf:label ref="instance('documentation')/control/elements/maintenanceAgency/elements/agencyCode/label"/>
+                  <xf:hint><xf:output ref="instance('documentation')/control/elements/maintenanceAgency/elements/agencyCode/summary"/></xf:hint>
+                  <xf:help><xf:output ref="instance('documentation')/control/elements/maintenanceAgency/elements/agencyCode/description"/></xf:help>
+                  <xf:alert><xf:output ref="instance('documentation')/control/elements/maintenanceAgency/elements/agencyCode/availability"/></xf:alert>
+                </xf:input>
+              </xf:repeat>
+              <xf:repeat nodeset="eac:agencyName">
+                <xf:input ref=".">
+                  <xf:label ref="instance('documentation')/control/elements/maintenanceAgency/elements/agencyName/label"/>
+                  <xf:hint><xf:output ref="instance('documentation')/control/elements/maintenanceAgency/elements/agencyName/summary"/></xf:hint>
+                  <xf:help><xf:output ref="instance('documentation')/control/elements/maintenanceAgency/elements/agencyName/description"/></xf:help>
+                  <xf:alert><xf:output ref="instance('documentation')/control/elements/maintenanceAgency/elements/agencyName/availability"/></xf:alert>
+                </xf:input>
+              </xf:repeat>
+              <xf:repeat nodeset="eac:otherAgencyCode">
+                <xf:input ref=".">
+                  <xf:label ref="instance('documentation')/control/elements/maintenanceAgency/elements/otherAgencyCode/label"/>
+                  <xf:hint><xf:output ref="instance('documentation')/control/elements/maintenanceAgency/elements/otherAgencyCode/summary"/></xf:hint>
+                  <xf:help><xf:output ref="instance('documentation')/control/elements/maintenanceAgency/elements/otherAgencyCode/description"/></xf:help>
+                  <xf:alert><xf:output ref="instance('documentation')/control/elements/maintenanceAgency/elements/otherAgencyCode/availability"/></xf:alert>
+                </xf:input>
+              </xf:repeat>
+              <xf:trigger>
+                <xf:label ref="instance('documentation')/control/elements/maintenanceAgency/elements/agencyCode/add"/>
+                <xf:insert if="eac:agencyCode" context="." nodeset="eac:agencyCode" origin="instance('eacMaintenanceAgency')/eac:agencyCode" at="last()" ev:event="DOMActivate"/>
+                <xf:insert if="not(eac:agencyCode)" context="." nodeset="*" origin="instance('eacMaintenanceAgency')/eac:agencyCode" at="1" ev:event="DOMActivate"/>
+              </xf:trigger>
+              <xf:trigger>
+                <xf:label ref="instance('documentation')/control/elements/maintenanceAgency/elements/agencyName/add"/>
+                <xf:insert if="eac:agencyName" context="." nodeset="eac:agencyName" origin="instance('eacMaintenanceAgency')/eac:agencyName" at="last()" ev:event="DOMActivate"/>
+                <xf:insert if="eac:agencyCode and not(eac:agencyName)" context="." nodeset="eac:agencyCode" origin="instance('eacMaintenanceAgency')/eac:agencyName" at="last()" ev:event="DOMActivate"/>
+                <xf:insert if="not(eac:agencyCode) and not(eac:agencyName)" context="." nodeset="*" origin="instance('eacMaintenanceAgency')/eac:agencyName" at="1" ev:event="DOMActivate"/>
+              </xf:trigger>
+              <xf:trigger ref=".[eac:agencyCode]">
+                <xf:label ref="instance('documentation')/control/elements/maintenanceAgency/elements/otherAgencyCode/add"/>
+                <xf:insert if="eac:otherAgencyCode" context="." nodeset="eac:otherAgencyCode" origin="instance('eacMaintenanceAgency')/eac:otherAgencyCode" at="last()" ev:event="DOMActivate"/>
+                <xf:insert if="eac:agencyName and not(eac:otherAgencyCode)" context="." nodeset="eac:agencyName" origin="instance('eacMaintenanceAgency')/eac:otherAgencyCode" at="last()" ev:event="DOMActivate"/>
+                <xf:insert if="not(eac:agencyName) and not(eac:otherAgencyCode)" context="." nodeset="eac:agencyCode" origin="instance('eacMaintenanceAgency')/eac:otherAgencyCode" at="last()" ev:event="DOMActivate"/>
+              </xf:trigger>
+            </xf:group>
           </xf:group>
           <xf:group ref="eac:cpfDescription">
           </xf:group>

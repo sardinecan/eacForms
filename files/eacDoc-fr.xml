@@ -1,43 +1,134 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tagDoc xmlns="">
-    <att-maintenanceStatus>
-        <node>maintenanceStatus</node>
-        <label>Statut de la maintenance</label>
-        <summary>L'état de rédaction actuel de l'instance EAC-CPF.</summary>
-        <description>L'état de maintenance doit se produire sur &lt;contrôle&gt;. Lorsqu'une instance EAC-CPF est modifiée ou que d'autres événements lui arrivent (comme enregistré dans l'élément &lt;maintenanceHistory&gt;), l'état de maintenance doit également être mis à jour pour refléter l'état de rédaction actuel. Lors de la première création, le statut serait "nouveau", qui lors de la révision peut être changé en "révisé". Parce qu'il est important d'être clair sur ce qu'il est advenu des documents, en particulier lors du partage et de la création de liens entre eux, un certain nombre de valeurs d'état sont disponibles pour les documents qui ne sont plus d'actualité. Un document qui est simplement supprimé d'un système peut avoir le statut "supprimé", mais dans les cas où un document est marqué comme non courant (obsolète ou rejeté) mais conservé pour référence, il doit avoir le statut "annulé". Si un document est supprimé parce qu'il a été remplacé par deux documents ou plus, son statut doit être "deletedSplit", alors que s'il a simplement été remplacé par un nouveau document, "deletedReplaced" est la valeur de statut appropriée. Si un enregistrement est supprimé parce qu'il a été fusionné avec un autre enregistrement, son état doit être indiqué par "deletedMerged". Une valeur d'état "derived" est disponible pour indiquer que l'enregistrement a été dérivé d'un autre enregistrement.</description>
-        <choice>
-            <item>
-                <label>Création</label>
-                <value>new</value>
-            </item>
-            <item>
-                <label>Révision</label>
-                <value>revised</value>
-            </item>
-            <item>
-                <label>Obsolète ou rejeté</label>
-                <value>cancelled</value>
-            </item>
-            <item>
-                <label>Dérivé</label>
-                <value>derived</value>
-            </item>
-            <item>
-                <label>Supprimée</label>
-                <value>deleted</value>
-            </item>
-            <item>
-                <label>Supprimé (fusionné)</label>
-                <value>deletedMerged</value>
-            </item>
-            <item>
-                <label>Supprimé (remplacé)</label>
-                <value>deletedReplaced</value>
-            </item>
-            <item>
-                <label>Supprimé (divisé)</label>
-                <value>deletedSplit</value>
-            </item>
-        </choice>
-    </att-maintenanceStatus>
+    <control>
+        <node>control</node>
+        <label>Contrôle</label>
+        <summary>test</summary>
+        <description>
+            Cet élément wrapper obligatoire au sein de &lt;eac&gt; contient les informations nécessaires à la gestion de l'instance. Il s'agit notamment d'informations sur sa création, sa maintenance et son statut, ainsi que sur les langues, règles et autorités utilisées pour la composition de la description.
+            Elle doit contenir un identifiant unique pour l'instance dans l'élément &lt;recordId&gt;. D'autres identificateurs associés peuvent être donnés dans l'élément &lt;otherRecordId&gt;. Il doit y avoir une description de l'organisme responsable de sa création et de sa maintenance dans l'élément &lt;maintenanceAgency&gt; ainsi que des déclarations sur son état de rédaction actuel dans l'élément maintenanceStatus et sur la création, la maintenance et l'élimination de l'instance dans l'élément &lt;maintenanceHistory&gt;.
+            Des éléments facultatifs sont disponibles pour déclarer les langues, les règles, les conventions et les sources utilisées dans l'instance EAC-CPF. D'autres éléments de contrôle considérés comme nécessaires mais non inclus par ailleurs peuvent être donnés dans l'élément &lt;localControl&gt;. De même, il est recommandé de définir des types locaux pour certains éléments utilisés dans l'instance EAC-CPF dans l'élément &lt;localTypeDeclaration&gt;.
+            Les éléments enfants disponibles (obligatoires et facultatifs), dans l'ordre prescrit, sont les suivants :
+            &lt;recordId&gt; - Obligatoire. Contient l'identificateur unique de l'instance EAC-CPF.
+            &lt;maintenanceAgency&gt; - Obligatoire. Contient le nom et des informations codées sur l'institution ou le service responsable de la création, de la maintenance et/ou de la diffusion de l'instance EAC-CPF.
+            &lt;maintenanceHistory&gt; - Obligatoire. Contient des informations sur la date, le type et les événements du cycle de vie d'une instance EAC-CPF.
+            &lt;sources&gt; - Facultatif. Contient des informations sur les sources consultées pour créer la description de l'entité ou des entités de l'instance EAC-CPF.
+            Les éléments suivants peuvent apparaître dans n'importe quel ordre après les éléments ci-dessus :
+            &lt;conventionDeclaration&gt; - Facultatif. Contient des informations sur les règles ou les conventions utilisées pour construire l'instance EAC-CPF.
+            &lt;languageDeclaration&gt; - Facultatif. Contient des informations codées et en langage naturel sur la ou les langues de l'instance EAC-CPF.
+            &lt;localControl&gt; - Facultatif. Contient toute métadonnée administrative nécessaire en raison de pratiques locales qui ne sont pas représentées par les autres éléments de &lt;control&gt;.
+            &lt;localTypeDeclaration&gt; - Facultatif. Contient des informations sur les conventions locales utilisées dans l'attribut @localType.
+            &lt;otherRecordId&gt; - Facultatif. Élément permettant l'enregistrement d'identifiants supplémentaires pouvant être associés à l'instance EAC-CPF.
+            &lt;representation&gt; - Facultatif. Utilisé pour enregistrer un lien vers une version transformée et livrable de l'instance EAC-CPF.
+            &lt;rightsDeclaration&gt; - Facultatif. Contient des informations sur les droits d'utilisation de l'instance EAC-CPF.
+        </description>
+        <attributes>
+            <maintenanceStatus>
+                <node>maintenanceStatus</node>
+                <label>Statut de la maintenance</label>
+                <summary>L'état de rédaction actuel de l'instance EAC-CPF.</summary>
+                <description>L'état de maintenance doit se produire sur &lt;contrôle&gt;. Lorsqu'une instance EAC-CPF est modifiée ou que d'autres événements lui arrivent (comme enregistré dans l'élément &lt;maintenanceHistory&gt;), l'état de maintenance doit également être mis à jour pour refléter l'état de rédaction actuel. Lors de la première création, le statut serait "nouveau", qui lors de la révision peut être changé en "révisé". Parce qu'il est important d'être clair sur ce qu'il est advenu des documents, en particulier lors du partage et de la création de liens entre eux, un certain nombre de valeurs d'état sont disponibles pour les documents qui ne sont plus d'actualité. Un document qui est simplement supprimé d'un système peut avoir le statut "supprimé", mais dans les cas où un document est marqué comme non courant (obsolète ou rejeté) mais conservé pour référence, il doit avoir le statut "annulé". Si un document est supprimé parce qu'il a été remplacé par deux documents ou plus, son statut doit être "deletedSplit", alors que s'il a simplement été remplacé par un nouveau document, "deletedReplaced" est la valeur de statut appropriée. Si un enregistrement est supprimé parce qu'il a été fusionné avec un autre enregistrement, son état doit être indiqué par "deletedMerged". Une valeur d'état "derived" est disponible pour indiquer que l'enregistrement a été dérivé d'un autre enregistrement.</description>
+                <choice>
+                    <item>
+                        <label>Création</label>
+                        <value>new</value>
+                    </item>
+                    <item>
+                        <label>Révision</label>
+                        <value>revised</value>
+                    </item>
+                    <item>
+                        <label>Obsolète ou rejeté</label>
+                        <value>cancelled</value>
+                    </item>
+                    <item>
+                        <label>Dérivé</label>
+                        <value>derived</value>
+                    </item>
+                    <item>
+                        <label>Supprimée</label>
+                        <value>deleted</value>
+                    </item>
+                    <item>
+                        <label>Supprimé (fusionné)</label>
+                        <value>deletedMerged</value>
+                    </item>
+                    <item>
+                        <label>Supprimé (remplacé)</label>
+                        <value>deletedReplaced</value>
+                    </item>
+                    <item>
+                        <label>Supprimé (divisé)</label>
+                        <value>deletedSplit</value>
+                    </item>
+                </choice>
+            </maintenanceStatus>
+        </attributes>
+        <elements>
+            <recordId>
+                <node>recordId</node>
+                <label>Identifiant d'enregistrement</label>
+                <summary>Un élément enfant obligatoire de &lt;control&gt; qui désigne un identifiant unique pour l'instance EAC-CPF.</summary>
+                <description>
+                    &lt;recordId&gt; est utilisé pour enregistrer un identifiant unique pour l'instance EAC-CPF. L'institution qui attribue l'identifiant garantit l'unicité de la valeur &lt;recordId&gt; dans les descriptions archivistiques dont elle a le contrôle. Un identifiant unique au monde peut être construit dans &lt;recordId&gt; selon divers protocoles externes (c'est-à-dire HTTP URI, DOI, PURL ou UUID), ou en combinaison avec &lt;agencyCode&gt;, qui est un élément facultatif dans &lt;maintenanceAgency&gt;.
+                    L'élément &lt;recordId&gt; ne peut pas être vide. Tout identifiant d'enregistrement alternatif ou supplémentaire peut être enregistré dans &lt;otherRecordId&gt;.
+                </description>
+                <availability>Requis, non répétable.</availability>
+            </recordId>
+            <maintenanceAgency>
+                <node>maintenanceAgency</node>
+                <label>Organisme de maintenance</label>
+                <summary>Un élément enfant obligatoire de &lt;control&gt; qui identifie l'institution ou le service responsable de l'instance EAC-CPF.</summary>
+                <description>
+                    &lt;maintenanceAgency&gt; code des informations sur l'institution ou le service responsable de la création, de la maintenance et/ou de la diffusion de l'instance EAC-CPF.
+                    L'élément &lt;maintenanceAgency&gt; doit inclure l'un ou les deux éléments &lt;agencyCode&gt; ou &lt;agencyName&gt; pour fournir le nom de l'institution ou du service. Il peut également inclure l'élément enfant facultatif &lt;otherAgencyCode&gt; pour fournir tout identifiant supplémentaire. Toute information générale sur l'institution en relation avec l'instance EAC-CPF peut être donnée dans l'élément &lt;descriptiveNote&gt;.
+                    L'ordre prescrit de tous les éléments enfants (obligatoires et facultatifs) est le suivant :
+                    &lt;agencyCode&gt;
+                    &lt;agencyName&gt;
+                    &lt;otherAgencyCode&gt;
+                    &lt;descriptiveNote&gt;
+                </description>
+                <availability>Requis, non répétable</availability>
+                <elements>
+                    <agencyCode>
+                        <node>agencyCode</node>
+                        <label>Code de l'organisme</label>
+                        <summary></summary>
+                        <description></description>
+                        <add>Ajouter un code organisme</add>
+                        <del>Supprimer un code organisme</del>
+                    </agencyCode>
+                    <agencyName>
+                        <node>agencyName</node>
+                        <label>Nom de l'organisme</label>
+                        <summary>Un élément enfant de &lt;maintenanceAgency&gt; qui fournit le nom de l'institution ou du service responsable de la création, de la maintenance et/ou de la diffusion de l'instance EAC-CPF.</summary>
+                        <description>
+                            Utilisez &lt;agencyName&gt; pour enregistrer le nom de l'institution ou du service responsable de la création, de la maintenance et/ou de la diffusion de l'instance EAC-CPF. Par exemple, le nom du dépôt ou le nom d'un service d'agrégation.
+                            &lt;maintenanceAgency&gt; doit inclure un ou les deux éléments suivants : &lt;agencyName&gt; et &lt;agencyCode&gt;.
+                            Il est recommandé d'utiliser la forme du nom de l'agence qui est autorisée par une agence ou un service national ou international approprié.
+                            Le &lt;agencyName&gt; peut être répété afin de fournir le nom de l'institution ou du service responsable de l'instance EAC-CPF dans plusieurs langues. Si &lt;agencyName&gt; est répété, il est recommandé d'indiquer la langue de chaque nom à l'aide de languageOfElement.
+                        </description>
+                        <add>Ajouter un nom d'organisme</add>
+                        <del>Supprimer un nom d'organisme</del>
+                    </agencyName>
+                    <otherAgencyCode>
+                        <node>otherAgencyCode</node>
+                        <label>Autre code de l'organisme</label>
+                        <summary></summary>
+                        <description></description>
+                        <add>Ajouter un autre code organisme</add>
+                        <del>Supprimer un autre code organisme</del>
+                    </otherAgencyCode>
+                </elements>
+            </maintenanceAgency>
+        </elements>
+    </control>
+    <general>
+        <descriptiveNote>
+            <node>descriptiveNote</node>
+            <label>Note</label>
+            <summary></summary>
+            <description></description>
+        </descriptiveNote>
+    </general>
 </tagDoc>

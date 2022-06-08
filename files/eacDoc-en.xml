@@ -1,43 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tagDoc xmlns="">
-    <att-maintenanceStatus>
-        <node>maintenanceStatus</node>
-        <label>Maintenance Status</label>
-        <summary>The current drafting status of the EAC-CPF instance.</summary>
-        <description>The maintenance status must occur on &lt;control&gt;. As an EAC-CPF instance is modified or other events happen to it (as recorded in the &lt;maintenanceHistory&gt; element), the maintenance status should also be updated to reflect the current drafting status. On first creation the status would be "new", which on revision can be changed to "revised". Because it is important to be clear about what has happened to records, particularly when sharing and making links between them, a number of status values are available for records that are no longer current. A record that is simply deleted from a system can be given the status "deleted", but in cases where a record is marked as not current (obsolete or rejected) but kept for reference then it should be given the status "cancelled". If a record is deleted because it has become superseded by two or more records then its status should be given as "deletedSplit", while if it has simply been replaced by a new record then "deletedReplaced" is the appropriate status value. If a record is deleted because it has been merged with another record, its status should be given as "deletedMerged". A "derived" status value is available to indicate that the record was derived from another descriptive system.</description>
-        <choice>
-            <item>
-                <label>Creation</label>
-                <value>new</value>
-            </item>
-            <item>
-                <label>Revision</label>
-                <value>revised</value>
-            </item>
-            <item>
-                <label>Obsolete or rejected</label>
-                <value>cancelled</value>
-            </item>
-            <item>
-                <label>Derived</label>
-                <value>derived</value>
-            </item>
-            <item>
-                <label>Deleted</label>
-                <value>deleted</value>
-            </item>
-            <item>
-                <label>Deleted (merged)</label>
-                <value>deletedMerged</value>
-            </item>
-            <item>
-                <label>Deleted (replaced)</label>
-                <value>deletedReplaced</value>
-            </item>
-            <item>
-                <label>Deleted (split)</label>
-                <value>deletedSplit</value>
-            </item>
-        </choice>
-    </att-maintenanceStatus>
+    <control>
+        <node>control</node>
+        <label>Control</label>
+        <summary>A required child element of &lt;eac&gt; that contains information about the creation, maintenance, status and the rules and authorities used in the composition of the EAC-CPF instance.</summary>
+        <description>
+            This required wrapper element within &lt;eac&gt; contains the information necessary to manage the instance. This includes information about its creation, maintenance and status as well as the languages, rules and authorities used in the composition of the description.
+            It must contain a unique identifier for the instance within the &lt;recordId&gt; element. Other associated identifiers may be given in &lt;otherRecordId&gt;. There must be a description of the agency responsible for its creation and maintenance in &lt;maintenanceAgency&gt; as well as statements about its current drafting status in maintenanceStatus and the creation, maintenance, and disposition of the instance in &lt;maintenanceHistory&gt;.
+            There are optional elements available to declare languages, rules, conventions and sources used in the EAC-CPF instance. Other control elements considered necessary but not otherwise included may be given in the &lt;localControl&gt; element. Similarly, local types for certain elements used throughout the EAC-CPF instance are recommended to be defined in the &lt;localTypeDeclaration&gt; element
+            The available child elements (both required and optional), in their prescribed order, are:
+            &lt;recordId&gt; - Required. Contains the unique identifier for the EAC-CPF instance.
+            &lt;maintenanceAgency&gt; - Required. Contains the name and coded information about the institution or service responsible for the creation, maintenance, and/or dissemination of the EAC-CPF instance.
+            &lt;maintenanceHistory&gt; - Required. Contains information about the date, type and events within the life cycle of an EAC-CPF instance.
+            &lt;sources&gt; - Optional. Contains information about the sources consulted in creating the description of the entity or entities in the EAC-CPF instance.
+            The following elements may appear in any order after the above elements:
+            &lt;conventionDeclaration&gt; - Optional. Contains information on the rules or conventions used to construct the EAC-CPF instance.
+            &lt;languageDeclaration&gt; - Optional. Contains coded and natural language information about the language or languages of the EAC-CPF instance.
+            &lt;localControl&gt; - Optional. Contains any administrative metadata necessary due to local practice that are not represented by the other elements in &lt;control&gt;.
+            &lt;localTypeDeclaration&gt; - Optional. Contains information about local conventions used in the @localType attribute.
+            &lt;otherRecordId&gt; - Optional. An element that allows the recording of additional identifiers that may be associated with the EAC-CPF instance.
+            &lt;representation&gt; - Optional. Used for recording a link to a transformed and deliverable version of the EAC-CPF instance.
+            &lt;rightsDeclaration&gt; - Optional. Contains information about the usage rights of the EAC-CPF instance.
+        </description>
+        <attributes>
+            <maintenanceStatus>
+                <node>maintenanceStatus</node>
+                <label>Maintenance Status</label>
+                <summary>The current drafting status of the EAC-CPF instance.</summary>
+                <description>The maintenance status must occur on &lt;control&gt;. As an EAC-CPF instance is modified or other events happen to it (as recorded in the &lt;maintenanceHistory&gt; element), the maintenance status should also be updated to reflect the current drafting status. On first creation the status would be "new", which on revision can be changed to "revised". Because it is important to be clear about what has happened to records, particularly when sharing and making links between them, a number of status values are available for records that are no longer current. A record that is simply deleted from a system can be given the status "deleted", but in cases where a record is marked as not current (obsolete or rejected) but kept for reference then it should be given the status "cancelled". If a record is deleted because it has become superseded by two or more records then its status should be given as "deletedSplit", while if it has simply been replaced by a new record then "deletedReplaced" is the appropriate status value. If a record is deleted because it has been merged with another record, its status should be given as "deletedMerged". A "derived" status value is available to indicate that the record was derived from another descriptive system.</description>
+                <choice>
+                    <item>
+                        <label>Creation</label>
+                        <value>new</value>
+                    </item>
+                    <item>
+                        <label>Revision</label>
+                        <value>revised</value>
+                    </item>
+                    <item>
+                        <label>Obsolete or rejected</label>
+                        <value>cancelled</value>
+                    </item>
+                    <item>
+                        <label>Derived</label>
+                        <value>derived</value>
+                    </item>
+                    <item>
+                        <label>Deleted</label>
+                        <value>deleted</value>
+                    </item>
+                    <item>
+                        <label>Deleted (merged)</label>
+                        <value>deletedMerged</value>
+                    </item>
+                    <item>
+                        <label>Deleted (replaced)</label>
+                        <value>deletedReplaced</value>
+                    </item>
+                    <item>
+                        <label>Deleted (split)</label>
+                        <value>deletedSplit</value>
+                    </item>
+                </choice>
+            </maintenanceStatus>
+        </attributes>
+        <elements>
+            <recordId>
+                <node>recordId</node>
+                <label>Record Identifier</label>
+                <summary>A required child element of &lt;control&gt; that designates a unique identifier for the EAC-CPF instance.</summary>
+                <description>
+                    &lt;recordId&gt; is used for recording a unique identifier for the EAC-CPF instance. The institution assigning the identifier ensures uniqueness of the &lt;recordId&gt; value within the archival descriptions under its control. A globally unique identifier may be constructed within &lt;recordId&gt; according to various external protocols (i.e. HTTP URI, DOI, PURL, or UUID), or in combination with &lt;agencyCode&gt;, which is an optional element within &lt;maintenanceAgency&gt;.
+                    &gt;recordId&gt; cannot be empty. Any alternative or additional record identifiers may be recorded in &lt;otherRecordId&gt;
+                </description>
+                <availability>Required, not repeatable</availability>
+            </recordId>
+            <maintenanceAgency>
+                <node>maintenanceAgency</node>
+                <label>Maintenance Agency</label>
+                <summary>A required child element of &lt;control&gt; that identifies the institution or service responsible for the EAC-CPF instance.</summary>
+                <description>
+                    &lt;maintenanceAgency&gt; encodes information about the institution or service responsible for the creation, maintenance, and/or dissemination of the EAC-CPF instance.
+                    &lt;maintenanceAgency&gt; must include one or both of &lt;agencyCode&gt; or &lt;agencyName&gt; to provide the name of the institution or service. It may also include the optional child element &lt;otherAgencyCode&gt; to provide any additional identifiers. Any general information about the institution in relation to the EAC-CPF instance may be given in &lt;descriptiveNote&gt;.
+                    The prescribed order of all child elements (both required and optional) is:
+                    &lt;agencyCode&gt;
+                    &lt;agencyName&gt;
+                    &lt;otherAgencyCode&gt;
+                    &lt;descriptiveNote&gt;
+                </description>
+                <availability>Required, not Repeatable</availability>
+                <elements>
+                    <agencyCode>
+                        <node>agencyCode</node>
+                        <label>Agency code</label>
+                        <summary></summary>
+                        <description></description>
+                        <add>Add agency code</add>
+                        <del>Delete agency code </del>
+                    </agencyCode>
+                    <agencyName>
+                        <node>agencyName</node>
+                        <label>Agency Name</label>
+                        <summary>A child element of &lt;maintenanceAgency&gt; that provides the name of the institution or service responsible for the creation, maintenance, and/or dissemination of the EAC-CPF instance.</summary>
+                        <description>
+                            Use &lt;agencyName&gt; to record the name of the institution or service responsible for the creation, maintenance, and/or dissemination of the EAC-CPF instance. Examples include the repository name or the name of an aggregation service.
+                            &lt;maintenanceAgency&gt; must include one or both of &lt;agencyName&gt; and &lt;agencyCode&gt;.
+                            It is recommended to use the form of the agency name that is authorized by an appropriate national or international agency or service.
+                            &lt;agencyName&gt; may be repeated in order to provide the name of the institution or service responsible for the EAC-CPF instance in multiple languages. If &lt;agencyName&gt; is repeated it is recommended to indicate the language of each name using languageOfElement.
+                        </description>
+                        <add>Add agency name</add>
+                        <del>Delete agency name </del>
+                    </agencyName>
+                    <otherAgencyCode>
+                        <node>otherAgencyCode</node>
+                        <label>Other agency code</label>
+                        <summary></summary>
+                        <description></description>
+                        <add>Add other agency code</add>
+                        <del>Delete other agency code </del>
+                    </otherAgencyCode>
+                </elements>
+            </maintenanceAgency>
+        </elements>
+    </control>
+
 </tagDoc>
