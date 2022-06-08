@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tagDoc>
+<tagDoc xmlns="">
     <att-maintenanceStatus>
         <node>maintenanceStatus</node>
         <label>Statut de la maintenance</label>

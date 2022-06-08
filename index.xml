@@ -21,7 +21,7 @@
       <xf:instance id="eacInstance" src="files/eacInstance.xml"/>
       <xf:instance id="documentation" src="files/eacDoc-fr.xml"/>
       <xf:instance id="documentationLanguages">
-        <languages>
+        <languages xmlns="">
           <language file="files/eacDoc-fr.xml">Français</language>
           <language file="files/eacDoc-en.xml">English</language>
         </languages>
