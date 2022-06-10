@@ -121,6 +121,102 @@
                     </otherAgencyCode>
                 </elements>
             </maintenanceAgency>
+            <maintenanceHistory>
+                <node>maintenanceHistory</node>
+                <label>Historique des interventions</label>
+                <summary>Historique de la création et de la gestion de l’instance EAC-CPF.</summary>
+                <description>Élément englobant obligatoire contenu dans l’élément Contrôle &lt;control&gt; permettant d’enregistrer l’historique de la création et de la gestion de l’instance EAC-CPF. Cet élément doit contenir au moins un élément Intervention &lt;maintenanceEvent&gt;, mais il peut inclure plusieurs autres éléments &lt;maintenanceEvent&gt; qui précisent les interventions marquantes effectuées sur l’instance.</description>
+                <elements>
+                    <maintenanceEvent>
+                        <node>maintenanceEvent</node>
+                        <label>Intervention</label>
+                        <summary>Intervention au cours de la vie de l’instance EAC-CPF.</summary>
+                        <description>Élément englobant contenu dans l’élément Historique des interventions &lt;maintenanceHistory&gt; permettant d’enregistrer les informations relatives à chaque intervention dans l’historique de l’instance EAC-CPF. Il y a toujours au moins une intervention pour chaque instance, généralement sa création. Chaque intervention doit être définie dans l’élément Type d’intervention &lt;eventType&gt;. Dans les éléments Agent &lt;agent&gt; et Type d’agent &lt;agentType&gt;, il faut également donner des informations sur l’agent ayant accompli l’opération concernée sur l’instance EAC-CPF, ou en étant responsable, et dans l’élément Date et heure de l’intervention &lt;eventDateTime&gt; les informations sur le moment de la réalisation de l’opération. L’intervention peut également être décrite dans l’élément Description de l’intervention &lt;eventDescription&gt;.</description>
+                        <elements>
+                            <agent>
+                                <node>agent</node>
+                                <label>Agent</label>
+                                <summary>L’agent (homme ou machine) responsable d’un évènement dans la gestion de l’instance EAC-CPF.</summary>
+                                <description>Pour chaque intervention décrite dans l’élément Intervention &lt;maintenanceEvent&gt;, le nom de l’agent responsable de l’intervention en question doit être donné. Il peut s’agir d’une personne ou d’un organisme, auquel cas le contenu de l’élément Type de l’agent &lt;agentType&gt; doit être “human” (humain), ou du nom d’un système, auquel cas le contenu de l’élément &lt;agentType&gt; doit être “machine” (machine).</description>
+                                <attributes>
+                                    <agentType>
+                                        <node>agentType</node>
+                                        <label>Type de l’agent</label>
+                                        <summary>Le type de l’agent responsable d’une intervention dans l’instance EAC.</summary>
+                                        <description>Pour chaque intervention décrite dans l’élément Intervention &lt;maintenanceEvent&gt;, le type de l’agent, précisé dans l’élément Agent &lt;agent&gt;, doit être donné soit par la valeur “human” soit par la valeur “machine” (machine).</description>
+                                        <choice>
+                                            <item>
+                                                <label>Humain</label>
+                                                <value>human</value>
+                                            </item>
+                                            <item>
+                                                <label>Machine</label>
+                                                <value>machine</value>
+                                            </item>
+                                        </choice>
+                                    </agentType>
+                                </attributes>
+                            </agent>
+                            <eventDateTime>
+                                <node>eventDateTime</node>
+                                <label>Date et heure de l’intervention</label>
+                                <summary>La date et l’heure d’une intervention dans l’instance EAC-CPF.</summary>
+                                <description>Élément obligatoire au sein de l’élément Intervention &lt;maintenanceEvent&gt; permettant de donner la date et l’heure d’une intervention dans l’instance EAC-CPF. La date et l’heure peuvent être enregistrées manuellement ou générées par la machine en langage naturel aussi bien qu’en format lisible en machine au moyen de l’attribut @standardDateTime.</description>
+                                <attributes>
+                                    <standardDateTime>
+                                        <node>standardDateTime</node>
+                                        <label>Date et heure</label>
+                                        <summary>La date, ou la date et l'heure, exprimée(s) de manière normalisée pour traitement informatique.</summary>
+                                        <description>L'attribut @standardDateTime est un attribut de l'élément Date et heure de l’intervention &lt;eventDateTime&gt;. La valeur de @standardDateTime fournit une forme normalisée de la date, ou de la date et de l'heure, exprimée(s) dans l'élément &lt;eventDateTime&gt;, qui peut être utilisée lors de traitements informatiques. Par exemple, en utilisant la valeur de l'élément Type d’intervention &lt;eventType&gt; et l'attribut @standardDateTime, on peut aisément identifier toutes les instances EAC-CPF modifiées à une date particulière.</description>
+                                    </standardDateTime>
+                                </attributes>
+                            </eventDateTime>
+                            <eventDescription>
+                                <node>eventDescription</node>
+                                <label>Description de l’intervention</label>
+                                <summary>La description de l’intervention dans la vie de l’instance EAC-CPF.</summary>
+                                <description>Élément au sein de l’élément Intervention &lt;maintenanceEvent&gt; permettant de décrire l’intervention. L’élément offre la possibilité de donner une description complète de l’intervention à côté de sa définition sommaire fournie par la valeur fixe de l’élément Type d’intervention &lt;eventType&gt;.</description>
+                                <add>Ajouter une description</add>
+                                <del>Supprimer la description</del>
+                            </eventDescription>
+                        </elements>
+                        <attributes>
+                            <maintenanceEventType>
+                                <node>maintenanceEventType</node>
+                                <label>Type d'intervention</label>
+                                <summary>Précise le type d'interventions</summary>
+                                <description>@todo</description>
+                                <choice>
+                                    <item>
+                                        <label>Créée</label>
+                                        <value>created</value>
+                                    </item>
+                                    <item>
+                                        <label>Annulée</label>
+                                        <value>cancelled</value>
+                                    </item>
+                                    <item>
+                                        <label>Supprimée</label>
+                                        <value>deleted</value>
+                                    </item>
+                                    <item>
+                                        <label>Revised</label>
+                                        <value>revised</value>
+                                    </item>
+                                    <item>
+                                        <label>Inconnue</label>
+                                        <value>unknown</value>
+                                    </item>
+                                    <item>
+                                        <label>Actualisée</label>
+                                        <value>updated</value>
+                                    </item>
+                                </choice>
+                            </maintenanceEventType>
+                        </attributes>
+                    </maintenanceEvent>
+                </elements>
+            </maintenanceHistory>
         </elements>
     </control>
     <general>

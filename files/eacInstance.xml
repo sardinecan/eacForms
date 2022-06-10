@@ -10,7 +10,7 @@
         <maintenanceHistory>
             <maintenanceEvent maintenanceEventType="created">
                 <agent agentType="human"/>
-                <eventDateTime/>
+                <eventDateTime standardDateTime=""/>
             </maintenanceEvent>
         </maintenanceHistory>
     </control>

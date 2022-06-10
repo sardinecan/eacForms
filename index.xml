@@ -21,6 +21,7 @@
     <xf:model id="entity">
       <xf:instance id="eacInstance" src="files/eacInstance.xml"/>
       <xf:bind nodeset="instance('eacInstance')/eac:control/eac:recordId" required="true()"/>
+      <xf:bind nodeset="//@standardDateTime" type="xf:dateTime"/>
 
       <xf:instance id="eacMaintenanceAgency">
         <maintenanceAgency xmlns="https://archivists.org/ns/eac/v2">
@@ -32,6 +33,15 @@
           </descriptiveNote>
         </maintenanceAgency>
       </xf:instance>
+
+      <xf:instance id="eacMaintenanceEvent">
+        <maintenanceEvent xmlns="https://archivists.org/ns/eac/v2" maintenanceEventType="">
+          <agent agentType=""/>
+          <eventDateTime standardDateTime=""/>
+          <eventDescription/>
+        </maintenanceEvent>
+      </xf:instance>
+
       <xf:instance id="documentation" src="files/eacDoc-fr.xml"/>
       <xf:instance id="documentationLanguages">
         <languages xmlns="">
@@ -108,6 +118,10 @@
                   <xf:help><xf:output ref="instance('documentation')/control/elements/maintenanceAgency/elements/agencyCode/description"/></xf:help>
                   <xf:alert><xf:output ref="instance('documentation')/control/elements/maintenanceAgency/elements/agencyCode/availability"/></xf:alert>
                 </xf:input>
+                <xf:trigger ref="self::eac:agencyCode[parent::eac:maintenanceAgency[not(eac:otherAgencyCode)] or count(parent::eac:maintenanceAgency[eac:otherAgencyCode]/eac:agencyCode) > 1]">
+                  <xf:label ref="instance('documentation')/control/elements/maintenanceAgency/elements/agencyCode/del"/>
+                  <xf:delete nodeset="." ev:event="DOMActivate"/>
+                </xf:trigger>
               </xf:repeat>
               <xf:repeat nodeset="eac:agencyName">
                 <xf:input ref=".">
@@ -116,6 +130,10 @@
                   <xf:help><xf:output ref="instance('documentation')/control/elements/maintenanceAgency/elements/agencyName/description"/></xf:help>
                   <xf:alert><xf:output ref="instance('documentation')/control/elements/maintenanceAgency/elements/agencyName/availability"/></xf:alert>
                 </xf:input>
+                <xf:trigger>
+                  <xf:label ref="instance('documentation')/control/elements/maintenanceAgency/elements/agencyName/del"/>
+                  <xf:delete nodeset="." ev:event="DOMActivate"/>
+                </xf:trigger>
               </xf:repeat>
               <xf:repeat nodeset="eac:otherAgencyCode">
                 <xf:input ref=".">
@@ -124,6 +142,10 @@
                   <xf:help><xf:output ref="instance('documentation')/control/elements/maintenanceAgency/elements/otherAgencyCode/description"/></xf:help>
                   <xf:alert><xf:output ref="instance('documentation')/control/elements/maintenanceAgency/elements/otherAgencyCode/availability"/></xf:alert>
                 </xf:input>
+                <xf:trigger>
+                  <xf:label ref="instance('documentation')/control/elements/maintenanceAgency/elements/otherAgencyCode/del"/>
+                  <xf:delete nodeset="." ev:event="DOMActivate"/>
+                </xf:trigger>
               </xf:repeat>
               <xf:trigger>
                 <xf:label ref="instance('documentation')/control/elements/maintenanceAgency/elements/agencyCode/add"/>
@@ -142,6 +164,44 @@
                 <xf:insert if="eac:agencyName and not(eac:otherAgencyCode)" context="." nodeset="eac:agencyName" origin="instance('eacMaintenanceAgency')/eac:otherAgencyCode" at="last()" ev:event="DOMActivate"/>
                 <xf:insert if="not(eac:agencyName) and not(eac:otherAgencyCode)" context="." nodeset="eac:agencyCode" origin="instance('eacMaintenanceAgency')/eac:otherAgencyCode" at="last()" ev:event="DOMActivate"/>
               </xf:trigger>
+            </xf:group>
+            <xf:group ref="eac:maintenanceHistory">
+              <xf:label ref="instance('documentation')/control/elements/maintenanceHistory/label"/>
+              <xf:repeat nodeset="eac:maintenanceEvent">
+                <xf:label ref="instance('documentation')/control/elements/maintenanceHistory/elements/maintenanceEvent/label"/>
+                <xf:select1 ref="@maintenanceEventType">
+                  <xf:label ref="instance('documentation')/control/elements/maintenanceHistory/elements/maintenanceEvent/attributes/maintenanceEventType/label"/>
+                  <xf:itemset nodeset="instance('documentation')/control/elements/maintenanceHistory/elements/maintenanceEvent/attributes/maintenanceEventType/choice/item">
+                    <xf:label ref="label"/>
+                    <xf:value ref="value"/>
+                  </xf:itemset>
+                </xf:select1>
+                <xf:input ref="eac:agent">
+                  <xf:label ref="instance('documentation')/control/elements/maintenanceHistory/elements/maintenanceEvent/elements/agent/label"/>
+                </xf:input>
+                <xf:select1 ref="eac:agent/@agentType">
+                  <xf:label ref="instance('documentation')/control/elements/maintenanceHistory/elements/maintenanceEvent/elements/agent/attributes/agentType/label"/>
+                  <xf:itemset nodeset="instance('documentation')/control/elements/maintenanceHistory/elements/maintenanceEvent/elements/agent/attributes/agentType/choice/item">
+                    <xf:label ref="label"/>
+                    <xf:value ref="value"/>
+                  </xf:itemset>
+                </xf:select1>
+                <xf:input ref="eac:eventDateTime/@standardDateTime">
+                  <!--@standardDateTime is optional we can type text into eventDateTime directly (so there is no ISO dateTime required) -->
+                  <xf:label ref="instance('documentation')/control/elements/maintenanceHistory/elements/maintenanceEvent/elements/eventDateTime/label"/>
+                </xf:input>
+                <xf:textarea ref="eac:eventDescription">
+                  <xf:label ref="instance('documentation')/control/elements/maintenanceHistory/elements/maintenanceEvent/elements/eventDescription/label"/>
+                </xf:textarea>
+                <xf:trigger ref="self::eac:maintenanceEvent[not(eac:eventDescription)]">
+                  <xf:label ref="instance('documentation')/control/elements/maintenanceHistory/elements/maintenanceEvent/elements/eventDescription/add"/>
+                  <xf:insert if="self::eac:maintenanceEvent[not(eac:eventDescription)]" context="." nodeset="eac:eventDateTime" origin="instance('eacMaintenanceEvent')/eac:eventDescription" at="last()" ev:event="DOMActivate"/>
+                </xf:trigger>
+                <xf:trigger ref="self::eac:maintenanceEvent[eac:eventDescription]">
+                  <xf:label ref="instance('documentation')/control/elements/maintenanceHistory/elements/maintenanceEvent/elements/eventDescription/del"/>
+                  <xf:delete if="self::eac:maintenanceEvent[eac:eventDescription]" context="." nodeset="eac:eventDescription" ev:event="DOMActivate"/>
+                </xf:trigger>
+              </xf:repeat>
             </xf:group>
           </xf:group>
           <xf:group ref="eac:cpfDescription">

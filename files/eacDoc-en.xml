@@ -121,6 +121,17 @@
                     </otherAgencyCode>
                 </elements>
             </maintenanceAgency>
+            <maintenanceHistory>
+                <node>maintenanceHistory</node>
+                <label>Historique de l’instance</label>
+                <summary></summary>
+                <description></description>
+
+                <maintenanceEvent maintenanceEventType="created">
+                    <agent agentType="human"/>
+                    <eventDateTime/>
+                </maintenanceEvent>
+            </maintenanceHistory>
         </elements>
     </control>
 
