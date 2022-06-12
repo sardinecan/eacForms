@@ -1,0 +1,3 @@
+[submodule "EAS-TagLibraries"]
+	path = EAS-TagLibraries
+	url = https://github.com/SAA-SDT/EAS-TagLibraries
