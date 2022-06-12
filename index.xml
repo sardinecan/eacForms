@@ -1,5 +1,6 @@
 <?xml-stylesheet href="files/xsltforms/xsltforms.xsl" type="text/xsl"?>
 <!--@bug xsltforms => xf:alert|hint|help/@ref doesn't work-->
+<!-- @todo link to eac -->
 <html 
   xmlns="http://www.w3.org/1999/xhtml"
   lang="fr"
@@ -40,6 +41,17 @@
           <eventDateTime standardDateTime=""/>
           <eventDescription/>
         </maintenanceEvent>
+      </xf:instance>
+
+      <xf:instance id="eacSources">
+        <sources xmlns="https://archivists.org/ns/eac/v2">
+          <source>
+            <reference href=""></reference>
+            <descriptiveNote>
+              <p></p>
+            </descriptiveNote>
+          </source>
+        </sources>
       </xf:instance>
 
       <xf:instance id="documentation" src="files/eacDoc-fr.xml"/>
@@ -202,6 +214,88 @@
                   <xf:delete if="self::eac:maintenanceEvent[eac:eventDescription]" context="." nodeset="eac:eventDescription" ev:event="DOMActivate"/>
                 </xf:trigger>
               </xf:repeat>
+            </xf:group>
+            <xf:trigger ref="self::eac:control[not(eac:sources)]">
+              <xf:label ref="instance('documentation')/control/elements/sources/add"/>
+              <xf:action ev:event="DOMActivate">
+                <xf:insert context="." nodeset="eac:maintenanceHistory" origin="instance('eacSources')" position="after"/>
+              </xf:action>
+              <xf:action ev:event="DOMActivate">
+                <xf:delete nodeset="eac:sources/eac:source/eac:descriptiveNote"/>
+                <xf:delete nodeset="eac:sources/eac:source/eac:reference/@href"/>
+              </xf:action>
+            </xf:trigger>
+            <xf:group ref="eac:sources">
+              <xf:label ref="instance('documentation')/control/elements/sources/label"/>
+              <xf:repeat nodeset="eac:source">
+                <xf:label ref="instance('documentation')/control/elements/sources/elements/source/label"/>
+                <xf:repeat nodeset="eac:reference">
+                  <xf:input ref=".">
+                    <xf:label ref="instance('documentation')/control/elements/sources/elements/source/elements/reference/label"/>
+                  </xf:input>
+                  <xf:trigger ref="self::eac:reference[not(@href)]">
+                    <xf:label ref="instance('documentation')/control/elements/sources/elements/source/elements/reference/attributes/href/add"/>
+                    <xf:insert context="." origin="instance('eacSources')/eac:source/eac:reference/@href" ev:event="DOMActivate"/>
+                  </xf:trigger>
+                  <xf:input ref="@href">
+                    <xf:label ref="instance('documentation')/control/elements/sources/elements/source/elements/reference/attributes/href/label"/>
+                  </xf:input>
+                  <xf:trigger ref="self::eac:reference[@href]">
+                    <xf:label ref="instance('documentation')/control/elements/sources/elements/source/elements/reference/attributes/href/del"/>
+                    <xf:delete nodeset="@href" ev:event="DOMActivate"/>
+                  </xf:trigger>
+                  <xf:trigger ref="self::eac:reference[count(parent::eac:source/eac:reference) > 1]">
+                    <xf:label ref="instance('documentation')/control/elements/sources/elements/source/elements/reference/del"/>
+                    <xf:delete  if="count(parent::eac:source/eac:reference) > 1" nodeset="." ev:event="DOMActivate"/>
+                  </xf:trigger>
+                </xf:repeat>
+                <xf:trigger>
+                  <xf:label ref="instance('documentation')/control/elements/sources/elements/source/elements/reference/add"/>
+                  <xf:action ev:event="DOMActivate">
+                    <xf:insert context="." nodeset="eac:reference" origin="instance('eacSources')/eac:source/eac:reference" at="last()" position="after"/>
+                  </xf:action>
+                  <xf:action ev:event="DOMActivate">
+                    <xf:delete nodeset="eac:reference[last()]/@href"/>
+                  </xf:action>
+                </xf:trigger>
+                <xf:trigger ref="self::eac:source[not(eac:descriptiveNote)]">
+                  <xf:label ref="instance('documentation')/general/descriptiveNote/add"/>
+                  <xf:insert context="." nodeset="eac:reference" origin="instance('eacSources')/eac:source/eac:descriptiveNote" at="last()" position="after" ev:event="DOMActivate"/>
+                </xf:trigger>
+                <xf:textarea ref="eac:descriptiveNote/eac:p">
+                  <xf:label ref="instance('documentation')/general/descriptiveNote/label"/>
+                </xf:textarea>
+                <xf:trigger ref="self::eac:source[eac:descriptiveNote]">
+                  <xf:label ref="instance('documentation')/general/descriptiveNote/del"/>
+                  <xf:delete nodeset="eac:descriptiveNote" ev:event="DOMActivate"/>
+                </xf:trigger>
+                <xf:trigger>
+                  <xf:label ref="instance('documentation')/control/elements/sources/elements/source/del"/>
+                  <xf:delete if="count(parent::eac:sources/eac:source) > 1" nodeset="." ev:event="DOMActivate"/>
+                  <xf:delete if="count(parent::eac:sources/eac:source) = 1" nodeset="parent::eac:sources" ev:event="DOMActivate"/>
+                </xf:trigger>
+              </xf:repeat>
+              <xf:trigger ref="self::eac:sources[eac:source]">
+                <xf:label ref="instance('documentation')/control/elements/sources/elements/source/add"/>
+                <xf:action ev:event="DOMActivate">
+                  <xf:insert context="." nodeset="eac:source" origin="instance('eacSources')/eac:source" at="last()" position="after"/>
+                </xf:action>
+                <xf:action ev:event="DOMActivate">
+                  <xf:delete nodeset="eac:source[last()]/eac:descriptiveNote"/>
+                  <xf:delete nodeset="eac:source[last()]/eac:reference/@href"/>
+                </xf:action>
+              </xf:trigger>
+              <xf:trigger ref="self::eac:sources[not(eac:descriptiveNote)]">
+                <xf:label ref="instance('documentation')/control/elements/sources/elements/descriptiveNote/add"/>
+                <xf:insert context="." nodeset="eac:source"  at="last()" position="after" origin="instance('eacSources')/eac:source/eac:descriptiveNote" ev:event="DOMActivate"/>
+              </xf:trigger>
+              <xf:textarea ref="eac:descriptiveNote">
+                <xf:label ref="instance('documentation')/control/elements/sources/elements/descriptiveNote/label"/>
+              </xf:textarea>
+              <xf:trigger ref="self::eac:sources[eac:descriptiveNote]">
+                <xf:label ref="instance('documentation')/control/elements/sources/elements/descriptiveNote/del"/>
+                <xf:delete nodeset="eac:descriptiveNote" ev:event="DOMActivate"/>
+              </xf:trigger>
             </xf:group>
           </xf:group>
           <xf:group ref="eac:cpfDescription">

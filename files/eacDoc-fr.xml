@@ -217,6 +217,68 @@
                     </maintenanceEvent>
                 </elements>
             </maintenanceHistory>
+            <sources>
+                <node>sources</node>
+                <label>Sources</label>
+                <summary>Enregistrement des sources utilisées pour la description de l’entité ou des entités dans l’instance EAC-CPF.</summary>
+                <description>Élément englobant contenu dans l’élément Contrôle &lt;control&gt; utilisé pour encoder une ou plusieurs source(s) consultée(s) lors de la rédaction de la description de l’entité ou des entités dans l’instance EAC-CPF.</description>
+                <add>Ajouter des sources</add>
+                <del>Supprimer les sources</del>
+                <elements>
+                    <source>
+                        <node>source</node>
+                        <label>Source</label>
+                        <summary>Source d’information fiable utilisée dans la description de l’entité ou des entités dans l’instance EAC-CPF.</summary>
+                        <description>Utilisez &lt;source&gt; pour citer une ressource publiée utilisée dans la description de l'entité CPF. Utilisez l'élément enfant obligatoire &lt;reference&gt; pour inclure une identification textuelle de la référence. Dans le cas de sources en ligne, utilisez href avec &lt;reference&gt; pour fournir une URI. Utilisez l'élément enfant facultatif &lt;citedRange&gt; pour indiquer un emplacement spécifique dans une source. Utilisez l'élément facultatif &lt;descriptiveNote&gt; pour toute note supplémentaire sur la source. Utilisez l'élément facultatif &lt;objectXMLWrap&gt; pour intégrer le XML documentant la source à partir de n'importe quel espace de nom. L'ordre prescrit de tous les éléments enfants (obligatoires et facultatifs) est le suivant : &lt;reference&gt; &lt;citedRange&gt; &lt;descriptiveNote&gt; &lt;objectXMLWrap&gt;</description>
+                        <add>Ajouter une source</add>
+                        <del>Supprimer une source</del>
+                        <elements>
+                            <reference>
+                                <node>reference</node>
+                                <label>Référence</label>
+                                <summary>Un élément qui cite une ressource externe. Utilisation des attributs : Utilisez @href pour créer un lien vers la ressource citée.</summary>
+                                <description>Un élément utilisé pour référencer les ressources externes qui ont été utilisées pour compiler l'instance EAC-CPF, qui fournissent un contexte supplémentaire à l'instance EAC-CPF ou qui identifient les règles ou les conventions qui ont été appliquées. &lt;reference&gt; est un élément enfant obligatoire de &lt;conventionDeclaration&gt;, &lt;localTypeDeclaration&gt;, et &lt;rightsDeclaration&gt; pour identifier toutes les règles et conventions appliquées dans la compilation de la description. C'est également un élément enfant obligatoire de &lt;source&gt;, utilisé pour identifier toute source utilisée dans la compilation de la description. &lt;source&gt; peut inclure plusieurs éléments enfants &lt;reference&gt;. &lt;reference&gt; est un élément enfant facultatif de &lt;abstract&gt;, &lt;chronItem&gt;, &lt;chronItemSet&gt;, &lt;event&gt;, &lt;eventDescription&gt;, &lt;item&gt;, et &lt;p&gt; où il est utilisé pour référencer toute ressource externe qui fournit un contexte supplémentaire au contenu de cet élément.</description>
+                                <add>Ajouter une référence</add>
+                                <del>Supprimer une référence</del>
+                                <attributes>
+                                    <href>
+                                        <node>href</node>
+                                        <label>Lien vers la source</label>
+                                        <summary>L'adresse d'une ressource distante. href prend la forme d'un identificateur de ressources uniformes (URI). Disponible dans &lt;contactLine&gt;, &lt;référence&gt;, &lt;représentation&gt;, &lt;setComponent&gt; et &lt;source&gt;.</summary>
+                                        <description></description>
+                                        <add>Ajouter un lien</add>
+                                        <del>Supprimer un lien</del>
+                                    </href>
+                                </attributes>
+                            </reference>
+                            <descriptiveNote>
+                                <!-- see general -->
+                                <node></node>
+                                <label></label>
+                                <summary></summary>
+                                <description></description>
+                                <elements>
+                                    <p>
+                                        <node></node>
+                                        <label></label>
+                                        <summary></summary>
+                                        <description></description>
+                                    </p>
+                                </elements>
+                            </descriptiveNote>
+                        </elements>
+                    </source>
+                    <descriptiveNote>
+                        <node>descriptiveNote</node>
+                        <label>Note sur les sources</label>
+                        <!-- @todo -->
+                        <summary></summary>
+                        <description></description>
+                        <add>Ajouter une note sur les sources</add>
+                        <del>Supprimer la note sur les sources</del>
+                    </descriptiveNote>
+                </elements>
+            </sources>
         </elements>
     </control>
     <general>
@@ -225,6 +287,8 @@
             <label>Note</label>
             <summary></summary>
             <description></description>
+            <add>Ajouter une note</add>
+            <del>Supprimer une note</del>
         </descriptiveNote>
     </general>
 </tagDoc>
