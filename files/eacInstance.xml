@@ -8,18 +8,15 @@
             <!-- <agencyName></agencyName> | <agencyCode></agencyCode> -->
         </maintenanceAgency>
         <maintenanceHistory>
-            <maintenanceEvent maintenanceEventType="created">
-                <agent agentType="human"/>
+            <maintenanceEvent maintenanceEventType="">
+                <agent agentType=""/>
                 <eventDateTime standardDateTime=""/>
             </maintenanceEvent>
         </maintenanceHistory>
     </control>
     <cpfDescription>
         <identity>
-            <entityType value="person"/>
-            <nameEntry preferredForm="true">
-                <part>o</part>
-            </nameEntry>
+            <entityType value=""/>
         </identity>
     </cpfDescription>
 </eac>
