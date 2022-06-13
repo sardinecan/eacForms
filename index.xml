@@ -56,6 +56,32 @@
         </sources>
       </xf:instance>
 
+      <xf:instance id="eacIdentity">
+        <identity xmlns="https://archivists.org/ns/eac/v2">
+          <entityType value="person"/>
+          <nameEntry>
+            <part></part>
+          </nameEntry>
+          <nameEntrySet>
+            <nameEntry>
+              <part></part>
+            </nameEntry>
+            <nameEntry>
+              <part></part>
+            </nameEntry>
+          </nameEntrySet>
+          <otherEntityTypes>
+            <otherEntityType>
+              <term></term>
+            </otherEntityType>
+          </otherEntityTypes>
+          <identityId></identityId>
+          <descriptiveNote>
+            <p></p>
+          </descriptiveNote>
+        </identity>
+      </xf:instance>
+
       <xf:instance id="documentation" src="EAS-TagLibraries/tei/EAC-CPF-v2-TL-eng.xml"/>
       <xf:instance id="documentationLanguages">
         <languages xmlns="">
@@ -467,6 +493,15 @@
                     <xf:hint><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-value']/tei:div[@type='summary']"/></xf:hint>
                     <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-value']/tei:div[@type='description']"/></xf:help>
                   </xf:select1>
+                  <xf:trigger>
+                    <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-nameEntry']/tei:div[@type='fullName'])" /></xf:label>
+                    <!-- @goto -->
+                    <xf:insert if="self::" context="" nodeset="" at="" position="" origin="" ev:event=""/>
+                  </xf:trigger>
+                  <xf:trigger>
+                    <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-nameEntrySet']/tei:div[@type='fullName'])" /></xf:label>
+
+                  </xf:trigger>
                 </xf:group>
               </xf:case>
               <xf:case id="descriptionPanel" selected="true">
