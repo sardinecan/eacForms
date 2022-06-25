@@ -1,6 +1,5 @@
 <?xml-stylesheet href="files/xsltforms/xsltforms.xsl" type="text/xsl"?>
 <!--@bug xsltforms => xf:alert|hint|help/@ref doesn't work-->
-<!-- @todo link to eac -->
 <html 
   xmlns="http://www.w3.org/1999/xhtml"
   lang="fr"
@@ -58,16 +57,16 @@
 
       <xf:instance id="eacIdentity">
         <identity xmlns="https://archivists.org/ns/eac/v2">
-          <entityType value="person"/>
-          <nameEntry>
-            <part></part>
+          <entityType value=""/>
+          <nameEntry status="" preferredForm="">
+            <part localType=""></part>
           </nameEntry>
           <nameEntrySet>
-            <nameEntry>
-              <part></part>
+            <nameEntry status="" preferredForm="">
+              <part localType=""></part>
             </nameEntry>
-            <nameEntry>
-              <part></part>
+            <nameEntry status="" preferredForm="">
+              <part localType=""></part>
             </nameEntry>
           </nameEntrySet>
           <otherEntityTypes>
@@ -75,11 +74,29 @@
               <term></term>
             </otherEntityType>
           </otherEntityTypes>
-          <identityId></identityId>
+          <identityId target=""/>
           <descriptiveNote>
             <p></p>
           </descriptiveNote>
         </identity>
+      </xf:instance>
+
+      <xf:instance id="eacDates">
+        <dates xmlns="https://archivists.org/ns/eac/v2">
+          <useDates/>
+          <existDates/>
+          <date certainty="" standardDate="" notBefore="" notAfter=""/>
+          <dateRange/>
+          <fromDate certainty="" standardDate="" notBefore="" notAfter="" status=""/>
+          <toDate certainty="" standardDate="" notBefore="" notAfter="" status=""/>
+          <dateSet/>
+        </dates>
+      </xf:instance>
+
+      <xf:instance id="choice">
+        <choice xmlns="">
+          <date>date</date>
+        </choice>
       </xf:instance>
 
       <xf:instance id="documentation" src="EAS-TagLibraries/tei/EAC-CPF-v2-TL-eng.xml"/>
@@ -398,11 +415,24 @@
                     <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-descriptiveNote']/tei:div[@type='fullName'])" /></xf:label>
                     <xf:insert context="." nodeset="eac:reference" origin="instance('eacSources')/eac:source/eac:descriptiveNote" at="last()" position="after" ev:event="DOMActivate"/>
                   </xf:trigger>
-                  <xf:textarea ref="eac:descriptiveNote/eac:p">
+                  <xf:group ref="eac:descriptiveNote">
                     <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-descriptiveNote']/tei:div[@type='fullName']"/>
-                    <xf:hint><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-descriptiveNote']/tei:div[@type='summary']"/></xf:hint>
                     <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-descriptiveNote']/tei:div[@type='description']"/></xf:help>
-                  </xf:textarea>
+                    <xf:repeat nodeset="eac:p">
+                      <xf:textarea ref=".">
+                        <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-p']/tei:div[@type='fullName']"/>
+                        <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-p']/tei:div[@type='description']"/></xf:help>
+                      </xf:textarea>
+                      <xf:trigger ref="self::eac:p[count(parent::eac:descriptiveNote/eac:p) > 1]">
+                        <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-p']/tei:div[@type='fullName'])" /></xf:label>
+                        <xf:delete nodeset="." ev:event="DOMActivate"/>
+                      </xf:trigger>
+                    </xf:repeat>
+                    <xf:trigger>
+                      <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-p']/tei:div[@type='fullName'])" /></xf:label>
+                      <xf:insert context="." nodeset="eac:p" at="last()" position="after()" origin="instance(eacSource)/eac:source/eac:descriptiveNote/eac:p" ev:event="DOMActivate"/>
+                    </xf:trigger>
+                  </xf:group>
                   <xf:trigger ref="self::eac:source[eac:descriptiveNote]">
                     <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-descriptiveNote']/tei:div[@type='fullName'])" /></xf:label>
                     <xf:delete nodeset="eac:descriptiveNote" ev:event="DOMActivate"/>
@@ -434,11 +464,29 @@
                   </xf:label>
                   <xf:insert context="." nodeset="eac:source"  at="last()" position="after" origin="instance('eacSources')/eac:source/eac:descriptiveNote" ev:event="DOMActivate"/>
                 </xf:trigger>
-                <xf:textarea ref="eac:descriptiveNote">
-                  <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-descriptiveNote']/tei:div[@type='fullName']"/>
-                  <xf:hint><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-descriptiveNote']/tei:div[@type='summary']"/></xf:hint>
+                <xf:group ref="eac:descriptiveNote">
+                  <xf:label>
+                    <xf:output
+                            value="concat(
+                          instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-descriptiveNote']/tei:div[@type='fullName'],
+                          ' (', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-sources']/tei:div[@type='fullName'],')')" />
+                  </xf:label>
                   <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-descriptiveNote']/tei:div[@type='description']"/></xf:help>
-                </xf:textarea>
+                  <xf:repeat nodeset="eac:p">
+                    <xf:textarea ref=".">
+                      <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-p']/tei:div[@type='fullName']"/>
+                      <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-p']/tei:div[@type='description']"/></xf:help>
+                    </xf:textarea>
+                    <xf:trigger ref="self::eac:p[count(parent::eac:descriptiveNote/eac:p) > 1]">
+                      <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-p']/tei:div[@type='fullName'])" /></xf:label>
+                      <xf:delete nodeset="." ev:event="DOMActivate"/>
+                    </xf:trigger>
+                  </xf:repeat>
+                  <xf:trigger>
+                    <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-p']/tei:div[@type='fullName'])" /></xf:label>
+                    <xf:insert context="." nodeset="eac:p" at="last()" position="after()" origin="instance(eacSource)/eac:source/eac:descriptiveNote/eac:p" ev:event="DOMActivate"/>
+                  </xf:trigger>
+                </xf:group>
                 <xf:trigger ref="self::eac:sources[eac:descriptiveNote]">
                   <xf:label>
                     <xf:output
@@ -493,18 +541,276 @@
                     <xf:hint><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-value']/tei:div[@type='summary']"/></xf:hint>
                     <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-value']/tei:div[@type='description']"/></xf:help>
                   </xf:select1>
+                  <xf:repeat nodeset="*[name(.)='nameEntry' or name(.)='nameEntrySet']">
+                    <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id=concat('elem-', name(current()))]/tei:div[@type='fullName']"/>
+                    <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id=concat('elem-', name(current()))]/tei:div[@type='description']"/></xf:help>
+                    <xf:select1 ref="@status">
+                      <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-status']/tei:div[@type='fullName']"/>
+                      <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-status']/tei:div[@type='description']"/></xf:help>
+                      <xf:item>
+                        <xf:label>authorized</xf:label>
+                        <xf:value>authorized</xf:value>
+                      </xf:item>
+                      <xf:item>
+                        <xf:label>alternative</xf:label>
+                        <xf:value>alternative</xf:value>
+                      </xf:item>
+                    </xf:select1>
+                    <xf:select1 ref="@preferredForm">
+                      <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-preferredForm']/tei:div[@type='fullName']"/>
+                      <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-preferredForm']/tei:div[@type='description']"/></xf:help>
+                      <xf:item>
+                        <xf:label>true</xf:label>
+                        <xf:value>true</xf:value>
+                      </xf:item>
+                      <xf:item>
+                        <xf:label>false</xf:label>
+                        <xf:value>false</xf:value>
+                      </xf:item>
+                    </xf:select1>
+                    <xf:repeat nodeset="self::eac:nameEntry/eac:part">
+                      <xf:input ref=".">
+                        <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-part']/tei:div[@type='fullName']"/>
+                        <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-part']/tei:div[@type='description']"/></xf:help>
+                      </xf:input>
+                      <xf:input ref="@localType">
+                        <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-localType']/tei:div[@type='fullName']"/>
+                        <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-localType']/tei:div[@type='description']"/></xf:help>
+                      </xf:input>
+                      <xf:trigger ref="self::eac:part[count(parent::eac:nameEntry/eac:part) > 1]">
+                        <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-part']/tei:div[@type='fullName'])" /></xf:label>
+                        <xf:delete nodeset="." if="count(parent::eac:nameEntry/eac:part) > 1" ev:event="DOMActivate"/>
+                      </xf:trigger>
+                    </xf:repeat>
+                    <xf:group ref="eac:useDates">
+                      <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-useDates']/tei:div[@type='fullName']" /></xf:label>
+                      <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-useDates']/tei:div[@type='description']" /></xf:help>
+                      <xf:group ref="eac:date">
+                        <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-date']/tei:div[@type='fullName']" /></xf:label>
+                        <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-date']/tei:div[@type='description']" /></xf:help>
+                        <xf:var name="choice" value="instance('choice')"/>
+                        <xf:select1 ref="$choice/date" incremental="true">
+                          <xf:item>
+                            <xf:label>Date</xf:label>
+                            <xf:value>date</xf:value>
+                            <xf:message level="modeless" ev:event="xforms-select">Date.</xf:message>
+                          </xf:item>
+                          <xf:item>
+                            <xf:label>Date range</xf:label>
+                            <xf:value>dateRange</xf:value>
+                            <xf:message level="modeless" ev:event="xforms-select">Date Range.</xf:message>
+                          </xf:item>
+                          <xf:item>
+                            <xf:label>Date Set</xf:label>
+                            <xf:value>dateSet</xf:value>
+                            <xf:message level="modeless" ev:event="xforms-select">Date Set.</xf:message>
+                          </xf:item>
+                        </xf:select1>
+                        <xf:output value="serialize($choice)"/>
+                      </xf:group>
+                      <xf:group ref="eac:dateRange">
+                        <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-date']/tei:div[@type='fullName']" /></xf:label>
+                        <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-date']/tei:div[@type='description']" /></xf:help>
+                      </xf:group>
+
+                    </xf:group>
+                    <xf:trigger ref="self::eac:nameEntry">
+                      <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-part']/tei:div[@type='fullName'])" /></xf:label>
+                      <xf:insert context="." nodeset="eac:part" at="last()" position="after" origin="instance('eacIdentity')/eac:nameEntry/eac:part" ev:event="DOMActivate"/>
+                    </xf:trigger>
+                    <xf:trigger ref="self::eac:nameEntry[not(eac:useDates)]">
+                      <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-useDates']/tei:div[@type='fullName'])" /></xf:label>
+                      <xf:insert context="." nodeset="*" at="last()" position="after" origin="instance('eacDates')/eac:useDates" ev:event="DOMActivate"/>
+                      <xf:insert context="eac:useDates" nodeset="node()" origin="instance('eacDates')/eac:date" ev:event="DOMActivate"/>
+                    </xf:trigger>
+                    <xf:repeat nodeset="self::eac:nameEntrySet/eac:nameEntry">
+                      <xf:select1 ref="@status">
+                        <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-status']/tei:div[@type='fullName']"/>
+                        <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-status']/tei:div[@type='description']"/></xf:help>
+                        <xf:item>
+                          <xf:label>authorized</xf:label>
+                          <xf:value>authorized</xf:value>
+                        </xf:item>
+                        <xf:item>
+                          <xf:label>alternative</xf:label>
+                          <xf:value>alternative</xf:value>
+                        </xf:item>
+                      </xf:select1>
+                      <xf:select1 ref="@preferredForm">
+                        <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-preferredForm']/tei:div[@type='fullName']"/>
+                        <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-preferredForm']/tei:div[@type='description']"/></xf:help>
+                        <xf:item>
+                          <xf:label>true</xf:label>
+                          <xf:value>true</xf:value>
+                        </xf:item>
+                        <xf:item>
+                          <xf:label>false</xf:label>
+                          <xf:value>false</xf:value>
+                        </xf:item>
+                      </xf:select1>
+                      <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-nameEntry']/tei:div[@type='fullName']"/>
+                      <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-nameEntry']/tei:div[@type='description']"/></xf:help>
+                      <xf:repeat nodeset="eac:part">
+                        <xf:input ref=".">
+                          <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-part']/tei:div[@type='fullName']"/>
+                          <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-part']/tei:div[@type='description']"/></xf:help>
+                        </xf:input>
+                        <xf:input ref="@localType">
+                          <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-localType']/tei:div[@type='fullName']"/>
+                          <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-localType']/tei:div[@type='description']"/></xf:help>
+                        </xf:input>
+                        <xf:trigger ref="self::eac:part[count(parent::eac:nameEntry/eac:part) > 1]">
+                          <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-part']/tei:div[@type='fullName'])" /></xf:label>
+                          <xf:delete nodeset="." if="count(parent::eac:nameEntry/eac:part) > 1" ev:event="DOMActivate"/>
+                        </xf:trigger>
+                      </xf:repeat>
+                      <xf:trigger>
+                        <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-part']/tei:div[@type='fullName'])" /></xf:label>
+                        <xf:insert context="." nodeset="eac:part" at="last()" position="after" origin="instance('eacIdentity')/eac:nameEntry/eac:part" ev:event="DOMActivate"/>
+                      </xf:trigger>
+                      <xf:trigger ref="self::eac:nameEntry[count(parent::eac:nameEntrySet/eac:nameEntry) > 2]">
+                        <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-nameEntry']/tei:div[@type='fullName'])" /></xf:label>
+                        <xf:delete nodeset="." ev:event="DOMActivate"/>
+                      </xf:trigger>
+                    </xf:repeat>
+                    <xf:trigger ref="self::eac:nameEntrySet">
+                      <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-nameEntry']/tei:div[@type='fullName'])" /></xf:label>
+                      <xf:insert context="." nodeset="eac:nameEntry" position="after" origin="instance('eacIdentity')/eac:nameEntry" ev:event="DOMActivate"/>
+                    </xf:trigger>
+                    <xf:trigger ref="self::*[name(.)='nameEntry' or name(.)='nameEntrySet'][count(parent::eac:identity/*[name(.)='nameEntry' or name(.)='nameEntrySet']) > 1]">
+                      <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id=concat('elem-', name(current()))]/tei:div[@type='fullName'])"/></xf:label>
+                      <xf:delete nodeset="." ev:event="DOMActivate"/>
+                    </xf:trigger>
+                  </xf:repeat>
+                  <xf:repeat nodeset="eac:otherEntityTypes">
+                    <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-otherEntityTypes']/tei:div[@type='fullName']" /></xf:label>
+                    <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-otherEntityTypes']/tei:div[@type='description']"/></xf:help>
+                    <xf:repeat nodeset="eac:otherEntityType">
+                      <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-otherEntityType']/tei:div[@type='fullName']" /></xf:label>
+                      <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-otherEntityType']/tei:div[@type='description']"/></xf:help>
+                      <xf:input ref="eac:term">
+                        <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-term']/tei:div[@type='fullName']" /></xf:label>
+                        <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-term']/tei:div[@type='description']"/></xf:help>
+                      </xf:input>
+                      <xf:trigger ref="self::eac:otherEntityType[count(parent::eac:otherEntityTypes/eac:otherEntityType) > 1]">
+                        <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-otherEntityType']/tei:div[@type='fullName'])"/></xf:label>
+                        <xf:delete nodeset="." ev:event="DOMActivate"/>
+                      </xf:trigger>
+                    </xf:repeat>
+                    <xf:trigger>
+                      <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-otherEntityType']/tei:div[@type='fullName'])" /></xf:label>
+                      <xf:insert context="." nodeset="eac:otherEntityType" at="last()" position="after" origin="instance('eacIdentity')/eac:otherEntityTypes/otherEntityType" ev:event="DOMActivate"/>
+                    </xf:trigger>
+                    <xf:group ref="eac:descriptiveNote">
+                      <xf:label>
+                        <xf:output value="concat(
+                        instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-descriptiveNote']/tei:div[@type='fullName'],
+                        ' (',
+                        instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-otherEntityTypes']/tei:div[@type='fullName'],')')"/>
+                      </xf:label>
+                      <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-descriptiveNote']/tei:div[@type='description']"/></xf:help>
+                      <xf:repeat nodeset="eac:p">
+                        <xf:textarea ref=".">
+                          <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-p']/tei:div[@type='fullName']"/>
+                          <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-p']/tei:div[@type='description']"/></xf:help>
+                        </xf:textarea>
+                        <xf:trigger ref="self::eac:p[count(parent::eac:descriptiveNote/eac:p) > 1]">
+                          <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-p']/tei:div[@type='fullName'])" /></xf:label>
+                          <xf:delete nodeset="." ev:event="DOMActivate"/>
+                        </xf:trigger>
+                      </xf:repeat>
+                      <xf:trigger>
+                        <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-p']/tei:div[@type='fullName'])" /></xf:label>
+                        <xf:insert context="." nodeset="eac:p" at="last()" position="after()" origin="instance(eacSource)/eac:source/eac:descriptiveNote/eac:p" ev:event="DOMActivate"/>
+                      </xf:trigger>
+                    </xf:group>
+                    <xf:trigger ref="self::eac:otherEntityTypes[eac:descriptiveNote]">
+                      <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-descriptiveNote']/tei:div[@type='fullName'])" /></xf:label>
+                      <xf:delete nodeset="eac:descriptiveNote" ev:event="DOMActivate"/>
+                    </xf:trigger>
+                    <xf:trigger ref="self::eac:otherEntityTypes[not(eac:descriptiveNote)]">
+                      <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-descriptiveNote']/tei:div[@type='fullName'])" /></xf:label>
+                      <xf:insert context="." nodeset="eac:otherEntityType" at="last()" position="after" origin="instance('eacIdentity')/eac:descriptiveNote" ev:event="DOMActivate"/>
+                    </xf:trigger>
+                    <xf:trigger>
+                      <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-otherEntityTypes']/tei:div[@type='fullName'])" /></xf:label>
+                      <xf:delete nodeset="." ev:event="DOMActivate"/>
+                    </xf:trigger>
+                  </xf:repeat>
+                  <xf:repeat nodeset="eac:identityId">
+                    <xf:input ref=".">
+                      <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-identityId']/tei:div[@type='fullName']" /></xf:label>
+                      <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-identityId']/tei:div[@type='description']"/></xf:help>
+                    </xf:input>
+                    <xf:input ref="@target">
+                      <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-target']/tei:div[@type='fullName']" /></xf:label>
+                      <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-target']/tei:div[@type='description']"/></xf:help>
+                    </xf:input>
+                    <xf:trigger>
+                      <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-identityId']/tei:div[@type='fullName'])" /></xf:label>
+                      <xf:delete nodeset="." ev:event="DOMActivate"/>
+                    </xf:trigger>
+                  </xf:repeat>
+                  <xf:group ref="eac:descriptiveNote">
+                    <xf:label>
+                      <xf:output value="concat(
+                      instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-descriptiveNote']/tei:div[@type='fullName'],
+                      ' (', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-identity']/tei:div[@type='fullName'], ')')"/>
+                    </xf:label>
+                    <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-descriptiveNote']/tei:div[@type='description']"/></xf:help>
+                    <xf:repeat nodeset="eac:p">
+                      <xf:textarea ref=".">
+                        <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-p']/tei:div[@type='fullName']"/>
+                        <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-p']/tei:div[@type='description']"/></xf:help>
+                      </xf:textarea>
+                      <xf:trigger ref="self::eac:p[count(parent::eac:descriptiveNote/eac:p) > 1]">
+                        <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-p']/tei:div[@type='fullName'])" /></xf:label>
+                        <xf:delete nodeset="." ev:event="DOMActivate"/>
+                      </xf:trigger>
+                    </xf:repeat>
+                    <xf:trigger>
+                      <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-p']/tei:div[@type='fullName'])" /></xf:label>
+                      <xf:insert context="." nodeset="eac:p" at="last()" position="after()" origin="instance(eacSource)/eac:source/eac:descriptiveNote/eac:p" ev:event="DOMActivate"/>
+                    </xf:trigger>
+                    <xf:trigger>
+                      <xf:label>
+                        <xf:output value="concat( '- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-descriptiveNote']/tei:div[@type='fullName'],
+                      ' (', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-identity']/tei:div[@type='fullName'], ')')"/>
+                      </xf:label>
+                      <xf:delete nodeset="." ev:event="DOMActivate"/>
+                    </xf:trigger>
+                  </xf:group>
                   <xf:trigger>
                     <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-nameEntry']/tei:div[@type='fullName'])" /></xf:label>
-                    <!-- @goto -->
-                    <xf:insert if="self::" context="" nodeset="" at="" position="" origin="" ev:event=""/>
+                    <xf:insert if="self::eac:identity[eac:nameEntry or eac:nameEntrySet]" context="." nodeset="*[name(.)='nameEntry' or name(.)='nameEntrySet']" at="last()" position="after" origin="instance('eacIdentity')/eac:nameEntry" ev:event="DOMActivate"/>
+                    <xf:insert if="self::eac:identity[not(eac:nameEntry) and not(eac:nameEntrySet)]" context="." nodeset="eac:entityType" position="after" origin="instance('eacIdentity')/eac:nameEntry" ev:event="DOMActivate"/>
                   </xf:trigger>
                   <xf:trigger>
                     <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-nameEntrySet']/tei:div[@type='fullName'])" /></xf:label>
-
+                    <xf:insert if="self::eac:identity[eac:nameEntry or eac:nameEntrySet]" context="." nodeset="*[name(.)='nameEntry' or name(.)='nameEntrySet']" at="last()" position="after" origin="instance('eacIdentity')/eac:nameEntrySet" ev:event="DOMActivate"/>
+                    <xf:insert if="self::eac:identity[not(eac:nameEntry) and not(eac:nameEntrySet)]" context="." nodeset="eac:entityType" position="after" origin="instance('eacIdentity')/eac:nameEntrySet" ev:event="DOMActivate"/>
+                  </xf:trigger>
+                  <xf:trigger ref="self::eac:identity[eac:nameEntry or eac:nameEntrySet]">
+                    <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-otherEntityTypes']/tei:div[@type='fullName'])" /></xf:label>
+                    <xf:insert if="self::eac:identity[eac:otherEntityTypes]" context="." nodeset="eac:otherEntityTypes" at="last()" position="after" origin="instance('eacIdentity')/eac:otherEntityTypes" ev:event="DOMActivate"/>
+                    <xf:insert if="self::eac:identity[not(eac:otherEntityTypes)]" context="." nodeset="*[name(.)='nameEntry' or name(.)='nameEntrySet']" at="last()" position="after" origin="instance('eacIdentity')/eac:otherEntityTypes" ev:event="DOMActivate"/>
+                  </xf:trigger>
+                  <xf:trigger ref="self::eac:identity[eac:nameEntry or eac:nameEntrySet]">
+                    <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-identityId']/tei:div[@type='fullName'])" /></xf:label>
+                    <xf:insert if="self::eac:identity[eac:descriptiveNote]" context="." nodeset="eac:descriptiveNote" at="1" position="before" origin="instance('eacIdentity')/eac:identityId" ev:event="DOMActivate"/>
+                    <xf:insert if="self::eac:identity[not(eac:descriptiveNote)]" context="." nodeset="*" at="last()" position="after" origin="instance('eacIdentity')/eac:identityId" ev:event="DOMActivate"/>
+                  </xf:trigger>
+                  <xf:trigger ref="self::eac:identity[eac:nameEntry or eac:nameEntrySet][not(eac:descriptiveNote)]">
+                    <xf:label>
+                      <xf:output value="concat('+ ',
+                      instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-descriptiveNote']/tei:div[@type='fullName'],
+                      ' (', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-identity']/tei:div[@type='fullName'], ')')" /></xf:label>
+                    <xf:insert context="." nodeset="*" at="last()" position="after" origin="instance('eacIdentity')/eac:descriptiveNote" ev:event="DOMActivate"/>
                   </xf:trigger>
                 </xf:group>
+                <!--goto date in nameEntry & dateEntrySet -->
               </xf:case>
-              <xf:case id="descriptionPanel" selected="true">
+              <xf:case id="descriptionPanel" selected="false">
                 <xf:group ref="eac:description">
                   <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-description']/tei:div[@type='fullName']"/>
                   <xf:hint><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-description']/tei:div[@type='summary']"/></xf:hint>
