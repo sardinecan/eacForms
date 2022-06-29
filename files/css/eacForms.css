@@ -1,3 +1,8 @@
+.invalid:after{
+    content: "\2716";
+    color: red;
+}
+
 form {
   width: 800px;
   margin: auto;
@@ -7,9 +12,13 @@ xforms-group {
   margin: 0 0 2em 0;
 }
 
-xforms-repeat {
+/*xforms-repeat {
     padding-left: 10px;
     border-left: 4px solid orangered;
+}*/
+
+form xforms-select {
+    display: block !important;
 }
 
 form xforms-repeat-item {
