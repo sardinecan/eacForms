@@ -211,6 +211,7 @@
       <xf:submission id="change-language" replace="instance" instance="documentation" method="get" serialization="none">
         <xf:resource value="instance('language')/language"/>
       </xf:submission>
+      <xf:submission id="save2file" ref="instance('eacInstance')" method="put" resource="file:" mediatype="application/xml" value="form-source()"/>
     </xf:model>
   </head>
   <body>
@@ -4537,6 +4538,9 @@
               </xf:case>
             </xf:group>
           </xf:case>
+          <xf:submit submission="save2file">
+            <xf:label>Save2file</xf:label>
+          </xf:submit>
         </xf:case>
       </xf:switch>
     </form>
