@@ -3132,7 +3132,12 @@
                       <xf:action ev:event="DOMActivate">
                         <xf:insert context="." nodeset="*" at="last()" position="after" origin="instance('eacBiogHist')/eac:biogHist/eac:chronList"/>
                       </xf:action>
-                      <xf:insert context="eac:chronList" nodeset="*" origin="instance('eacChronItem')/eac:chronItem" ev:event="DOMActivate"/>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:insert context="eac:chronList" nodeset="*" origin="instance('eacChronItem')/eac:chronItem"/>
+                      </xf:action>
+                      <xf:action ev:event="DOMActivate">
+                        <xf:delete nodeset="eac:chronList/eac:chronItem[last()]/*"/>
+                      </xf:action>
                     </xf:trigger>
                     <xf:group ref="eac:head">
                       <xf:input ref=".">
@@ -3162,7 +3167,10 @@
                       </xf:trigger>
                       <xf:trigger>
                         <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-chronItem']/tei:div[@type='fullName'])"/></xf:label>
-                        <xf:insert context="." nodeset="eac:chronItem" at="last()" position="after" origin="instance('eacChronItem')/eac:chronItem" ev:event="DOMActivate"/>
+                        <xf:action ev:event="DOMActivate">
+                          <xf:insert context="." nodeset="eac:chronItem" at="last()" position="after" origin="instance('eacChronItem')/eac:chronItem"/>
+                        </xf:action>
+                        <xf:delete nodeset="eac:chronItem[last()]/node()" ev:event="DOMActivate"/>
                       </xf:trigger>
                       <xf:repeat nodeset="eac:chronItem">
                         <!--@todo control-->
@@ -3171,6 +3179,26 @@
                         <xf:trigger>
                           <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-chronItem']/tei:div[@type='fullName'])"/></xf:label>
                           <xf:delete nodeset="." ev:event="DOMActivate"/>
+                        </xf:trigger>
+                        <xf:trigger ref="self::eac:chronItem[not(eac:date)][not(eac:dateRange)][not(eac:dateSet)]">
+                          <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-date']/tei:div[@type='fullName'])"/></xf:label>
+                          <xf:insert context="." nodeset="*" at="1" position="before" origin="instance('eacDates')/eac:date" ev:event="DOMActivate"/>
+                        </xf:trigger>
+                        <xf:trigger ref="self::eac:chronItem[not(eac:date)][not(eac:dateRange)][not(eac:dateSet)]">
+                          <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-dateRange']/tei:div[@type='fullName'])"/></xf:label>
+                          <xf:insert context="." nodeset="*" at="1" position="before" origin="instance('eacDates')/eac:dateRange" ev:event="DOMActivate"/>
+                        </xf:trigger>
+                        <xf:trigger ref="self::eac:chronItem[not(eac:date)][not(eac:dateRange)][not(eac:dateSet)]">
+                          <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-dateSet']/tei:div[@type='fullName'])"/></xf:label>
+                          <xf:insert context="." nodeset="*" at="1" position="before" origin="instance('eacDates')/eac:dateSet" ev:event="DOMActivate"/>
+                        </xf:trigger>
+                        <xf:trigger ref="self::eac:chronItem[not(eac:event)][not(eac:chronItemSet)]">
+                          <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-event']/tei:div[@type='fullName'])"/></xf:label>
+                          <xf:insert context="." nodeset="*" at="1" position="before" origin="instance('eacChronItem')/eac:chronItem/eac:event" ev:event="DOMActivate"/>
+                        </xf:trigger>
+                        <xf:trigger ref="self::eac:chronItem[not(eac:event)][not(eac:chronItemSet)]">
+                          <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-chronItemSet']/tei:div[@type='fullName'])"/></xf:label>
+                          <xf:insert context="." nodeset="*" at="1" position="before" origin="instance('eacChronItemSet')/eac:chronItemSet" ev:event="DOMActivate"/>
                         </xf:trigger>
                         <xf:group ref="eac:date">
                           <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-date']/tei:div[@type='fullName']" /></xf:label>
@@ -3525,17 +3553,25 @@
                           <xf:select1 ref="@localType">
                             <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-event']/tei:div[@type='fullName']"/>
                             <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-event']/tei:div[@type='description']"/></xf:help>
-                            <!-- @todo list item-->
+                            <!-- @todo itemset (etc file ?)-->
                             <xf:item>
                               <xf:label></xf:label>
                               <xf:value></xf:value>
                             </xf:item>
                           </xf:select1>
+                          <xf:trigger>
+                            <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-event']/tei:div[@type='fullName'])" /></xf:label>
+                            <xf:delete nodeset="." ev:event="DOMActivate"/>
+                          </xf:trigger>
                         </xf:group>
-                        <xf:repeat nodeset="eac:chronItemSet">
+                        <xf:group nodeset="eac:chronItemSet">
                           <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-chronItemSet']/tei:div[@type='fullName']"/>
                           <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-chronItemSet']/tei:div[@type='description']"/></xf:help>
-                          <xf:group ref="eac:event">
+                          <xf:trigger>
+                            <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-chronItemSet']/tei:div[@type='fullName'])" /></xf:label>
+                            <xf:delete nodeset="." ev:event="DOMActivate"/>
+                          </xf:trigger>
+                          <xf:repeat ref="eac:event">
                             <xf:input ref=".">
                               <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-event']/tei:div[@type='fullName']"/>
                               <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-event']/tei:div[@type='description']"/></xf:help>
@@ -3543,15 +3579,18 @@
                             <xf:select1 ref="@localType">
                               <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-event']/tei:div[@type='fullName']"/>
                               <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-event']/tei:div[@type='description']"/></xf:help>
-                              <!-- @todo list item-->
+                              <!-- @todo itemset (etc file ?)-->
                               <xf:item>
                                 <xf:label></xf:label>
                                 <xf:value></xf:value>
                               </xf:item>
                             </xf:select1>
-                          </xf:group>
-                        </xf:repeat>
-
+                            <xf:trigger>
+                              <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-event']/tei:div[@type='fullName'])" /></xf:label>
+                              <xf:delete nodeset="." ev:event="DOMActivate"/>
+                            </xf:trigger>
+                          </xf:repeat>
+                        </xf:group>
                       </xf:repeat>
                     </xf:repeat>
                   </xf:group>
