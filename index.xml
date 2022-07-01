@@ -243,7 +243,7 @@
     </xf:model>
   </head>
   <body>
-    <h1>EAC-CPF - Xforms - Ric-O</h1>
+    <h1>eacForms</h1>
     <form>
       <xf:trigger>
         <!-- @todo make multilingual labels  -->
@@ -257,7 +257,7 @@
       <xf:switch>
         <xf:case id="presentationPanel" selected="true">
           <h2>About</h2>
-          <p>Lorem…</p>
+          <p>eacForms is a form for EAC-CPF documents powered with XSLTForms!</p>
           <xf:select1 ref="instance('language')/language">
             <!-- @todo make multilingual labels  -->
             <xf:label>Language selection</xf:label>
