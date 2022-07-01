@@ -220,7 +220,7 @@
         <languages xmlns="">
           <language file="files/eacDoc-fr.xml">Français</language>
           <language file="EAS-TagLibraries/tei/EAC-CPF-v2-TL-eng.xml">English</language>
-          <language file="EAS-TagLibraries/tei/EAC-CPF-TL-ger.xml">Deutsch</language>
+          <language file="EAS-TagLibraries/tei/EAC-CPF-v2-TL-ger.xml">Deutsch</language>
         </languages>
       </xf:instance>
       <xf:instance id="language">
@@ -256,9 +256,10 @@
       </xf:trigger>
       <xf:switch>
         <xf:case id="presentationPanel" selected="true">
-          <h2>À propos | About</h2>
+          <h2>À propos | About | Über</h2>
           <p>eacForms est un formulaire pour créer des instances XML-EAC-CPF. Il utilise le client XSLTForms !</p>
           <p>eacForms is a form to create XML-EAC-CPF instances. It uses the XSLTForms client!</p>
+          <p>eacForms ist ein Formular zur Erstellung von XML-EAC-CPF-Instanzen. Es verwendet den XSLTForms-Client!</p>
           <xf:select1 ref="instance('language')/language">
             <!-- @todo make multilingual labels  -->
             <xf:label>Language selection</xf:label>
@@ -2801,6 +2802,10 @@
                       <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-dateSet']/tei:div[@type='fullName'])"/></xf:label>
                       <xf:insert context="." nodeset="*" at="last()" position="after" origin="instance('eacDates')/eac:dateSet" ev:event="DOMActivate"/>
                     </xf:trigger>
+                    <xf:trigger ref="self::eac:existDates[not(eac:descriptiveNote)]">
+                      <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-descriptiveNote']/tei:div[@type='fullName'])" /></xf:label>
+                      <xf:insert context="." nodeset="*"  at="last()" position="after" origin="instance('eacSources')/eac:source/eac:descriptiveNote" ev:event="DOMActivate"/>
+                    </xf:trigger>
                     <xf:group ref="eac:date">
                       <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-date']/tei:div[@type='fullName']" /></xf:label>
                       <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-date']/tei:div[@type='description']" /></xf:help>
@@ -3144,6 +3149,27 @@
                             </xf:group>
                           </xf:group>
                         </xf:group>
+                      </xf:repeat>
+                    </xf:group>
+                    <xf:group ref="eac:descriptiveNote">
+                      <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-descriptiveNote']/tei:div[@type='fullName']"/>
+                      <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-descriptiveNote']/tei:div[@type='description']"/></xf:help>
+                      <xf:trigger>
+                        <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-descriptiveNote']/tei:div[@type='fullName'])" /></xf:label>
+                        <xf:delete nodeset="." ev:event="DOMActivate"/>
+                      </xf:trigger>
+                      <xf:trigger>
+                        <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-p']/tei:div[@type='fullName'])" /></xf:label>
+                        <xf:insert context="." nodeset="eac:p" at="last()" position="after()" origin="instance(eacPlace)/eac:place/eac:descriptiveNote/eac:p" ev:event="DOMActivate"/>
+                      </xf:trigger>
+                      <xf:repeat nodeset="eac:p">
+                        <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-p']/tei:div[@type='fullName']"/>
+                        <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-p']/tei:div[@type='description']"/></xf:help>
+                        <xf:trigger ref="self::eac:p[count(parent::eac:descriptiveNote/eac:p) > 1]">
+                          <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-p']/tei:div[@type='fullName'])" /></xf:label>
+                          <xf:delete nodeset="." ev:event="DOMActivate"/>
+                        </xf:trigger>
+                        <xf:textarea ref="."/>
                       </xf:repeat>
                     </xf:group>
                   </xf:group>
