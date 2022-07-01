@@ -257,7 +257,7 @@
       <xf:switch>
         <xf:case id="presentationPanel" selected="true">
           <h2>About</h2>
-          <p>eacForms is a form for EAC-CPF documents powered with XSLTForms!</p>
+          <p>eacForms is a form to create XML-EAC-CPF instances. It uses the XSLTForms client!</p>
           <xf:select1 ref="instance('language')/language">
             <!-- @todo make multilingual labels  -->
             <xf:label>Language selection</xf:label>
