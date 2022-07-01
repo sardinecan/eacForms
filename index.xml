@@ -26,15 +26,36 @@
     <xf:model id="entity">
       <xf:instance id="eacInstance" src="files/eacInstance.xml"/>
 
+      <xf:bind nodeset="instance('eacInstance')/eac:control/@maintenanceStatus" required="true()"/>
       <xf:bind nodeset="instance('eacInstance')/eac:control/eac:recordId" required="true()"/>
+      <xf:bind nodeset="instance('eacInstance')/eac:control/eac:maintenanceAgency" constraint="eac:agencyName | eac:agencyCode"/>
+      <xf:bind nodeset="instance('eacInstance')/eac:control/eac:maintenanceHistory/eac:maintenanceEvent/@maintenanceEventType" required="true()"/>
+      <xf:bind nodeset="instance('eacInstance')/eac:control/eac:maintenanceHistory/eac:maintenanceEvent/eac:agent/@agentType" required="true()"/>
 
-      <xf:bind nodeset="//@standardDateTime" type="xf:dateTime"/>
+      <xf:bind nodeset="instance('eacInstance')/eac:cpfDescription/eac:identity" constraint="eac:entityType/@value and *[self::eac:nameEntry or self::eac:nameEntrySet]"/>
+      <xf:bind nodeset="instance('eacInstance')/eac:cpfDescription/eac:identity/eac:entityType/@value" required="true()"/>
 
-      <xf:bind nodeset="//eac:dateSet" constraint="count(*) > 1"/>
+      <!--@rmq eac:part "cannot be empty and requires at least one non-whitespace character, such as a hyphen, if no actual name can be given." -->
+      <xf:bind nodeset="instance('eacInstance')/eac:cpfDescription/eac:identity//eac:part" type="eac:part"/>
+      <xs:schema targetNamespace="https://archivists.org/ns/eac/v2">
+        <xs:simpleType name="part">
+          <xs:restriction base="xs:string">
+            <xs:pattern value="(.|\n|\r)*\S(.|\n|\r)*"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:schema>
 
-      <xf:bind nodeset="//@standardDate" relevant="parent::*[@notAfter=''][@notBefore='']" type="xf:date"/>
-      <xf:bind nodeset="//@notBefore" relevant="parent::*[@notAfter=''][@standardDate='']" type="xf:date"/>
-      <xf:bind nodeset="//@notAfter" relevant="parent::*[@notBefore=''][@standardDate='']" type="xf:date"/>
+      <xf:bind nodeset="instance('eacInstance')/eac:cpfDescription/eac:description/eac:places/eac:place" constraint="eac:placeRole or eac:placeName or eac:address"/>
+      <xf:bind nodeset="instance('eacInstance')/eac:cpfDescription/eac:description/eac:biogHist/eac:chronList/eac:chronItem" constraint="*[1][self::eac:date or self::eac:dateRange or self::eac:dateSet] and  *[2][self::eac:event or self::eac:chronItemSet]"/>
+
+      <!--   class="{if(is-valid(.), 'valid', 'invalid')}" -->
+      <!-- Dates -->
+      <xf:bind nodeset="instance('eacInstance')//@standardDateTime" type="xf:dateTime"/>
+      <xf:bind nodeset="instance('eacInstance')//eac:dateSet" constraint="count(*) > 1"/>
+      <xf:bind nodeset="instance('eacInstance')/eac:cpfDescription/eac:description/eac:existDates" constraint="eac:date or eac:dateRange or eac:dateSet"/>
+      <xf:bind nodeset="instance('eacInstance')//@standardDate" relevant="parent::*[@notAfter=''][@notBefore='']" type="xf:date"/>
+      <xf:bind nodeset="instance('eacInstance')//@notBefore" relevant="parent::*[@notAfter=''][@standardDate='']" type="xf:date"/>
+      <xf:bind nodeset="instance('eacInstance')//@notAfter" relevant="parent::*[@notBefore=''][@standardDate='']" type="xf:date"/>
 
 
       <xf:instance id="eacMaintenanceAgency">
@@ -213,6 +234,13 @@
       </xf:submission>
       <xf:submission id="save2file" ref="instance('eacInstance')" method="put" resource="file:" mediatype="application/xml" value="form-source()"/>
     </xf:model>
+    <xf:model id="noValidation">
+      <xf:instance id="eacNoValidation">
+        <no xmlns=""/>
+      </xf:instance>
+
+      <xf:submission id="noValidationSubmission" ref="instance('eacNoValidation')" method="put" resource="file:" mediatype="application/xml" value="form-source()"/>
+    </xf:model>
   </head>
   <body>
     <h1>EAC-CPF - Xforms - Ric-O</h1>
@@ -282,7 +310,7 @@
               -->
               <xf:group>
                 <xf:select1 ref="@maintenanceStatus">
-                  <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-maintenanceStatus']/tei:div[@type='fullName']"/>
+                  <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-maintenanceStatus']/tei:div[@type='fullName']"  class="{if(is-valid(.), 'valid', 'invalid')}"/>
                   <xf:item>
                     <xf:label>cancelled</xf:label>
                     <xf:value>cancelled</xf:value>
@@ -327,7 +355,7 @@
               </xf:group>
               <xf:group ref="eac:maintenanceAgency">
                 <!--@todo control validation-->
-                <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-maintenanceAgency']/tei:div[@type='fullName']"/>
+                <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-maintenanceAgency']/tei:div[@type='fullName']"  class="{if(is-valid(.), 'valid', 'invalid')}"/>
                 <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-maintenanceAgency']/tei:div[@type='description']"/></xf:help>
                 <xf:alert><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-maintenanceAgency']/tei:div[@type='availability']"/></xf:alert>
                 <xf:trigger>
@@ -399,6 +427,10 @@
                   <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-maintenanceEvent']/tei:div[@type='fullName']"/>
                   <xf:hint><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-maintenanceEvent']/tei:div[@type='summary']"/></xf:hint>
                   <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-maintenanceEvent']/tei:div[@type='description']"/></xf:help>
+                  <xf:trigger ref="self::eac:maintenanceEvent[count(parent::eac:maintenanceHistory/eac:maintenanceEvent) > 1]">
+                    <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-maintenanceEvent']/tei:div[@type='fullName'])"/></xf:label>
+                    <xf:delete nodeset="." ev:event="DOMActivate"/>
+                  </xf:trigger>
                   <xf:group>
                     <xf:trigger ref="self::eac:maintenanceEvent[not(eac:eventDescription)]">
                       <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-eventDescription']/tei:div[@type='fullName'])"/></xf:label>
@@ -406,7 +438,7 @@
                     </xf:trigger>
                   </xf:group>
                   <xf:select1 ref="@maintenanceEventType">
-                    <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-maintenanceEventType']/tei:div[@type='fullName']"/>
+                    <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-maintenanceEventType']/tei:div[@type='fullName']"   class="{if(is-valid(.), 'valid', 'invalid')}"/>
                     <xf:item>
                       <xf:label>cancelled</xf:label>
                       <xf:value>cancelled</xf:value>
@@ -444,7 +476,7 @@
                     <xf:hint><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-agent']/tei:div[@type='summary']"/></xf:hint>
                   </xf:input>
                   <xf:select1 ref="eac:agent/@agentType">
-                    <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-agentType']/tei:div[@type='fullName']"/>
+                    <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-agentType']/tei:div[@type='fullName']"   class="{if(is-valid(.), 'valid', 'invalid')}"/>
                     <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-agentType']/tei:div[@type='description']"/></xf:help>
                     <xf:hint><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-agentType']/tei:div[@type='summary']"/></xf:hint>
                     <xf:item>
@@ -628,8 +660,7 @@
               </xf:trigger>
               <xf:case id="identityPanel" selected="true">
                 <xf:group ref="eac:identity">
-                  <!-- @todo control validation -->
-                  <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-identity']/tei:div[@type='fullName']"/>
+                  <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-identity']/tei:div[@type='fullName']" class="{if(is-valid(.), 'valid', 'invalid')}"/>
                   <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-identity']/tei:div[@type='description']"/></xf:help>
                   <xf:trigger>
                     <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-nameEntry']/tei:div[@type='fullName'])" /></xf:label>
@@ -659,10 +690,10 @@
                     <xf:insert context="." nodeset="*" at="last()" position="after" origin="instance('eacIdentity')/eac:descriptiveNote" ev:event="DOMActivate"/>
                   </xf:trigger>
                   <xf:group ref="eac:entityType">
-                    <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-entityType']/tei:div[@type='fullName']"></xf:label>
+                    <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-entityType']/tei:div[@type='fullName']"/>
                     <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-entityType']/tei:div[@type='description']"/></xf:help>
                     <xf:select1 ref="@value">
-                      <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-value']/tei:div[@type='fullName']"></xf:label>
+                      <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-value']/tei:div[@type='fullName']" class="{if(is-valid(.), 'valid', 'invalid')}"/>
                       <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-value']/tei:div[@type='description']"/></xf:help>
                       <xf:item>
                         <xf:label>corporateBody</xf:label>
@@ -1873,7 +1904,7 @@
                         <xf:insert context="." nodeset="*" at="last()" position="after" origin="instance('eacFunctions')/eac:functions/eac:function/eac:descriptiveNote" ev:event="DOMActivate"/>
                       </xf:trigger>
                       <xf:group ref="eac:term">
-                        <xf:input ref="eac:term">
+                        <xf:input ref=".">
                           <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-term']/tei:div[@type='fullName']"/>
                           <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-term']/tei:div[@type='description']"/></xf:help>
                         </xf:input>
@@ -2272,7 +2303,7 @@
                       <xf:insert context="." nodeset="eac:place" at="last()" position="after" origin="instance('eacPlaces')/eac:places/eac:descriptiveNote" ev:event="DOMActivate"/>
                     </xf:trigger>
                     <xf:repeat nodeset="eac:place">
-                      <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-place']/tei:div[@type='fullName']"/>
+                      <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-place']/tei:div[@type='fullName']" class="{if(is-valid(.), 'valid', 'invalid')}"/>
                       <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-place']/tei:div[@type='description']"/></xf:help>
                       <xf:trigger ref="self::eac:place[count(parent::eac:places/eac:place) > 1]">
                         <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-place']/tei:div[@type='fullName'])"/></xf:label>
@@ -2749,7 +2780,7 @@
                     </xf:group>
                   </xf:group>
                   <xf:group ref="eac:existDates">
-                    <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-existDates']/tei:div[@type='fullName']"/>
+                    <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-existDates']/tei:div[@type='fullName']" class="{if(is-valid(.), 'valid', 'invalid')}"/>
                     <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-existDates']/tei:div[@type='description']"/></xf:help>
                     <xf:trigger>
                       <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-existDates']/tei:div[@type='fullName'])"/></xf:label>
@@ -3177,8 +3208,7 @@
                         <xf:delete nodeset="eac:chronItem[last()]/node()" ev:event="DOMActivate"/>
                       </xf:trigger>
                       <xf:repeat nodeset="eac:chronItem">
-                        <!--@todo control-->
-                        <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-chronItem']/tei:div[@type='fullName']"/>
+                        <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-chronItem']/tei:div[@type='fullName']" class="{if(is-valid(.), 'valid', 'invalid')}"/>
                         <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-chronItem']/tei:div[@type='description']"/></xf:help>
                         <xf:trigger>
                           <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-chronItem']/tei:div[@type='fullName'])"/></xf:label>
@@ -3200,18 +3230,20 @@
                           <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-dateSet']/tei:div[@type='fullName'])"/></xf:label>
                           <xf:insert context="." nodeset="*" at="1" position="before" origin="instance('eacDates')/eac:dateSet" ev:event="DOMActivate"/>
                         </xf:trigger>
-                        <xf:trigger ref="self::eac:chronItem[not(eac:event)]">
+                        <xf:trigger ref="self::eac:chronItem[not(eac:event)][not(eac:chronItemSet)]">
                           <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-event']/tei:div[@type='fullName'])"/></xf:label>
-                          <xf:insert context="." nodeset="*" at="1" position="before" origin="instance('eacChronItem')/eac:chronItem/eac:event" ev:event="DOMActivate"/>
+                          <xf:insert if="self::eac:chronItem[eac:date or eac:dateRange or eac:dateSet]" context="." nodeset="*[self::eac:date or self::eac:dateRange or self::eac:dateSet]" at="1" position="after" origin="instance('eacChronItem')/eac:chronItem/eac:event" ev:event="DOMActivate"/>
+                          <xf:insert if="self::eac:chronItem[not(eac:date or eac:dateRange or eac:dateSet)]" context="." nodeset="*" at="1" position="before" origin="instance('eacChronItem')/eac:chronItem/eac:event" ev:event="DOMActivate"/>
                         </xf:trigger>
                         <xf:trigger ref="self::eac:chronItem[not(eac:place)][not(eac:chronItemSet)]">
                           <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-place']/tei:div[@type='fullName'])"/></xf:label>
-                          <xf:insert context="." nodeset="*" at="1" position="before" origin="instance('eacChronItem')/eac:chronItem/eac:place" ev:event="DOMActivate"/>
+                          <xf:insert context="." nodeset="*[self::eac:date or self::eac:dateRange or self::eac:dateSet or self::eac:event]" at="last()" position="after" origin="instance('eacChronItem')/eac:chronItem/eac:place" ev:event="DOMActivate"/>
                         </xf:trigger>
-                        <xf:trigger ref="self::eac:chronItem[not(eac:chronItemSet)]">
+                        <xf:trigger ref="self::eac:chronItem[not(eac:chronItemSet)][not(eac:event)]">
                           <xf:label><xf:output value="concat('+ ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-chronItemSet']/tei:div[@type='fullName'])"/></xf:label>
                           <xf:action ev:event="DOMActivate">
-                            <xf:insert context="." nodeset="*" at="1" position="before" origin="instance('eacChronItemSet')/eac:chronItemSet"/>
+                            <xf:insert if="self::eac:chronItem[eac:date or eac:dateRange or eac:dateSet]" context="." nodeset="*[self::eac:date or self::eac:dateRange or self::eac:dateSet]" at="1" position="after" origin="instance('eacChronItemSet')/eac:chronItemSet"/>
+                            <xf:insert if="self::eac:chronItem[not(eac:date or eac:dateRange or eac:dateSet)]" context="." nodeset="*" at="1" position="before" origin="instance('eacChronItemSet')/eac:chronItemSet"/>
                           </xf:action>
                           <xf:delete ev:event="DOMActivate" nodeset="eac:chronItemSet/eac:place"/>
                         </xf:trigger>
@@ -4539,8 +4571,17 @@
             </xf:group>
           </xf:case>
           <xf:submit submission="save2file">
-            <xf:label>Save2file</xf:label>
+            <xf:label>Save 2 file (with validation)</xf:label>
           </xf:submit>
+          <xf:trigger>
+            <xf:label>Save 2 file (no validation)</xf:label>
+            <xf:action ev:event="DOMActivate">
+              <xf:insert nodeset="instance('eacNoValidation')" origin="instance('eacInstance')"/>
+            </xf:action>
+            <xf:action ev:event="DOMActivate">
+              <xf:send submission="noValidationSubmission"/>
+            </xf:action>
+          </xf:trigger>
         </xf:case>
       </xf:switch>
     </form>
