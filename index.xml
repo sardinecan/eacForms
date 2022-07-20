@@ -28,7 +28,6 @@
     <title>eac-cpf Xforms</title>
     <meta charset="utf-8" />
     <link href="files/css/eacForms.css" rel="stylesheet" />
-    <!--<link href="files/css/xpr.css" rel="stylesheet" />-->
 
     <script type="text/javascript">
       function generateid(param) {
@@ -213,7 +212,7 @@
 
       <xf:instance id="eacChronItem">
         <chronList xmlns="https://archivists.org/ns/eac/v2">
-          <chronItem id="">
+          <chronItem id="" sourceReference="">
             <date certainty="" standardDate="" notBefore="" notAfter="" sourceReference=""/>
             <event localType=""/>
             <place/>
@@ -222,7 +221,7 @@
       </xf:instance>
 
       <xf:instance id="eacChronItemSet">
-        <chronItem xmlns="https://archivists.org/ns/eac/v2">
+        <chronItem xmlns="https://archivists.org/ns/eac/v2" sourceReference="">
           <chronItemSet>
             <event localType=""/>
             <event localType=""/>
@@ -234,7 +233,7 @@
       <xf:instance id="eacRelations">
         <cpfDescription xmlns="https://archivists.org/ns/eac/v2">
           <relations>
-            <relation target="">
+            <relation target="" sourceReference="">
               <targetEntity targetType="">
                 <part localType=""/>
               </targetEntity>
@@ -245,7 +244,7 @@
 
       <xf:instance id="eacRelation">
         <relations xmlns="https://archivists.org/ns/eac/v2">
-          <relation target="">
+          <relation target="" sourceReference="">
             <targetEntity targetType="">
               <part></part>
             </targetEntity>
@@ -383,7 +382,7 @@
                 </xf:itemset>
               </xf:select1>
               -->
-              <xf:group>
+              <xf:group ref=".">
                 <xf:select1 ref="@maintenanceStatus">
                   <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-maintenanceStatus']/tei:div[@type='fullName']"  class="{if(is-valid(.), 'valid', 'invalid')}"/>
                   <xf:item>
@@ -656,9 +655,6 @@
                       <xf:action ev:event="DOMActivate">
                         <xf:insert if="eac:citedRange" context="." nodeset="eac:citedRange" origin="instance('eacSources')/eac:source/eac:citedRange" at="last()" position="after"/>
                         <xf:insert if="not(eac:citedRange)" context="." nodeset="eac:reference" origin="instance('eacSources')/eac:source/eac:citedRange" at="last()" position="after"/>
-                      </xf:action>
-                      <xf:action ev:event="DOMActivate">
-                        <xf:delete nodeset="eac:reference[last()]/@href"/>
                       </xf:action>
                       <xf:dispatch name="getid" targetid="entity" ev:event="DOMActivate"/>
                     </xf:trigger>
@@ -1017,7 +1013,7 @@
                               </xf:action>
                               <xf:delete nodeset="parent::eac:useDates/eac:date" ev:event="DOMActivate"/>
                             </xf:trigger>
-                            <xf:group>
+                            <xf:group ref="self::eac:date">
                               <xf:input ref="@notBefore" incremental="true">
                                 <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                 <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -1095,7 +1091,7 @@
                             <xf:group ref="eac:fromDate">
                               <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='fullName']" /></xf:label>
                               <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='description']" /></xf:help>
-                              <xf:group>
+                              <xf:group ref="self::eac:fromDate">
                                 <xf:input ref="@notBefore" incremental="true">
                                   <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                   <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -1138,7 +1134,7 @@
                             <xf:group ref="eac:toDate">
                               <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='fullName']" /></xf:label>
                               <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='description']" /></xf:help>
-                              <xf:group>
+                              <xf:group ref="self::eac:toDate">
                                 <xf:input ref="@notBefore" incremental="true">
                                   <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                   <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -1291,7 +1287,7 @@
                                 <xf:group ref="eac:fromDate">
                                   <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='fullName']" /></xf:label>
                                   <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='description']" /></xf:help>
-                                  <xf:group>
+                                  <xf:group ref="self::eac:fromDate">
                                     <xf:input ref="@notBefore" incremental="true">
                                       <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                       <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -1334,7 +1330,7 @@
                                 <xf:group ref="eac:toDate">
                                   <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='fullName']" /></xf:label>
                                   <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='description']" /></xf:help>
-                                  <xf:group>
+                                  <xf:group ref="self::eac:toDate">
                                     <xf:input ref="@notBefore" incremental="true">
                                       <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                       <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -1450,7 +1446,7 @@
                             <xf:delete nodeset="parent::eac:useDates/eac:date" ev:event="DOMActivate"/>
                           </xf:trigger>
                         </xf:group>
-                        <xf:group>
+                        <xf:group ref="self::eac:date">
                           <xf:input ref="@notBefore" incremental="true">
                             <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                             <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -1530,7 +1526,7 @@
                         <xf:group ref="eac:fromDate">
                           <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='fullName']" /></xf:label>
                           <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='description']" /></xf:help>
-                          <xf:group>
+                          <xf:group ref="self::eac:fromDate">
                             <xf:input ref="@notBefore" incremental="true">
                               <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                               <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -1573,7 +1569,7 @@
                         <xf:group ref="eac:toDate">
                           <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='fullName']" /></xf:label>
                           <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='description']" /></xf:help>
-                          <xf:group>
+                          <xf:group ref="self::eac:toDate">
                             <xf:input ref="@notBefore" incremental="true">
                               <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                               <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -1728,7 +1724,7 @@
                             <xf:group ref="eac:fromDate">
                               <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='fullName']" /></xf:label>
                               <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='description']" /></xf:help>
-                              <xf:group>
+                              <xf:group ref="self::eac:fromDate">
                                 <xf:input ref="@notBefore" incremental="true">
                                   <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                   <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -1771,7 +1767,7 @@
                             <xf:group ref="eac:toDate">
                               <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='fullName']" /></xf:label>
                               <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='description']" /></xf:help>
-                              <xf:group>
+                              <xf:group ref="self::eac:toDate">
                                 <xf:input ref="@notBefore" incremental="true">
                                   <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                   <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -1923,7 +1919,7 @@
                     </xf:group>
                   </xf:repeat>
                   <xf:repeat nodeset="eac:identityId">
-                    <xf:group>
+                    <xf:group ref=".">
                       <xf:input ref=".">
                         <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-identityId']/tei:div[@type='fullName']" /></xf:label>
                         <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-identityId']/tei:div[@type='description']"/></xf:help>
@@ -2102,7 +2098,7 @@
                             <xf:delete nodeset="parent::eac:function/eac:date" ev:event="DOMActivate"/>
                           </xf:trigger>
                         </xf:group>
-                        <xf:group>
+                        <xf:group ref="self::eac:date">
                           <xf:input ref="@notBefore" incremental="true">
                             <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                             <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -2175,7 +2171,7 @@
                         <xf:group ref="eac:fromDate">
                           <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='fullName']" /></xf:label>
                           <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='description']" /></xf:help>
-                          <xf:group>
+                          <xf:group ref="self::eac:fromDate">
                             <xf:input ref="@notBefore" incremental="true">
                               <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                               <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -2224,7 +2220,7 @@
                         <xf:group ref="eac:toDate">
                           <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='fullName']" /></xf:label>
                           <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='description']" /></xf:help>
-                          <xf:group>
+                          <xf:group ref="self::eac:toDate">
                             <xf:input ref="@notBefore" incremental="true">
                               <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                               <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -2366,7 +2362,7 @@
                             <xf:group ref="eac:fromDate">
                               <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='fullName']" /></xf:label>
                               <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='description']" /></xf:help>
-                              <xf:group>
+                              <xf:group ref="self::eac:fromDate">
                                 <xf:input ref="@notBefore" incremental="true">
                                   <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                   <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -2415,7 +2411,7 @@
                             <xf:group ref="eac:toDate">
                               <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='fullName']" /></xf:label>
                               <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='description']" /></xf:help>
-                              <xf:group>
+                              <xf:group ref="self::eac:toDate">
                                 <xf:input ref="@notBefore" incremental="true">
                                   <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                   <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -2678,7 +2674,7 @@
                             <xf:delete nodeset="parent::eac:place/eac:date" ev:event="DOMActivate"/>
                           </xf:trigger>
                         </xf:group>
-                        <xf:group>
+                        <xf:group ref="self::eac:date">
                           <xf:input ref="@notBefore" incremental="true">
                             <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                             <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -2745,7 +2741,7 @@
                         <xf:group ref="eac:fromDate">
                           <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='fullName']" /></xf:label>
                           <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='description']" /></xf:help>
-                          <xf:group>
+                          <xf:group ref="self::eac:fromDate">
                             <xf:input ref="@notBefore" incremental="true">
                               <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                               <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -2788,7 +2784,7 @@
                         <xf:group ref="eac:toDate">
                           <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='fullName']" /></xf:label>
                           <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='description']" /></xf:help>
-                          <xf:group>
+                          <xf:group ref="self::eac:toDate">
                             <xf:input ref="@notBefore" incremental="true">
                               <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                               <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -2918,7 +2914,7 @@
                             <xf:group ref="eac:fromDate">
                               <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='fullName']" /></xf:label>
                               <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='description']" /></xf:help>
-                              <xf:group>
+                              <xf:group ref="self::eac:fromDate">
                                 <xf:input ref="@notBefore" incremental="true">
                                   <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                   <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -2961,7 +2957,7 @@
                             <xf:group ref="eac:toDate">
                               <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='fullName']" /></xf:label>
                               <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='description']" /></xf:help>
-                              <xf:group>
+                              <xf:group ref="self::eac:toDate">
                                 <xf:input ref="@notBefore" incremental="true">
                                   <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                   <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -3127,7 +3123,7 @@
                           <xf:delete nodeset="parent::eac:existDates/eac:date" ev:event="DOMActivate"/>
                         </xf:trigger>
                       </xf:group>
-                      <xf:group>
+                      <xf:group ref="self::eac:date">
                         <xf:input ref="@notBefore" incremental="true">
                           <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                           <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -3194,7 +3190,7 @@
                       <xf:group ref="eac:fromDate">
                         <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='fullName']" /></xf:label>
                         <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='description']" /></xf:help>
-                        <xf:group>
+                        <xf:group ref="self::eac:fromDate">
                           <xf:input ref="@notBefore" incremental="true">
                             <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                             <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -3237,7 +3233,7 @@
                       <xf:group ref="eac:toDate">
                         <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='fullName']" /></xf:label>
                         <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='description']" /></xf:help>
-                        <xf:group>
+                        <xf:group ref="self::eac:toDate">
                           <xf:input ref="@notBefore" incremental="true">
                             <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                             <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -3367,7 +3363,7 @@
                           <xf:group ref="eac:fromDate">
                             <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='fullName']" /></xf:label>
                             <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='description']" /></xf:help>
-                            <xf:group>
+                            <xf:group ref="self::eac:fromDate">
                               <xf:input ref="@notBefore" incremental="true">
                                 <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                 <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -3410,7 +3406,7 @@
                           <xf:group ref="eac:toDate">
                             <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='fullName']" /></xf:label>
                             <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='description']" /></xf:help>
-                            <xf:group>
+                            <xf:group ref="self::eac:toDate">
                               <xf:input ref="@notBefore" incremental="true">
                                 <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                 <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -3623,7 +3619,7 @@
                               <xf:delete nodeset="parent::eac:chronItem/eac:date" ev:event="DOMActivate"/>
                             </xf:trigger>
                           </xf:group>
-                          <xf:group>
+                          <xf:group ref="self::eac:date">
                             <xf:input ref="@notBefore" incremental="true">
                               <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                               <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -3690,7 +3686,7 @@
                           <xf:group ref="eac:fromDate">
                             <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='fullName']" /></xf:label>
                             <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='description']" /></xf:help>
-                            <xf:group>
+                            <xf:group ref="self::eac:fromDate">
                               <xf:input ref="@notBefore" incremental="true">
                                 <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                 <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -3733,7 +3729,7 @@
                           <xf:group ref="eac:toDate">
                             <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='fullName']" /></xf:label>
                             <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='description']" /></xf:help>
-                            <xf:group>
+                            <xf:group ref="self::eac:toDate">
                               <xf:input ref="@notBefore" incremental="true">
                                 <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                 <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -3863,7 +3859,7 @@
                               <xf:group ref="eac:fromDate">
                                 <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='fullName']" /></xf:label>
                                 <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='description']" /></xf:help>
-                                <xf:group>
+                                <xf:group ref="self::eac:fromDate">
                                   <xf:input ref="@notBefore" incremental="true">
                                     <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                     <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -3906,7 +3902,7 @@
                               <xf:group ref="eac:toDate">
                                 <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='fullName']" /></xf:label>
                                 <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='description']" /></xf:help>
-                                <xf:group>
+                                <xf:group ref="self::eac:toDate">
                                   <xf:input ref="@notBefore" incremental="true">
                                     <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                     <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -4095,7 +4091,7 @@
                                 <xf:delete nodeset="parent::eac:place/eac:date" ev:event="DOMActivate"/>
                               </xf:trigger>
                             </xf:group>
-                            <xf:group>
+                            <xf:group ref="self::eac:date">
                               <xf:input ref="@notBefore" incremental="true">
                                 <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                 <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -4162,7 +4158,7 @@
                             <xf:group ref="eac:fromDate">
                               <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='fullName']" /></xf:label>
                               <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='description']" /></xf:help>
-                              <xf:group>
+                              <xf:group ref="self::eac:fromDate">
                                 <xf:input ref="@notBefore" incremental="true">
                                   <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                   <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -4205,7 +4201,7 @@
                             <xf:group ref="eac:toDate">
                               <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='fullName']" /></xf:label>
                               <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='description']" /></xf:help>
-                              <xf:group>
+                              <xf:group ref="self::eac:toDate">
                                 <xf:input ref="@notBefore" incremental="true">
                                   <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                   <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -4335,7 +4331,7 @@
                                 <xf:group ref="eac:fromDate">
                                   <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='fullName']" /></xf:label>
                                   <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='description']" /></xf:help>
-                                  <xf:group>
+                                  <xf:group ref="self::eac:fromDate">
                                     <xf:input ref="@notBefore" incremental="true">
                                       <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                       <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -4378,7 +4374,7 @@
                                 <xf:group ref="eac:toDate">
                                   <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='fullName']" /></xf:label>
                                   <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='description']" /></xf:help>
-                                  <xf:group>
+                                  <xf:group ref="self::eac:toDate">
                                     <xf:input ref="@notBefore" incremental="true">
                                       <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                       <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -4610,7 +4606,7 @@
                                   <xf:delete nodeset="parent::eac:place/eac:date" ev:event="DOMActivate"/>
                                 </xf:trigger>
                               </xf:group>
-                              <xf:group>
+                              <xf:group ref="self::eac:date">
                                 <xf:input ref="@notBefore" incremental="true">
                                   <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                   <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -4677,7 +4673,7 @@
                               <xf:group ref="eac:fromDate">
                                 <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='fullName']" /></xf:label>
                                 <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='description']" /></xf:help>
-                                <xf:group>
+                                <xf:group ref="self::eac:fromDate">
                                   <xf:input ref="@notBefore" incremental="true">
                                     <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                     <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -4720,7 +4716,7 @@
                               <xf:group ref="eac:toDate">
                                 <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='fullName']" /></xf:label>
                                 <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='description']" /></xf:help>
-                                <xf:group>
+                                <xf:group ref="self::eac:toDate">
                                   <xf:input ref="@notBefore" incremental="true">
                                     <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                     <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -4850,7 +4846,7 @@
                                   <xf:group ref="eac:fromDate">
                                     <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='fullName']" /></xf:label>
                                     <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='description']" /></xf:help>
-                                    <xf:group>
+                                    <xf:group ref="self::eac:fromDate">
                                       <xf:input ref="@notBefore" incremental="true">
                                         <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                         <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -4893,7 +4889,7 @@
                                   <xf:group ref="eac:toDate">
                                     <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='fullName']" /></xf:label>
                                     <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='description']" /></xf:help>
-                                    <xf:group>
+                                    <xf:group ref="self::eac:toDate">
                                       <xf:input ref="@notBefore" incremental="true">
                                         <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                         <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -4962,6 +4958,17 @@
                               </xf:repeat>
                             </xf:group>
                           </xf:group>
+                        </xf:group>
+                        <xf:group ref=".">
+                          <xf:select ref="@sourceReference" appearance="full">
+                            <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-sourceReference']/tei:div[@type='fullName']"/>
+                            <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-sourceReference']/tei:div[@type='description']"/></xf:help>
+                            <xf:itemset ref="instance('eacInstance')/eac:control/eac:sources/eac:source/*[@id!='']">
+                              <!--@todo Q° multiple references inside one source !-->
+                              <xf:label ref="."/>
+                              <xf:value value="concat('#', @id)"/>
+                            </xf:itemset>
+                          </xf:select>
                         </xf:group>
                       </xf:repeat>
                     </xf:repeat>
@@ -5119,7 +5126,7 @@
                           <xf:delete nodeset="parent::eac:relation/eac:date" ev:event="DOMActivate"/>
                         </xf:trigger>
                       </xf:group>
-                      <xf:group>
+                      <xf:group ref="self::eac:date">
                         <xf:input ref="@notBefore" incremental="true">
                           <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                           <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -5186,7 +5193,7 @@
                       <xf:group ref="eac:fromDate">
                         <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='fullName']" /></xf:label>
                         <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='description']" /></xf:help>
-                        <xf:group>
+                        <xf:group ref="self::eac:fromDate">
                           <xf:input ref="@notBefore" incremental="true">
                             <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                             <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -5229,7 +5236,7 @@
                       <xf:group ref="eac:toDate">
                         <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='fullName']" /></xf:label>
                         <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='description']" /></xf:help>
-                        <xf:group>
+                        <xf:group ref="self::eac:toDate">
                           <xf:input ref="@notBefore" incremental="true">
                             <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                             <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -5359,7 +5366,7 @@
                           <xf:group ref="eac:fromDate">
                             <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='fullName']" /></xf:label>
                             <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-fromDate']/tei:div[@type='description']" /></xf:help>
-                            <xf:group>
+                            <xf:group ref="self::eac:fromDate">
                               <xf:input ref="@notBefore" incremental="true">
                                 <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                 <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
@@ -5402,7 +5409,7 @@
                           <xf:group ref="eac:toDate">
                             <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='fullName']" /></xf:label>
                             <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-toDate']/tei:div[@type='description']" /></xf:help>
-                            <xf:group>
+                            <xf:group ref="self::eac:toDate">
                               <xf:input ref="@notBefore" incremental="true">
                                 <xf:label><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='fullName']" /></xf:label>
                                 <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-notBefore']/tei:div[@type='description']" /></xf:help>
