@@ -1,0 +1,36 @@
+<events>
+    <group>
+        <event>Birth</event>
+        <event>Marriage</event>
+        <event>Death</event>
+        <event>Other</event>
+    </group>
+    <!--
+    <group>
+        <label>État civil</label>
+        <event>Naissance</event>
+        <event>Mariage</event>
+        <event>Décès</event>
+    </group>
+    <group>
+        <label>Activité d'expert</label>
+        <event>Acquisition de l'office</event>
+        <event>Provision d'office</event>
+        <event>Réception</event>
+        <event>Présence dans les almanachs</event>
+        <event>Honorariat</event>
+        <event>Vente de l'office</event>
+        <event>Résignation</event>
+        <event>Saisie Réelle</event>
+        <event>Sentence d'interdiction</event>
+        <event>Suppression des offices</event>
+    </group>
+    <group>
+        <label>Autres</label>
+        <event>Dispense d'âge</event>
+        <event>Maîtrise</event>
+        <event>Faillite</event>
+        <event>autre</event>
+    </group>
+    -->
+</events>

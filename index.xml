@@ -246,13 +246,13 @@
         <relations xmlns="https://archivists.org/ns/eac/v2">
           <relation target="" sourceReference="">
             <targetEntity targetType="">
-              <part></part>
+              <part localType=""></part>
             </targetEntity>
             <!--<date/> | <dateRange/> | <dateSet/>-->
             <!-- repeatable -->
             <place></place>
             <targetRole></targetRole>
-            <relationType></relationType>
+            <relationType valueURI="" vocabularySource="" vocabularySourceURI=""/>
             <descriptiveNote>
               <p></p>
             </descriptiveNote>
@@ -266,6 +266,12 @@
           <dateSet>date</dateSet>
         </choice>
       </xf:instance>-->
+
+      <!-- ETC -->
+      <xf:instance id="relationTypes" src="etc/relationTypes.xml"/>
+      <xf:instance id="eventTypes" src="etc/eventTypes.xml"/>
+      <xf:instance id="nameParts" src="etc/nameParts.xml"/>
+      <!-- /ETC -->
 
       <xf:instance id="documentation" src="EAS-TagLibraries/tei/EAC-CPF-v2-TL-eng.xml"/>
       <xf:instance id="documentationLanguages">
@@ -894,10 +900,14 @@
                           <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-part']/tei:div[@type='fullName']"/>
                           <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-part']/tei:div[@type='description']"/></xf:help>
                         </xf:input>
-                        <xf:input ref="@localType">
+                        <xf:select1 ref="@localType">
                           <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-localType']/tei:div[@type='fullName']"/>
                           <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-localType']/tei:div[@type='description']"/></xf:help>
-                        </xf:input>
+                          <xf:itemset ref="instance('nameParts')/part">
+                            <xf:label ref="."/>
+                            <xf:value value="."/>
+                          </xf:itemset>
+                        </xf:select1>
                         <xf:group class="trigger">
                           <xf:trigger ref="self::eac:part[count(parent::eac:nameEntry/eac:part) > 1]">
                             <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-part']/tei:div[@type='fullName'])" /></xf:label>
@@ -961,10 +971,14 @@
                             <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-part']/tei:div[@type='fullName']"/>
                             <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-part']/tei:div[@type='description']"/></xf:help>
                           </xf:input>
-                          <xf:input ref="@localType">
+                          <xf:select1 ref="@localType">
                             <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-localType']/tei:div[@type='fullName']"/>
                             <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-localType']/tei:div[@type='description']"/></xf:help>
-                          </xf:input>
+                            <xf:itemset ref="instance('nameParts')/part">
+                              <xf:label ref="."/>
+                              <xf:value value="."/>
+                            </xf:itemset>
+                          </xf:select1>
                           <xf:group class="trigger">
                             <xf:trigger ref="self::eac:part[count(parent::eac:nameEntry/eac:part) > 1]">
                               <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-part']/tei:div[@type='fullName'])" /></xf:label>
@@ -3953,11 +3967,10 @@
                           <xf:select1 ref="@localType">
                             <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-localType']/tei:div[@type='fullName']"/>
                             <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-localType']/tei:div[@type='description']"/></xf:help>
-                            <!-- @todo itemset (etc file ?)-->
-                            <xf:item>
-                              <xf:label></xf:label>
-                              <xf:value></xf:value>
-                            </xf:item>
+                            <xf:itemset ref="instance('eventTypes')/group/event">
+                              <xf:label ref="."/>
+                              <xf:value value="."/>
+                            </xf:itemset>
                           </xf:select1>
                           <xf:group class="trigger">
                             <xf:trigger>
@@ -5086,10 +5099,14 @@
                             <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-part']/tei:div[@type='fullName']"/>
                             <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-part']/tei:div[@type='description']"/></xf:help>
                           </xf:input>
-                          <xf:input ref="@localType">
+                          <xf:select1 ref="@localType">
                             <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-localType']/tei:div[@type='fullName']"/>
                             <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-localType']/tei:div[@type='description']"/></xf:help>
-                          </xf:input>
+                            <xf:itemset ref="instance('nameParts')/part">
+                              <xf:label ref="."/>
+                              <xf:value value="."/>
+                            </xf:itemset>
+                          </xf:select1>
                           <xf:group class="trigger">
                             <xf:trigger ref="self::eac:part[count(parent::eac:targetEntity/eac:part) > 1]">
                               <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-part']/tei:div[@type='fullName'])" /></xf:label>
@@ -5465,10 +5482,17 @@
                       </xf:group>
                     </xf:repeat>
                     <xf:repeat nodeset="eac:relationType">
-                      <xf:input ref=".">
+                      <xf:select1 ref=".">
                         <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-relationType']/tei:div[@type='fullName']"/>
                         <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-relationType']/tei:div[@type='description']"/></xf:help>
-                      </xf:input>
+                        <xf:itemset ref="instance('relationTypes')/group/type">
+                          <xf:label ref="."/>
+                          <xf:value value="."/>
+                        </xf:itemset>
+                        <xf:setvalue ref="@valueURI" value="instance('relationTypes')//type[.=current()]/@valueURI" ev:event="xforms-value-changed"/>
+                        <xf:setvalue ref="@vocabularySource" value="instance('relationTypes')//type[.=current()]/@vocabularySource" ev:event="xforms-value-changed"/>
+                        <xf:setvalue ref="@vocabularySourceURI" value="instance('relationTypes')//type[.=current()]/@vocabularySourceURI" ev:event="xforms-value-changed"/>
+                      </xf:select1>
                       <xf:group class="trigger">
                         <xf:trigger>
                           <xf:label><xf:output value="concat('- ', instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-relationType']/tei:div[@type='fullName'])" /></xf:label>

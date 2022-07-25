@@ -1,0 +1,12 @@
+<parts>
+    <!-- https://en.wikipedia.org/wiki/Title -->
+    <part>full</part>
+    <part>surname</part>
+    <part>forename</part>
+    <part>particle</part>
+    <part>Common title</part>
+    <part>Academic title</part>
+    <part>Ecclesiastical title</part>
+    <part>Aristocratic title</part>
+    <part>name</part>
+</parts>

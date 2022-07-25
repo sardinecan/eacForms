@@ -1,0 +1,25 @@
+<relations>
+    <!-- Ric-o -->
+    <group type="family">
+        <type  vocabularySource="RiC-O" vocabularySourceUri="https://www.ica.org/standards/RiC/ontology">rico:hasFamilyAssociationWith</type>
+        <type vocabularySource="RiC-O" vocabularySourceURI="https://www.ica.org/standards/RiC/ontology" valueURI="https://www.ica.org/standards/RiC/ontology#hasChild">rico:hasChild</type>
+        <type vocabularySource="RiC-O" vocabularySourceURI="https://www.ica.org/standards/RiC/ontology" valueURI="https://www.ica.org/standards/RiC/ontology#isChildOf">rico:isChildOf</type>
+        <type vocabularySource="RiC-O" vocabularySourceURI="https://www.ica.org/standards/RiC/ontology" valueURI="https://www.ica.org/standards/RiC/ontology#hasDescendant">rico:hasDescendant</type>
+        <type vocabularySource="RiC-O" vocabularySourceURI="https://www.ica.org/standards/RiC/ontology" valueURI="https://www.ica.org/standards/RiC/ontology#hasAncestor">rico:hasAncestor</type>
+        <type vocabularySource="RiC-O" vocabularySourceURI="https://www.ica.org/standards/RiC/ontology" valueURI="https://www.ica.org/standards/RiC/ontology#hasOrHadSpouse">rico:hasOrHadSpouse</type>
+        <type vocabularySource="RiC-O" vocabularySourceURI="https://www.ica.org/standards/RiC/ontology" valueURI="https://www.ica.org/standards/RiC/ontology#hasSibling">rico:hasSibling</type>
+    </group>
+    <group type="knowing">
+        <type vocabularySource="RiC-O" vocabularySourceURI="https://www.ica.org/standards/RiC/ontology" valueURI="https://www.ica.org/standards/RiC/ontology#knownBy">rico:knownBy</type>
+        <type vocabularySource="RiC-O" vocabularySourceURI="https://www.ica.org/standards/RiC/ontology" valueURI="https://www.ica.org/standards/RiC/ontology#knows">rico:knows</type>
+        <type vocabularySource="RiC-O" vocabularySourceURI="https://www.ica.org/standards/RiC/ontology" valueURI="https://www.ica.org/standards/RiC/ontology#knowsOf">rico:knowsOf</type>
+    </group>
+    <group type="teaching">
+        <type vocabularySource="RiC-O" vocabularySourceURI="https://www.ica.org/standards/RiC/ontology" valueURI="https://www.ica.org/standards/RiC/ontology#hasOrHadTeacher">rico:hasOrHadTeacher</type>
+        <type vocabularySource="RiC-O" vocabularySourceURI="https://www.ica.org/standards/RiC/ontology" valueURI="https://www.ica.org/standards/RiC/ontology#hasOrHadStudent">rico:hasOrHadStudent</type>
+    </group>
+    <group type="other">
+        <type vocabularySource="RiC-O" vocabularySourceURI="https://www.ica.org/standards/RiC/ontology" valueURI="https://www.ica.org/standards/RiC/ontology#hasOrHadCorrespondent">rico:hasOrHadCorrespondent</type>
+        <type vocabularySource="RiC-O" vocabularySourceURI="https://www.ica.org/standards/RiC/ontology" valueURI="https://www.ica.org/standards/RiC/ontology#isOrWasOwnerOf">rico:isOrWasOwnerOf</type>
+    </group>
+</relations>
