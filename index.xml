@@ -4479,13 +4479,12 @@
                               <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-event']/tei:div[@type='description']"/></xf:help>
                             </xf:input>
                             <xf:select1 ref="@localType">
-                              <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-event']/tei:div[@type='fullName']"/>
-                              <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='elements']/tei:div[@xml:id='elem-event']/tei:div[@type='description']"/></xf:help>
-                              <!-- @todo itemset (etc file ?)-->
-                              <xf:item>
-                                <xf:label></xf:label>
-                                <xf:value></xf:value>
-                              </xf:item>
+                              <xf:label ref="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-localType']/tei:div[@type='fullName']"/>
+                              <xf:help><xf:output value="instance('documentation')/tei:text/tei:body/tei:div[@type='attributes']/tei:div[@xml:id='attr-localType']/tei:div[@type='description']"/></xf:help>
+                              <xf:itemset ref="instance('eventTypes')/group/event">
+                                <xf:label ref="."/>
+                                <xf:value value="."/>
+                              </xf:itemset>
                             </xf:select1>
                             <xf:group class="trigger">
                               <xf:trigger>
