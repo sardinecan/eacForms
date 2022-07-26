@@ -1,10 +1,7 @@
 <?xml-stylesheet href="files/xsltforms/xsltforms.xsl" type="text/xsl"?>
 <!--@bug xsltforms => xf:alert|hint|help/@ref doesn't work-->
-<!-- @quest use @target or @valueURI ? -->
-<!-- @todo travailler au niveau de la référence plutôt que la source -->
-<!-- @todo ajouter citedRange dans sources + @xml:id -->
+<!-- @todo travailler au niveau de la référence plutôt que la source ? -->
 <!-- @todo ajouter @href pour <source/> -->
-<!-- @todo interdire suppression <sources/> et <source/> si les @id des descendants sont utilisés -->
 <html 
   xmlns="http://www.w3.org/1999/xhtml"
   lang="fr"
