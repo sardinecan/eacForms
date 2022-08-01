@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="https://eac.staatsbibliothek-berlin.de/schema/v2.0-draft/cpf.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<!--<eac-cpf xmlns="eac" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xpr="xpr" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:rico="rico">-->
-<eac xmlns="https://archivists.org/ns/eac/v2" xmlns:xlink="http://www.w3.org/1999/xlink">
+<eac xmlns="https://archivists.org/ns/eac/v2">
     <control maintenanceStatus="">
-        <recordId></recordId>
-        <maintenanceAgency>
-            <!-- <agencyName></agencyName> | <agencyCode></agencyCode> -->
-        </maintenanceAgency>
+        <recordId/>
+        <maintenanceAgency/>
         <maintenanceHistory>
             <maintenanceEvent maintenanceEventType="">
                 <agent agentType=""/>
@@ -19,5 +16,6 @@
             <entityType value=""/>
         </identity>
     </cpfDescription>
+    <!---->
 </eac>
 

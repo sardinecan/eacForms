@@ -6087,6 +6087,11 @@
               </xf:case>
             </xf:group>
           </xf:case>
+          <xf:group ref="comment()">
+            <xf:textarea ref=".">
+              <xf:label>Comment</xf:label>
+            </xf:textarea>
+          </xf:group>
           <xf:submit submission="save2file">
             <xf:label>Save 2 file (with validation)</xf:label>
           </xf:submit>
